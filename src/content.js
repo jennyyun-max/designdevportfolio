@@ -10,6 +10,9 @@ export const site = {
   email: "", // e.g. "chloe@example.com"
   linkedin: "", // e.g. "https://www.linkedin.com/in/your-handle"
   resume: "", // e.g. "/resume.pdf" (put the file in /public) or a full URL
+
+  /* Shown under “Let’s connect.” in the footer on every page */
+  contactText: "I’d love to connect about design, opportunities, or interesting ideas.",
 };
 
 export const intro = {
@@ -59,6 +62,7 @@ export const projects = [
   },
 ];
 
+/* Short About section on the homepage (the full page is in aboutContent.js) */
 export const about = {
   paragraphs: [
     "I’m Chloe, an Information Analysis student at the University of Michigan with a minor in Data Science.",

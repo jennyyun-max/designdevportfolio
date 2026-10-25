@@ -14,6 +14,9 @@ export default function Footer() {
         <h2 className="font-heading text-[clamp(2.75rem,7vw,5rem)] leading-none">
           Let’s connect.
         </h2>
+        {site.contactText && (
+          <p className="mt-6 max-w-[34rem] text-lg leading-relaxed">{site.contactText}</p>
+        )}
 
         {links.length > 0 ? (
           <ul className="mt-8 flex flex-wrap gap-x-8 gap-y-3 text-lg">
