@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
+  <!-- Placeholder: replace with your portrait (4:5 works best) -->
+  <rect width="800" height="1000" fill="#f3d9c9"/>
+  <g fill="none" stroke="#2b2a28" stroke-width="3" opacity="0.45">
+    <circle cx="400" cy="400" r="150"/>
+    <path d="M120 1000 C 160 700, 640 700, 680 1000"/>
+  </g>
+  <rect x="32" y="32" width="300" height="44" fill="#f7f4ee"/>
+  <text x="52" y="62" font-family="Georgia, serif" font-size="20" letter-spacing="2.5" fill="#2b2a28">PORTRAIT PLACEHOLDER</text>
+</svg>

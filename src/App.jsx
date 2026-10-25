@@ -1,4 +1,5 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { aboutPage } from "./aboutContent.js";
 import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
 import ScrollManager from "./components/ScrollManager.jsx";
@@ -6,6 +7,10 @@ import Home from "./pages/Home.jsx";
 import About from "./pages/About.jsx";
 
 export default function App() {
+  const { pathname } = useLocation();
+  // Page-specific closing message in the footer (defaults to “Let’s connect.”)
+  const closing = pathname === "/about" ? aboutPage.closing : {};
+
   return (
     <>
       <ScrollManager />
@@ -23,7 +28,7 @@ export default function App() {
           <Route path="*" element={<Home />} />
         </Routes>
       </main>
-      <Footer />
+      <Footer {...closing} />
     </>
   );
 }
