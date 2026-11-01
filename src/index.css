@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------
-   Design tokens
-   Type roles come from Figma "Heading Subheading body text" (node 4:2):
+   Design tokens — “Chloe’s desk”
+   Display type follows the Figma reference (node 4:2):
    https://www.figma.com/design/Pae4ytYyIA33LjeJAM7UCW/Untitled?node-id=4-2
    ------------------------------------------------------------------ */
 
@@ -19,20 +19,28 @@
   --font-heading: "Instrument Serif", Georgia, serif;
   --font-subheading: "Bree Serif", Georgia, serif;
   --font-body: "Kyiv Type Serif", Georgia, serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
 
-  /* Warm neutrals */
-  --color-paper: #f7f4ee;
-  --color-ink: #2b2a28;
-  --color-muted: #5c5952;
-  --color-rule: #dcd6ca;
+  /* Neutrals */
+  --color-paper: #f5efe3; /* page / desktop */
+  --color-window: #fffcf6; /* window + card surface */
+  --color-ink: #2a2723; /* text, borders */
+  --color-muted: #5f5850; /* secondary text (6:1 on paper) */
+  --color-rule: #dcd2c0; /* dividers */
 
-  /* Restrained pastel accents (used as fills behind dark ink) */
-  --color-sage: #d3e2d5;
-  --color-peach: #f3d9c9;
-  --color-lilac: #dcd7ef;
-  --color-butter: #f1e7bf;
+  /* Restrained accents — always paired with ink text */
+  --color-marigold: #f0c35a;
+  --color-sage: #c4d6bb;
+  --color-peach: #f1d0c2;
+  --color-lilac: #dcd6ef;
+  --color-butter: #f5e6b3;
+  --color-sky: #c5d8e8;
 
-  --radius-sm: 2px;
+  --radius-sm: 3px;
+  --radius-window: 6px;
+
+  --shadow-window: 4px 4px 0 0 rgb(42 39 35 / 0.12);
+  --shadow-lift: 6px 6px 0 0 rgb(42 39 35 / 0.14);
 }
 
 @layer base {
@@ -57,9 +65,8 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* Leave room for the sticky header when jumping to a section */
   section[id] {
-    scroll-margin-top: 5rem;
+    scroll-margin-top: 4.5rem;
   }
 
   :focus-visible {
@@ -69,7 +76,7 @@
   }
 
   ::selection {
-    background: var(--color-lilac);
+    background: var(--color-marigold);
   }
 }
 
@@ -83,5 +90,27 @@
   .text-link:hover {
     text-decoration-color: var(--color-ink);
     text-decoration-thickness: 2px;
+  }
+
+  /* Fine dot grid used for the desktop surface */
+  .bg-dots {
+    background-image: radial-gradient(rgb(42 39 35 / 0.13) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+
+  /* Small, motion-safe lift for interactive cards and icons */
+  .lift {
+    transition: transform 160ms ease, box-shadow 160ms ease;
+  }
+  .lift:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shadow-lift);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .lift,
+    .lift:hover {
+      transition: none;
+      transform: none;
+    }
   }
 }

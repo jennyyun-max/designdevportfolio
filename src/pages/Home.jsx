@@ -1,18 +1,19 @@
 import { useEffect } from "react";
-import Intro from "../components/Intro.jsx";
+import { site } from "../content.js";
+import Desktop from "../components/desk/Desktop.jsx";
 import Work from "../components/Work.jsx";
-import AboutPreview from "../components/AboutPreview.jsx";
+import OnMyDesk from "../components/desk/OnMyDesk.jsx";
 
 export default function Home() {
   useEffect(() => {
-    document.title = "Chloe Yun — UI/UX Design Portfolio";
+    document.title = `${site.name} — Portfolio`;
   }, []);
 
   return (
     <>
-      <Intro />
+      <Desktop />
       <Work />
-      <AboutPreview />
+      <OnMyDesk />
     </>
   );
 }
