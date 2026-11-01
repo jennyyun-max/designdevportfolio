@@ -21,8 +21,11 @@ export const intro = {
 };
 
 /* Projects
+   - slug: short URL name. If src/caseStudies.js has an entry with this slug,
+           the card links to /work/<slug> automatically.
    - title, description, tags: shown on the card
-   - href: link to the case study. Leave "" to show “Case study coming soon”.
+   - href: optional external link (e.g. a PDF or Behance) used only when there's
+           no case study page. Leave "" to show “Case study coming soon”.
    - image: path to a cover image (e.g. "/projects/my-project.jpg" in /public).
             Leave "" to use the abstract placeholder.
    - visual: which placeholder pattern to draw ("bars" | "circles" | "frames")
@@ -30,6 +33,7 @@ export const intro = {
    - featured: spans the full width on desktop */
 export const projects = [
   {
+    slug: "project-one",
     title: "Project One",
     description:
       "Placeholder — a one-sentence summary of the problem you explored and the design you created.",
@@ -41,6 +45,7 @@ export const projects = [
     featured: true,
   },
   {
+    slug: "project-two",
     title: "Project Two",
     description:
       "Placeholder — a one-sentence summary of how data informed this design.",
@@ -51,6 +56,7 @@ export const projects = [
     tone: "sage",
   },
   {
+    slug: "project-three",
     title: "Project Three",
     description:
       "Placeholder — a one-sentence summary of who you designed for and what you made.",

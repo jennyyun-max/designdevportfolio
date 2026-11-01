@@ -1,14 +1,20 @@
+import { Link } from "react-router-dom";
 import PlaceholderVisual from "./PlaceholderVisual.jsx";
 
-const toneBg = {
+export const toneBg = {
   sage: "bg-sage",
   peach: "bg-peach",
   lilac: "bg-lilac",
   butter: "bg-butter",
 };
 
-export default function ProjectCard({ project }) {
-  const { title, description, tags, href, image, visual, tone, featured } = project;
+/* Internal paths ("/work/...") use the router; anything else is a normal link */
+function SmartLink({ href, ...props }) {
+  return href.startsWith("/") ? <Link to={href} {...props} /> : <a href={href} {...props} />;
+}
+
+export default function ProjectCard({ project, href }) {
+  const { title, description, tags, image, visual, tone, featured } = project;
   const aspect = featured ? "aspect-[4/3] md:aspect-[21/9]" : "aspect-[4/3]";
 
   const media = (
@@ -24,9 +30,9 @@ export default function ProjectCard({ project }) {
   return (
     <article className="group">
       {href ? (
-        <a href={href} className="block" aria-label={`${title} — view case study`}>
+        <SmartLink href={href} className="block" aria-label={`${title} — view case study`}>
           {media}
-        </a>
+        </SmartLink>
       ) : (
         media
       )}
@@ -44,18 +50,18 @@ export default function ProjectCard({ project }) {
         </ul>
         <h3 className="font-subheading text-2xl leading-tight">
           {href ? (
-            <a href={href} className="hover:underline underline-offset-4 decoration-1">
+            <SmartLink href={href} className="hover:underline underline-offset-4 decoration-1">
               {title}
-            </a>
+            </SmartLink>
           ) : (
             title
           )}
         </h3>
         <p className="text-muted">{description}</p>
         {href ? (
-          <a href={href} className="text-link self-start">
+          <SmartLink href={href} className="text-link self-start">
             View case study <span aria-hidden="true">→</span>
-          </a>
+          </SmartLink>
         ) : (
           <p className="text-sm text-muted">Case study coming soon</p>
         )}

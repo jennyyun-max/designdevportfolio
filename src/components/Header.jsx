@@ -21,7 +21,7 @@ export default function Header() {
               <Link
                 to={{ pathname: "/", hash: "#work" }}
                 className={navLink}
-                aria-current={pathname === "/" ? "page" : undefined}
+                aria-current={pathname === "/" || pathname.startsWith("/work/") ? "page" : undefined}
               >
                 Work
               </Link>

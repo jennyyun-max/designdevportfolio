@@ -5,6 +5,7 @@ import Footer from "./components/Footer.jsx";
 import ScrollManager from "./components/ScrollManager.jsx";
 import Home from "./pages/Home.jsx";
 import About from "./pages/About.jsx";
+import CaseStudy from "./pages/CaseStudy.jsx";
 
 export default function App() {
   const { pathname } = useLocation();
@@ -25,6 +26,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/work/:slug" element={<CaseStudy />} />
           <Route path="*" element={<Home />} />
         </Routes>
       </main>
