@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1000" height="1000"><!-- Placeholder: square photo (1:1) -->
+<rect width="1000" height="1000" fill="#f8dedb"/><ellipse cx="500" cy="760" rx="280" ry="60" fill="#f2c4c0"/>
+<path d="M330 420h300v220a110 110 0 0 1-110 110h-80a110 110 0 0 1-110-110z" fill="#fffbf6" stroke="#3a2620" stroke-width="10"/>
+<path d="M630 470h40a60 60 0 0 1 0 120h-40" fill="none" stroke="#3a2620" stroke-width="10"/>
+<path d="M420 330c-20-40 20-60 0-100M520 330c-20-40 20-60 0-100" stroke="#3a2620" stroke-width="8" fill="none" stroke-linecap="round" opacity=".5"/>
+<g transform="translate(281 828) scale(3)"><rect x="14" y="14" width="118" height="30" rx="6" fill="#fffbf6" opacity=".9"/><text x="73" y="35" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="700" letter-spacing="1.5" fill="#3a2620">REPLACE ME</text></g></svg>

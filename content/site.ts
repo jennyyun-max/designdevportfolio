@@ -24,7 +24,7 @@ export const hero = {
   headline: "hi, i’m *chloe*!",
   text: "an aspiring UX & product designer who loves turning complex problems into thoughtful, human-centered experiences.",
   status: "open to internships · [season & year]", // "" hides it
-  photo: { src: "", alt: "Portrait of Chloe Yun" },
+  // Hero photos are the falling polaroids → content/polaroids.ts
 };
 
 export const marquee = [

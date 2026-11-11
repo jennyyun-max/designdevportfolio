@@ -28,7 +28,8 @@ You shouldn't need to touch components to update the site.
 | What | File |
 |---|---|
 | Name, SEO description, site URL, **email / LinkedIn / GitHub / resume** | `content/site.ts` → `site` |
-| Hero text, status line, portrait | `content/site.ts` → `hero` |
+| Hero text, status line | `content/site.ts` → `hero` |
+| **Falling polaroid photos** (hero) | `content/polaroids.ts` + images in `public/images/polaroids/` |
 | Scrolling interests strip | `content/site.ts` → `marquee` |
 | About section, philosophy, interests | `content/site.ts` → `about` |
 | **Projects + case studies** | `content/projects.ts` |
@@ -41,6 +42,12 @@ You shouldn't need to touch components to update the site.
 - **Resume:** add `public/resume.pdf` and set `resume: "/resume.pdf"`.
 - **New project:** copy a project object in `content/projects.ts`, give it a unique `slug`.
   Its page appears at `/work/<slug>` automatically.
+- **Polaroids:** drop your photos into `public/images/polaroids/`, then edit `content/polaroids.ts` —
+  `src`, `alt`, optional handwritten `caption`, resting `rotate` angle, and landing spots
+  (`desktop` / `mobile`, in % of the photo area). Photos without a `mobile` spot are hidden on
+  small screens (desktop shows up to 6–7 comfortably, mobile 3–4). Portrait, landscape and square
+  photos are all cropped into the same square window; use `focus` (e.g. `"50% 30%"`) to pick the crop.
+  The enlarged preview always shows the whole, uncropped photo.
 - **Potato quotes:** `LINES` in `components/ui/InteractivePotato.tsx`.
 
 ## Design system
@@ -65,6 +72,7 @@ app/
   not-found.tsx, sitemap.ts, robots.ts, icon.svg
 components/
   home/                 Hero, Marquee, SelectedWork, ProjectCard, AboutSection, ContactSection
+  polaroids/            PolaroidGallery, Polaroid (fall + drag), PolaroidFrame, PhotoPreview
   case-study/           CaseStudy template, CaseSection, Figure, ReadingProgress
   ui/                   ButtonLink, Reveal, MediaFrame, PlaceholderArt, Potato, InteractivePotato…
   SiteHeader.tsx, SiteFooter.tsx, CustomCursor.tsx, MotionProvider.tsx
@@ -75,7 +83,10 @@ lib/types.ts            content types
 ## Accessibility & motion
 
 - Respects `prefers-reduced-motion`: reveals, page transitions, marquee, potato bounce,
-  eye-tracking and the custom cursor are all reduced or turned off.
+  eye-tracking, the custom cursor and the falling polaroids (they simply appear in place)
+  are all reduced or turned off.
+- Polaroids are buttons: Enter opens the preview, arrow keys nudge the focused photo
+  (Shift = bigger steps); the preview is a native dialog (Escape / backdrop / × close it).
 - Skip link, visible focus styles, labelled controls, keyboard-operable mobile menu
   (Escape closes it), one `h1` per page.
 - The custom cursor only appears on devices with a mouse; the normal cursor stays visible.

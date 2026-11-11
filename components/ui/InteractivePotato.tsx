@@ -11,9 +11,12 @@ const LINES = ["hi there!", "hehe, that tickles", "boop!", "i’m a very good po
 export default function InteractivePotato({
   className = "",
   bubble = "right",
+  bubbleClassName,
 }: {
   className?: string;
   bubble?: "right" | "center";
+  /** Overrides the speech-bubble position classes */
+  bubbleClassName?: string;
 }) {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const hideTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
@@ -70,7 +73,7 @@ export default function InteractivePotato({
         </button>
         <p
           aria-live="polite"
-          className={`pointer-events-none absolute bottom-full mb-1 ${bubble === "right" ? "right-0" : "left-1/2 -translate-x-1/2"}`}
+          className={`pointer-events-none absolute bottom-full z-30 mb-1 ${bubbleClassName ?? (bubble === "right" ? "right-0" : "left-1/2 -translate-x-1/2")}`}
         >
           {message && (
             <span key={pokes} className="inline-block whitespace-nowrap rounded-[8px] bg-espresso px-3 py-1 text-xs font-semibold text-ivory">

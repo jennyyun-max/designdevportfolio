@@ -48,3 +48,25 @@ export interface Project {
   tone: Tone;
   caseStudy: CaseStudy;
 }
+
+/** A position inside the polaroid area, in % of its width/height (top-left of the photo). */
+export interface DeskSpot {
+  x: number;
+  y: number;
+}
+
+export interface PolaroidPhoto {
+  /** Image in /public/images/polaroids/ — portrait, landscape or square all work */
+  src: string;
+  alt: string;
+  /** Optional handwritten caption under the photo */
+  caption?: string;
+  /** Final resting angle in degrees (e.g. -6 … 7) */
+  rotate: number;
+  /** Where it lands on desktop */
+  desktop: DeskSpot;
+  /** Where it lands on phones/tablets. Omit to hide this photo on small screens. */
+  mobile?: DeskSpot;
+  /** CSS object-position for cropping inside the square window, e.g. "50% 30%" */
+  focus?: string;
+}

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Figtree, Fraunces, Instrument_Serif } from "next/font/google";
+import { Caveat, Figtree, Fraunces, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { site } from "@/content/site";
 import MotionProvider from "@/components/MotionProvider";
@@ -9,6 +9,7 @@ import CustomCursor from "@/components/CustomCursor";
 
 const fraunces = Fraunces({ subsets: ["latin"], axes: ["SOFT", "opsz"], variable: "--font-fraunces", display: "swap" });
 const figtree = Figtree({ subsets: ["latin"], variable: "--font-figtree", display: "swap" });
+const caveat = Caveat({ subsets: ["latin"], weight: ["500", "600"], variable: "--font-caveat", display: "swap" });
 const instrument = Instrument_Serif({ subsets: ["latin"], weight: "400", style: ["normal", "italic"], variable: "--font-instrument", display: "swap" });
 
 export const metadata: Metadata = {
@@ -28,7 +29,7 @@ export const viewport: Viewport = { themeColor: "#fbf6ef" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${fraunces.variable} ${figtree.variable} ${instrument.variable}`}>
+    <html lang="en" className={`${fraunces.variable} ${figtree.variable} ${instrument.variable} ${caveat.variable}`}>
       <body>
         <MotionProvider>
           <a

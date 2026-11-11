@@ -7,6 +7,8 @@ import Container from "../ui/Container";
 import ButtonLink from "../ui/ButtonLink";
 import InteractivePotato from "../ui/InteractivePotato";
 import { Sparkle } from "../ui/Potato";
+import PolaroidGallery from "../polaroids/PolaroidGallery";
+import { polaroids } from "@/content/polaroids";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -14,7 +16,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 function AnimatedHeadline({ text }: { text: string }) {
   const words = text.split(" ");
   return (
-    <h1 id="hero-heading" className="display text-[clamp(3.6rem,13vw,10.5rem)] leading-[0.9]">
+    <h1 id="hero-heading" className="display text-[clamp(3.6rem,12vw,8.75rem)] leading-[0.9]">
       <span className="sr-only">{text.replace(/\*/g, "")}</span>
       <span aria-hidden="true">
         {words.map((word, i) => {
@@ -61,8 +63,8 @@ function AnimatedHeadline({ text }: { text: string }) {
 
 export default function Hero() {
   return (
-    <section aria-labelledby="hero-heading" className="relative overflow-hidden">
-      <Container className="grid items-end gap-12 pb-20 pt-10 sm:pt-16 lg:grid-cols-[1fr_19rem] lg:gap-16 lg:pb-28">
+    <section aria-labelledby="hero-heading" className="relative overflow-x-clip">
+      <Container className="grid items-end gap-12 pb-20 pt-10 sm:pt-16 lg:grid-cols-[1fr_minmax(26rem,32rem)] lg:gap-10 lg:pb-24">
         <div>
           <motion.p
             className="eyebrow flex items-center gap-2"
@@ -98,26 +100,15 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        {/* Portrait arch + pokeable potato */}
-        <motion.div
-          className="relative mx-auto w-full max-w-[16rem] lg:mb-4 lg:max-w-none"
-          initial={{ opacity: 0, scale: 0.96 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.9, delay: 0.4, ease }}
-        >
-          <div className="relative overflow-hidden rounded-t-full rounded-b-[var(--radius-card)] bg-pink">
-            {hero.photo.src ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={hero.photo.src} alt={hero.photo.alt} className="aspect-[4/5] w-full object-cover" />
-            ) : (
-              <div className="grid aspect-[4/5] place-items-center" role="img" aria-label="Portrait placeholder">
-                <span className="rounded-[6px] bg-ivory px-2.5 py-1 text-[0.6875rem] font-semibold uppercase tracking-[0.12em]">your photo</span>
-              </div>
-            )}
-          </div>
-          <InteractivePotato className="absolute -right-5 -top-6 w-20" />
-          <Sparkle className="twinkle absolute -left-5 bottom-20 w-6" color="var(--espresso)" />
-          <p className="mt-3 text-center text-sm text-espresso-soft">(psst — poke the potato)</p>
+        {/* Polaroid desk: photos drop in on load; the potato lives here too */}
+        <motion.div className="relative w-full" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }}>
+          <PolaroidGallery photos={polaroids} className="h-[21rem] sm:h-[25rem] lg:h-[34rem]">
+            <InteractivePotato
+              className="absolute bottom-0 left-1 z-[5] w-14 lg:bottom-1 lg:left-auto lg:right-2 lg:w-20"
+              bubbleClassName="left-0 lg:left-auto lg:right-0"
+            />
+            <Sparkle className="twinkle absolute right-3 top-[44%] z-[5] w-5 lg:hidden" color="var(--espresso)" />
+          </PolaroidGallery>
         </motion.div>
       </Container>
     </section>
