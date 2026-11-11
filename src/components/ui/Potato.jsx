@@ -1,5 +1,6 @@
-/* The site's signature mark: a small, friendly potato. Decorative. */
-export default function Potato({ className = "" }) {
+/* The site's signature mark: a small, friendly potato. Decorative.
+   `look` shifts the pupils (−1…1 range); `happy` swaps in squinty ^ ^ eyes. */
+export default function Potato({ className = "", look = { x: 0, y: 0 }, happy = false }) {
   return (
     <svg viewBox="0 0 40 40" className={className} aria-hidden="true" focusable="false">
       <path
@@ -12,9 +13,19 @@ export default function Potato({ className = "" }) {
       {/* potato “eyes” (the little spots) */}
       <path d="M11.5 14.2l1.6.6M28.6 28.4l1.2-1.2M30.4 12.6l-.4 1.6" stroke="#a9825a" strokeWidth="1.4" strokeLinecap="round" />
       {/* face */}
-      <circle cx="16.2" cy="19.6" r="1.5" fill="var(--color-plum)" />
-      <circle cx="24.6" cy="19" r="1.5" fill="var(--color-plum)" />
-      <path d="M18.6 23.4c1.2 1.3 3 1.3 4.2-.1" fill="none" stroke="var(--color-plum)" strokeWidth="1.4" strokeLinecap="round" />
+      {happy ? (
+        <path d="M14.4 20.2l1.8-1.8 1.8 1.8M22.8 19.6l1.8-1.8 1.8 1.8" fill="none" stroke="var(--color-plum)" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+      ) : (
+        <>
+          <circle cx={16.2 + look.x} cy={19.6 + look.y} r="1.5" fill="var(--color-plum)" />
+          <circle cx={24.6 + look.x} cy={19 + look.y} r="1.5" fill="var(--color-plum)" />
+        </>
+      )}
+      {happy ? (
+        <path d="M18.2 23c1.2 2.2 3.8 2.2 5-.2" fill="var(--color-plum)" stroke="var(--color-plum)" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+      ) : (
+        <path d="M18.6 23.4c1.2 1.3 3 1.3 4.2-.1" fill="none" stroke="var(--color-plum)" strokeWidth="1.4" strokeLinecap="round" />
+      )}
       <ellipse cx="12.8" cy="23.2" rx="2.1" ry="1.3" fill="var(--color-rose)" />
       <ellipse cx="28.2" cy="22.4" rx="2.1" ry="1.3" fill="var(--color-rose)" />
     </svg>

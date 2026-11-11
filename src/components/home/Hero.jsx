@@ -3,7 +3,8 @@ import Container from "../Container.jsx";
 import Button from "../ui/Button.jsx";
 import Rich from "../ui/Rich.jsx";
 import ArchPhoto from "../ui/ArchPhoto.jsx";
-import Potato, { Sparkle } from "../ui/Potato.jsx";
+import { Sparkle } from "../ui/Potato.jsx";
+import InteractivePotato from "../ui/InteractivePotato.jsx";
 
 export default function Hero() {
   return (
@@ -42,10 +43,11 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="group relative mx-auto w-full max-w-[17rem] lg:max-w-none">
+        <div className="relative mx-auto w-full max-w-[17rem] lg:max-w-none">
           <ArchPhoto {...home.photo} tone="bg-blush" />
-          <Potato className="mark-wiggle absolute -right-5 -top-3 w-16" />
+          <InteractivePotato className="absolute -right-6 -top-7 w-20" />
           <Sparkle className="absolute -left-4 bottom-16 w-6" color="var(--color-plum)" />
+          <p className="mt-3 text-center text-sm text-plum-soft">(psst — poke the potato)</p>
         </div>
       </Container>
     </section>
