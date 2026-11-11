@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { site } from "../content.js";
 import Container from "../components/Container.jsx";
 import Button from "../components/ui/Button.jsx";
-import Bloom from "../components/ui/Bloom.jsx";
+import Potato from "../components/ui/Potato.jsx";
 
 export default function NotFound({ message = "this page *wandered* off." }) {
   useEffect(() => {
@@ -12,7 +12,7 @@ export default function NotFound({ message = "this page *wandered* off." }) {
   return (
     <section>
       <Container className="py-24 text-center sm:py-32">
-        <Bloom className="mx-auto w-14" />
+        <Potato className="mx-auto w-14" />
         <h1 className="display mx-auto mt-6 max-w-[14ch] text-[clamp(2.75rem,7vw,4.5rem)]">
           {a}{b && <em>{b}</em>}{c}
         </h1>

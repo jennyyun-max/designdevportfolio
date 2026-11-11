@@ -1,7 +1,7 @@
 import { projects } from "../content.js";
 import Container from "./Container.jsx";
 import ProjectCard from "./ProjectCard.jsx";
-import { Sparkle } from "./ui/Bloom.jsx";
+import { Sparkle } from "./ui/Potato.jsx";
 
 export default function Work() {
   return (

@@ -3,7 +3,7 @@ import { about, personal } from "../../content.js";
 import Container from "../Container.jsx";
 import Rich from "../ui/Rich.jsx";
 import ArchPhoto from "../ui/ArchPhoto.jsx";
-import Bloom, { Sparkle } from "../ui/Bloom.jsx";
+import Potato, { Sparkle } from "../ui/Potato.jsx";
 
 export default function AboutTeaser() {
   return (
@@ -11,7 +11,7 @@ export default function AboutTeaser() {
       <Container className="grid items-center gap-10 py-20 sm:py-24 md:grid-cols-[15rem_1fr] md:gap-16">
         <div className="group relative mx-auto w-full max-w-[13rem] md:max-w-none">
           <ArchPhoto {...about.photo} tone="bg-lilac" />
-          <Bloom className="bloom-spin absolute -bottom-4 -right-4 w-12" color="var(--color-rose)" />
+          <Potato className="mark-wiggle absolute -bottom-4 -right-4 w-12" />
         </div>
         <div>
           <p className="eyebrow flex items-center gap-2">

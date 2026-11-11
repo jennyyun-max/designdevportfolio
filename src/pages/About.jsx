@@ -3,7 +3,7 @@ import { about, personal, site } from "../content.js";
 import Container from "../components/Container.jsx";
 import Rich from "../components/ui/Rich.jsx";
 import ArchPhoto from "../components/ui/ArchPhoto.jsx";
-import Bloom, { Sparkle } from "../components/ui/Bloom.jsx";
+import Potato, { Sparkle } from "../components/ui/Potato.jsx";
 
 const photoTones = ["bg-rose", "bg-lilac", "bg-sage"];
 
@@ -30,7 +30,7 @@ export default function About() {
           </div>
           <div className="group relative mx-auto w-full max-w-[17rem] lg:max-w-none">
             <ArchPhoto {...about.photo} tone="bg-lilac" />
-            <Bloom className="bloom-spin absolute -left-5 -top-3 w-14" color="var(--color-rose)" />
+            <Potato className="mark-wiggle absolute -left-5 -top-3 w-14" />
           </div>
         </Container>
       </section>

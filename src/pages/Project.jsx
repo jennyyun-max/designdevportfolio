@@ -6,7 +6,7 @@ import Figure from "../components/Figure.jsx";
 import BarChart from "../components/BarChart.jsx";
 import Thumbnail from "../components/Thumbnail.jsx";
 import Tag from "../components/ui/Tag.jsx";
-import { Sparkle } from "../components/ui/Bloom.jsx";
+import { Sparkle } from "../components/ui/Potato.jsx";
 import NotFound from "./NotFound.jsx";
 
 /* Project page template. Everything comes from `projects` in src/content.js. */

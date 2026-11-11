@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { site } from "../content.js";
 import Container from "./Container.jsx";
 import ContactLinks from "./ContactLinks.jsx";
-import Bloom, { Sparkle } from "./ui/Bloom.jsx";
+import Potato, { Sparkle } from "./ui/Potato.jsx";
 
 export default function Footer() {
   return (
@@ -18,7 +18,7 @@ export default function Footer() {
           </p>
           <ContactLinks className="mt-9" />
         </Container>
-        <Bloom className="absolute -left-6 top-16 hidden w-24 rotate-12 opacity-80 sm:block" color="var(--color-rose)" />
+        <Potato className="absolute -left-6 top-16 hidden w-24 rotate-12 opacity-80 sm:block" />
         <Sparkle className="absolute right-[12%] top-20 hidden w-6 sm:block" color="var(--color-bloom)" />
       </section>
 
@@ -26,7 +26,7 @@ export default function Footer() {
         <Container className="flex flex-col gap-6 py-10 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="flex items-center gap-2 font-display text-lg font-bold lowercase">
-              <Bloom className="h-5 w-5" /> {site.name}
+              <Potato className="h-5 w-5" /> {site.name}
             </p>
             <p className="mt-2 max-w-[22rem] text-sm text-plum-soft">
               UX & product design student at the University of Michigan School of Information.

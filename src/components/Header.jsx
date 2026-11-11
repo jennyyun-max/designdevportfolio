@@ -1,7 +1,7 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { site } from "../content.js";
 import Container from "./Container.jsx";
-import Bloom from "./ui/Bloom.jsx";
+import Potato from "./ui/Potato.jsx";
 
 const pill =
   "whitespace-nowrap rounded-full px-3 py-1.5 transition-colors hover:bg-blush aria-[current=page]:bg-plum aria-[current=page]:text-shell sm:px-4";
@@ -15,7 +15,7 @@ export default function Header() {
     <header className="sticky top-0 z-50 bg-cream/90 backdrop-blur-sm">
       <Container className="flex h-[4.5rem] items-center justify-between gap-3">
         <Link to="/" className="group flex items-center gap-2 font-display text-lg font-bold tracking-tight">
-          <Bloom className="bloom-spin h-6 w-6" />
+          <Potato className="mark-wiggle h-6 w-6" />
           <span className="lowercase">{site.name}</span>
         </Link>
         <nav aria-label="Primary">
