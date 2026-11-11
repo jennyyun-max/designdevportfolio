@@ -1,47 +1,46 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { site } from "../content.js";
 import Container from "./Container.jsx";
+import Bloom from "./ui/Bloom.jsx";
 
-const item =
-  "whitespace-nowrap rounded-[var(--radius-sm)] px-1 py-1 sm:px-1.5 hover:bg-ink hover:text-window aria-[current=page]:underline aria-[current=page]:decoration-2 aria-[current=page]:underline-offset-[6px]";
+const pill =
+  "whitespace-nowrap rounded-full px-3 py-1.5 transition-colors hover:bg-blush aria-[current=page]:bg-plum aria-[current=page]:text-shell sm:px-4";
 
-/* Menu bar: name on the left, Work / About / Resume / Contact on the right */
+/* Floating pill navigation; the current page is filled in plum */
 export default function Header() {
   const { pathname } = useLocation();
   const onWork = pathname === "/" || pathname.startsWith("/work/");
 
   return (
-    <header className="sticky top-0 z-50 border-b border-ink bg-window">
-      <Container className="flex h-12 items-center justify-between gap-3">
-        <Link to="/" className="flex items-center gap-2 whitespace-nowrap font-subheading text-[1.0625rem] leading-none">
-          <span className="grid h-6 w-6 place-items-center rounded-[var(--radius-sm)] border border-ink bg-marigold font-mono text-[0.6875rem]" aria-hidden="true">
-            cy
-          </span>
-          {site.name}
+    <header className="sticky top-0 z-50 bg-cream/90 backdrop-blur-sm">
+      <Container className="flex h-[4.5rem] items-center justify-between gap-3">
+        <Link to="/" className="group flex items-center gap-2 font-display text-lg font-bold tracking-tight">
+          <Bloom className="bloom-spin h-6 w-6" />
+          <span className="lowercase">{site.name}</span>
         </Link>
         <nav aria-label="Primary">
-          <ul className="flex items-center gap-0.5 font-mono text-xs sm:gap-3 sm:text-[0.8125rem]">
+          <ul className="flex items-center rounded-full border border-plum/30 bg-shell p-1 text-[0.8125rem] font-semibold sm:text-sm">
             <li>
-              <Link to={{ pathname: "/", hash: "#work" }} className={item} aria-current={onWork ? "page" : undefined}>
-                Work
+              <Link to={{ pathname: "/", hash: "#work" }} className={pill} aria-current={onWork ? "page" : undefined}>
+                work
               </Link>
             </li>
             <li>
-              <NavLink to="/about" className={item}>About</NavLink>
+              <NavLink to="/about" className={pill}>about</NavLink>
             </li>
             <li>
+              <Link to={{ pathname: pathname.startsWith("/work/") ? "/" : pathname, hash: "#contact" }} className={pill}>
+                contact
+              </Link>
+            </li>
+            <li className="hidden sm:block">
               {site.resume ? (
-                <a href={site.resume} target="_blank" rel="noreferrer" className={item}>Resume</a>
+                <a href={site.resume} target="_blank" rel="noreferrer" className={pill}>résumé ↗</a>
               ) : (
-                <span className="whitespace-nowrap px-1 text-muted sm:px-1.5" title="Resume coming soon">
-                  Resume<span className="sr-only"> (coming soon)</span>
+                <span className="whitespace-nowrap px-4 text-plum-soft" title="Résumé coming soon">
+                  résumé<span className="sr-only"> (coming soon)</span>
                 </span>
               )}
-            </li>
-            <li>
-              <Link to={{ pathname: pathname.startsWith("/work/") ? "/" : pathname, hash: "#contact" }} className={item}>
-                Contact
-              </Link>
             </li>
           </ul>
         </nav>

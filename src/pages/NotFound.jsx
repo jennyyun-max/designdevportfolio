@@ -1,24 +1,26 @@
 import { useEffect } from "react";
 import { site } from "../content.js";
 import Container from "../components/Container.jsx";
-import Window from "../components/ui/Window.jsx";
 import Button from "../components/ui/Button.jsx";
+import Bloom from "../components/ui/Bloom.jsx";
 
-export default function NotFound({ message = "This file wandered off." }) {
+export default function NotFound({ message = "this page *wandered* off." }) {
   useEffect(() => {
     document.title = `Not found — ${site.name}`;
   }, []);
+  const [a, b, c] = message.split("*");
   return (
-    <section className="bg-dots">
-      <Container className="py-20 sm:py-28">
-        <Window title="404.txt" tone="peach" className="mx-auto max-w-lg" bodyClassName="p-8">
-          <h1 className="font-heading text-[2.75rem] leading-none">{message}</h1>
-          <p className="mt-4 text-muted">The page you’re looking for doesn’t exist.</p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Button to={{ pathname: "/", hash: "#work" }} variant="primary">See my work</Button>
-            <Button to="/">Go home</Button>
-          </div>
-        </Window>
+    <section>
+      <Container className="py-24 text-center sm:py-32">
+        <Bloom className="mx-auto w-14" />
+        <h1 className="display mx-auto mt-6 max-w-[14ch] text-[clamp(2.75rem,7vw,4.5rem)]">
+          {a}{b && <em>{b}</em>}{c}
+        </h1>
+        <p className="mt-4 text-plum-soft">The page you’re looking for doesn’t exist.</p>
+        <div className="mt-8 flex flex-wrap justify-center gap-3">
+          <Button to={{ pathname: "/", hash: "#work" }} variant="primary">see my work</Button>
+          <Button to="/">go home</Button>
+        </div>
       </Container>
     </section>
   );

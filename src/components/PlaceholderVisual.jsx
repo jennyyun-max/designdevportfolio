@@ -2,8 +2,8 @@
    Drawn on an 800×600 canvas; key shapes stay inside y 140–460 so the
    wide (21:9) featured crop still shows the whole composition. */
 
-const INK = "#2b2a28";
-const PAPER = "#fbfaf7";
+const INK = "#3b2a30";
+const PAPER = "#fffaf5";
 
 function Frames() {
   return (
@@ -101,7 +101,7 @@ export default function PlaceholderVisual({ variant = "frames" }) {
       >
         <Art />
       </svg>
-      <span className="absolute left-3 top-3 bg-paper px-2 py-0.5 text-xs uppercase tracking-[0.08em] text-ink">
+      <span className="absolute left-4 top-4 rounded-full bg-shell px-3 py-1 text-xs font-semibold uppercase tracking-[0.1em] text-plum">
         Placeholder
       </span>
     </div>

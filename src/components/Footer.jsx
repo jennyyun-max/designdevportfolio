@@ -1,38 +1,47 @@
 import { Link } from "react-router-dom";
 import { site } from "../content.js";
 import Container from "./Container.jsx";
-import Window from "./ui/Window.jsx";
-import ContactList from "./desk/ContactList.jsx";
+import ContactLinks from "./ContactLinks.jsx";
+import Bloom, { Sparkle } from "./ui/Bloom.jsx";
 
 export default function Footer() {
   return (
-    <footer className="bg-dots border-t border-ink">
-      <Container className="py-16 sm:py-20">
-        <section id="contact" aria-labelledby="contact-heading" className="grid gap-10 lg:grid-cols-[1fr_26rem] lg:items-start">
+    <footer>
+      <section id="contact" aria-labelledby="contact-heading" className="relative overflow-hidden border-t border-line">
+        <Container className="py-20 text-center sm:py-28">
+          <p className="eyebrow">say hello</p>
+          <h2 id="contact-heading" className="display mx-auto mt-5 max-w-[14ch] text-[clamp(2.75rem,8vw,5.75rem)]">
+            let’s make something <em>lovely</em> together.
+          </h2>
+          <p className="mx-auto mt-6 max-w-[32rem] text-lg text-plum-soft">
+            I’d love to hear about internships, projects, or anything you found interesting here.
+          </p>
+          <ContactLinks className="mt-9" />
+        </Container>
+        <Bloom className="absolute -left-6 top-16 hidden w-24 rotate-12 opacity-80 sm:block" color="var(--color-rose)" />
+        <Sparkle className="absolute right-[12%] top-20 hidden w-6 sm:block" color="var(--color-bloom)" />
+      </section>
+
+      <div className="border-t border-line bg-shell">
+        <Container className="flex flex-col gap-6 py-10 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="font-mono text-xs uppercase tracking-[0.12em] text-muted">~/contact</p>
-            <h2 id="contact-heading" className="mt-3 font-heading text-[clamp(2.75rem,6vw,4.5rem)] leading-none">
-              Let’s connect.
-            </h2>
-            <p className="mt-5 max-w-[30rem] text-lg leading-relaxed">
-              I’d love to hear about internships, projects, or anything you found interesting here.
+            <p className="flex items-center gap-2 font-display text-lg font-bold lowercase">
+              <Bloom className="h-5 w-5" /> {site.name}
+            </p>
+            <p className="mt-2 max-w-[22rem] text-sm text-plum-soft">
+              UX & product design student at the University of Michigan School of Information.
             </p>
           </div>
-          <Window title="contact.card" tone="peach">
-            <ContactList />
-          </Window>
-        </section>
-
-        <div className="mt-16 flex flex-wrap items-center justify-between gap-4 border-t border-rule pt-6 font-mono text-xs text-muted">
-          <p>© {new Date().getFullYear()} {site.name}</p>
           <nav aria-label="Footer">
-            <ul className="flex gap-4">
-              <li><Link to={{ pathname: "/", hash: "#work" }} className="text-link">Work</Link></li>
-              <li><Link to="/about" className="text-link">About</Link></li>
+            <ul className="flex gap-5 text-sm font-semibold">
+              <li><Link to={{ pathname: "/", hash: "#work" }} className="text-link">work</Link></li>
+              <li><Link to="/about" className="text-link">about</Link></li>
+              <li><Link to={{ pathname: "/", hash: "#contact" }} className="text-link">contact</Link></li>
             </ul>
           </nav>
-        </div>
-      </Container>
+          <p className="text-sm text-plum-soft">© {new Date().getFullYear()} {site.name}</p>
+        </Container>
+      </div>
     </footer>
   );
 }

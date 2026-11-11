@@ -14,7 +14,7 @@ export const site = {
   name: "Chloe Yun",
   // Shown in the browser tab and link previews
   description:
-    "Chloe Yun — Information Analysis student at the University of Michigan School of Information. Projects, analysis, and a little about me.",
+    "Chloe Yun — UX & product design portfolio. Information Analysis student at the University of Michigan School of Information.",
 
   /* CONTACT — fill these in. "" = shown as “coming soon”. */
   email: "", // e.g. "chloe@example.com"
@@ -23,22 +23,20 @@ export const site = {
   resume: "", // e.g. "/resume.pdf" (put the PDF in /public)
 };
 
-/* ---------- Home ---------- */
+/* ---------- Home ----------
+   Wrap a word in *asterisks* to set it in the italic serif accent. */
 export const home = {
-  greeting: "Hi, I’m Chloe.",
+  eyebrow: "UX & product design · University of Michigan",
+  headline: "Designing *thoughtful* experiences, guided by *people* and data.",
+  greeting: "hi, i’m *chloe*!",
   intro:
-    "I’m a junior at the University of Michigan School of Information, studying Information Analysis with a minor in Data Science. I’m interested in how data and research can help people understand things more clearly.",
-  // Small status line under the intro. "" hides it.
-  status: "Looking for internships · [season & year]",
-
-  // Sticky note on the desktop
-  note: "[A short note to visitors — e.g. what you’re learning or curious about right now.]",
-
-  // Photo corner on the desktop
-  photo: { src: "", alt: "", caption: "[your photo]" },
-
-  // Small decorative stickers on the desktop. Set to false to hide them.
-  stickers: true,
+    "I’m a junior at the University of Michigan School of Information, studying Information Analysis with a minor in Data Science. I’m interested in how research and data can make digital products clearer and kinder to use.",
+  // Small status pill. "" hides it.
+  status: "Open to internships · [season & year]",
+  // Portrait in the hero arch. Empty src = labelled placeholder.
+  photo: { src: "", alt: "Portrait of Chloe Yun" },
+  // Words in the slow-scrolling strip
+  marquee: ["user research", "data analysis", "product design", "information visualization", "prototyping", "pilates", "board games", "soccer", "good books"],
 };
 
 /* ---------- Projects ----------
@@ -194,7 +192,7 @@ function placeholderSections() {
 
 /* ---------- About ---------- */
 export const about = {
-  headline: "A little about me.",
+  headline: "a little *about* me",
   paragraphs: [
     "I’m Chloe Yun, a junior at the University of Michigan School of Information. I study Information Analysis with a minor in Data Science.",
     "[A paragraph about what draws you to working with information — the kinds of questions you like, and how you like to work.]",

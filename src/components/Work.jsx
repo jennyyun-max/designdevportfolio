@@ -1,19 +1,25 @@
 import { projects } from "../content.js";
 import Container from "./Container.jsx";
 import ProjectCard from "./ProjectCard.jsx";
+import { Sparkle } from "./ui/Bloom.jsx";
 
 export default function Work() {
   return (
     <section id="work" aria-labelledby="work-heading">
-      <Container className="py-16 sm:py-24">
-        <p className="font-mono text-xs uppercase tracking-[0.12em] text-muted">~/projects</p>
-        <h2 id="work-heading" className="mt-3 font-heading text-[clamp(2.5rem,5vw,3.75rem)] leading-none">
-          Selected work
+      <Container className="py-20 sm:py-28">
+        <div className="flex items-center gap-4">
+          <p className="eyebrow flex items-center gap-2">
+            <Sparkle className="h-3.5 w-3.5" color="var(--color-bloom)" /> selected work
+          </p>
+          <span className="h-px flex-1 bg-line" aria-hidden="true" />
+        </div>
+        <h2 id="work-heading" className="display mt-5 text-[clamp(2.5rem,5.5vw,4.25rem)]">
+          recent <em>projects</em>
         </h2>
-        <ul className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-7">
-          {projects.map((project) => (
+        <ul className="mt-12 space-y-16 sm:mt-16 sm:space-y-24">
+          {projects.map((project, i) => (
             <li key={project.slug}>
-              <ProjectCard project={project} />
+              <ProjectCard project={project} index={i} flip={i % 2 === 1} />
             </li>
           ))}
         </ul>

@@ -1,6 +1,6 @@
 # Chloe Yun — Portfolio
 
-A personal portfolio styled as a warm, slightly nostalgic desktop (“Chloe’s desk”).
+A soft, editorial UX & product design portfolio (“Soft bloom”).
 Built with React, Vite, React Router and Tailwind CSS.
 
 ## Run it locally
@@ -27,7 +27,7 @@ Anything in `[square brackets]` is a placeholder.
 | What | Where in `content.js` |
 |---|---|
 | Email, LinkedIn, GitHub, resume | `site` — leave `""` to show “Coming soon” (no broken links) |
-| Homepage greeting, intro, status, sticky note, photo corner | `home` |
+| Homepage headline, greeting, intro, status, portrait, interests strip | `home` — wrap a word in `*asterisks*` for the italic accent |
 | Projects (cards + project pages) | `projects` — each needs a unique `slug`; its page is `/work/<slug>` |
 | Project page sections, charts, screenshots, code links | `projects[].sections` |
 | About page (education, interests, photo) | `about` |
@@ -38,19 +38,18 @@ An empty `src` shows a labelled placeholder.
 
 **Resume:** put the PDF in `public/` (e.g. `public/resume.pdf`) and set `site.resume: "/resume.pdf"`.
 
-**Fonts and colors:** `src/index.css`. Display type follows the Figma reference.
-To enable the body font, add `public/fonts/KyivTypeSerif.woff2`.
+**Fonts and colors:** `src/index.css` — Bricolage Grotesque (headlines), Instrument Serif italic (accents), Figtree (body), loaded from Google Fonts in `index.html`.
 
 ## Project structure
 
 ```
 src/
   content.js            ← all editable content
-  index.css             ← design tokens (colors, fonts, shadows)
+  index.css             ← design tokens (colors, fonts, motion)
   pages/                ← Home, About, Project (detail template), NotFound
   components/
-    ui/                 ← Window, Button, Tag, Icons
-    desk/               ← Desktop hero, desk windows, Polaroid, StickyNote
+    ui/                 ← Button, Tag, Bloom mark, ArchPhoto, Rich (italic accents)
+    home/               ← Hero, Marquee, AboutTeaser
     ProjectCard.jsx, Work.jsx, Header.jsx, Footer.jsx, BarChart.jsx …
 ```
 

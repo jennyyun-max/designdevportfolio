@@ -1,19 +1,21 @@
 import { useEffect } from "react";
 import { site } from "../content.js";
-import Desktop from "../components/desk/Desktop.jsx";
+import Hero from "../components/home/Hero.jsx";
+import Marquee from "../components/home/Marquee.jsx";
 import Work from "../components/Work.jsx";
-import OnMyDesk from "../components/desk/OnMyDesk.jsx";
+import AboutTeaser from "../components/home/AboutTeaser.jsx";
 
 export default function Home() {
   useEffect(() => {
-    document.title = `${site.name} — Portfolio`;
+    document.title = `${site.name} — UX & Product Design Portfolio`;
   }, []);
 
   return (
     <>
-      <Desktop />
+      <Hero />
+      <Marquee />
       <Work />
-      <OnMyDesk />
+      <AboutTeaser />
     </>
   );
 }

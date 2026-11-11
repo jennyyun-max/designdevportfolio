@@ -1,52 +1,43 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------
-   Design tokens — “Chloe’s desk”
-   Display type follows the Figma reference (node 4:2):
+   Design tokens — “Soft bloom”
+   Accent italic (Instrument Serif) comes from the Figma type styles:
    https://www.figma.com/design/Pae4ytYyIA33LjeJAM7UCW/Untitled?node-id=4-2
    ------------------------------------------------------------------ */
 
-/* Kyiv*Type Serif isn't on Google Fonts. Put the font file at
-   public/fonts/KyivTypeSerif.woff2 and it will be picked up automatically. */
-@font-face {
-  font-family: "Kyiv Type Serif";
-  src: url("/fonts/KyivTypeSerif.woff2") format("woff2");
-  font-weight: 100 900;
-  font-display: swap;
-}
-
 @theme {
-  --font-heading: "Instrument Serif", Georgia, serif;
-  --font-subheading: "Bree Serif", Georgia, serif;
-  --font-body: "Kyiv Type Serif", Georgia, serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --font-display: "Bricolage Grotesque", "Figtree", system-ui, sans-serif;
+  --font-serif: "Instrument Serif", Georgia, serif;
+  --font-body: "Figtree", system-ui, sans-serif;
 
   /* Neutrals */
-  --color-paper: #f5efe3; /* page / desktop */
-  --color-window: #fffcf6; /* window + card surface */
-  --color-ink: #2a2723; /* text, borders */
-  --color-muted: #5f5850; /* secondary text (6:1 on paper) */
-  --color-rule: #dcd2c0; /* dividers */
+  --color-cream: #fbf4ec; /* page */
+  --color-shell: #fffaf5; /* raised surfaces */
+  --color-plum: #3b2a30; /* text, primary buttons */
+  --color-plum-soft: #6b5860; /* secondary text (5.9:1 on cream) */
+  --color-line: #ead9cf; /* dividers */
 
-  /* Restrained accents — always paired with ink text */
-  --color-marigold: #f0c35a;
-  --color-sage: #c4d6bb;
-  --color-peach: #f1d0c2;
-  --color-lilac: #dcd6ef;
-  --color-butter: #f5e6b3;
-  --color-sky: #c5d8e8;
+  /* Soft accents — paired with plum text */
+  --color-rose: #edbcb5;
+  --color-blush: #f7dcd6;
+  --color-lilac: #d9d0ee;
+  --color-sage: #cddcc5;
+  --color-butter: #f6e4a9;
+  --color-sky: #cadded;
+  --color-peach: #f4cdb6;
 
-  --radius-sm: 3px;
-  --radius-window: 6px;
+  /* Darker accent for small decorative marks only */
+  --color-bloom: #d9827a;
 
-  --shadow-window: 4px 4px 0 0 rgb(42 39 35 / 0.12);
-  --shadow-lift: 6px 6px 0 0 rgb(42 39 35 / 0.14);
+  --radius-card: 22px;
+  --radius-pill: 999px;
 }
 
 @layer base {
   html {
-    background: var(--color-paper);
-    color: var(--color-ink);
+    background: var(--color-cream);
+    color: var(--color-plum);
     -webkit-text-size-adjust: 100%;
   }
 
@@ -58,59 +49,115 @@
 
   body {
     font-family: var(--font-body);
-    font-weight: 350;
-    font-variation-settings: "CONT" 0;
     font-size: 1.0625rem;
     line-height: 1.65;
     -webkit-font-smoothing: antialiased;
   }
 
   section[id] {
-    scroll-margin-top: 4.5rem;
+    scroll-margin-top: 5.5rem;
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-ink);
+    outline: 2px solid var(--color-plum);
     outline-offset: 3px;
-    border-radius: var(--radius-sm);
+    border-radius: 6px;
   }
 
   ::selection {
-    background: var(--color-marigold);
+    background: var(--color-rose);
   }
 }
 
 @layer components {
+  /* Display headline: bold sans with italic-serif accents (<em>) */
+  .display {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    line-height: 0.98;
+  }
+  .display em,
+  .serif-italic {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+
+  .eyebrow {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-plum-soft);
+  }
+
   .text-link {
     text-decoration: underline;
     text-decoration-thickness: 1px;
     text-underline-offset: 0.25em;
-    text-decoration-color: var(--color-muted);
+    text-decoration-color: var(--color-bloom);
   }
   .text-link:hover {
-    text-decoration-color: var(--color-ink);
     text-decoration-thickness: 2px;
   }
 
-  /* Fine dot grid used for the desktop surface */
-  .bg-dots {
-    background-image: radial-gradient(rgb(42 39 35 / 0.13) 1px, transparent 1px);
-    background-size: 22px 22px;
+  /* Soft highlighter behind a word */
+  .highlight {
+    background: linear-gradient(transparent 58%, var(--color-butter) 58%, var(--color-butter) 92%, transparent 92%);
+    padding: 0 0.08em;
+  }
+}
+
+/* ---------- Motion (all disabled for reduced-motion users) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .draw-line path {
+    stroke-dasharray: 400;
+    stroke-dashoffset: 400;
+    animation: draw 1.2s 0.4s ease-out forwards;
+  }
+  @keyframes draw {
+    to {
+      stroke-dashoffset: 0;
+    }
   }
 
-  /* Small, motion-safe lift for interactive cards and icons */
-  .lift {
-    transition: transform 160ms ease, box-shadow 160ms ease;
+  .bloom-spin {
+    transition: transform 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
   }
-  .lift:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: var(--shadow-lift);
+  .group:hover .bloom-spin,
+  .bloom-spin:hover {
+    transform: rotate(72deg);
   }
-  @media (prefers-reduced-motion: reduce) {
-    .lift,
-    .lift:hover {
-      transition: none;
-      transform: none;
+
+  .zoom-on-hover {
+    transition: transform 500ms ease;
+  }
+  .group:hover .zoom-on-hover {
+    transform: scale(1.035);
+  }
+
+  .marquee-track {
+    animation: marquee 38s linear infinite;
+  }
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .rise {
+    animation: rise 700ms ease-out both;
+  }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
     }
   }
 }
