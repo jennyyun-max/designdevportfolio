@@ -1,7 +1,7 @@
-# Chloe Yun — Portfolio
+# Chloe Yun — UX & Product Design Portfolio
 
-A soft, editorial UX & product design portfolio (“Soft bloom”).
-Built with React, Vite, React Router and Tailwind CSS.
+A soft, editorial portfolio built with **Next.js (App Router), React, TypeScript,
+Tailwind CSS v4, Motion for React and Lucide icons**.
 
 ## Run it locally
 
@@ -12,52 +12,81 @@ npm install
 npm run dev
 ```
 
-Then open http://localhost:5173.
+Open http://localhost:3000.
 
-```bash
-npm run build     # production build in dist/
-npm run preview   # serve the production build locally
-```
+| Command | What it does |
+|---|---|
+| `npm run dev` | Development server with hot reload |
+| `npm run build` | Production build (all pages are pre-rendered as static HTML) |
+| `npm run start` | Serve the production build locally |
+| `npm run typecheck` | TypeScript check |
 
 ## Edit the content
 
-**All text, links and image paths live in [`src/content.js`](src/content.js).**
-Anything in `[square brackets]` is a placeholder.
+You shouldn't need to touch components to update the site.
 
-| What | Where in `content.js` |
+| What | File |
 |---|---|
-| Email, LinkedIn, GitHub, resume | `site` — leave `""` to show “Coming soon” (no broken links) |
-| Homepage headline, greeting, intro, status, portrait, interests strip | `home` — wrap a word in `*asterisks*` for the italic accent |
-| Projects (cards + project pages) | `projects` — each needs a unique `slug`; its page is `/work/<slug>` |
-| Project page sections, charts, screenshots, code links | `projects[].sections` |
-| About page (education, interests, photo) | `about` |
-| Photos, favorites, creative work | `personal` |
+| Name, SEO description, site URL, **email / LinkedIn / GitHub / resume** | `content/site.ts` → `site` |
+| Hero text, status line, portrait | `content/site.ts` → `hero` |
+| Scrolling interests strip | `content/site.ts` → `marquee` |
+| About section, philosophy, interests | `content/site.ts` → `about` |
+| **Projects + case studies** | `content/projects.ts` |
 
-**Images:** put them in `public/images/…` and reference them as `"/images/…"`.
-An empty `src` shows a labelled placeholder.
+- Anything in `[square brackets]` is a placeholder.
+- Wrap a word in `*asterisks*` to set it in the italic accent font (e.g. `"hi, i’m *chloe*!"`).
+- A link left as `""` shows “coming soon” instead of a broken link.
+- **Images:** put them in `public/images/...` and set `src: "/images/..."`. An empty `src`
+  shows placeholder art. Project images go in `public/images/projects/<slug>/`.
+- **Resume:** add `public/resume.pdf` and set `resume: "/resume.pdf"`.
+- **New project:** copy a project object in `content/projects.ts`, give it a unique `slug`.
+  Its page appears at `/work/<slug>` automatically.
+- **Potato quotes:** `LINES` in `components/ui/InteractivePotato.tsx`.
 
-**Resume:** put the PDF in `public/` (e.g. `public/resume.pdf`) and set `site.resume: "/resume.pdf"`.
+## Design system
 
-**Fonts and colors:** `src/index.css` — Bricolage Grotesque (headlines), Instrument Serif italic (accents), Figtree (body), loaded from Google Fonts in `index.html`.
+Colors live as CSS variables at the top of `app/globals.css` — change a value there and it
+updates everywhere:
+
+`--cream` background · `--blush` signature · `--pink` cards/sections · `--espresso` text ·
+`--lavender` / `--butter` / `--sage` accents · `--rose` decorative marks only.
+
+Fonts (loaded with `next/font` in `app/layout.tsx`): **Fraunces** (display headings),
+**Figtree** (body & navigation), **Instrument Serif italic** (accents).
 
 ## Project structure
 
 ```
-src/
-  content.js            ← all editable content
-  index.css             ← design tokens (colors, fonts, motion)
-  pages/                ← Home, About, Project (detail template), NotFound
-  components/
-    ui/                 ← Button, Tag, Bloom mark, ArchPhoto, Rich (italic accents)
-    home/               ← Hero, Marquee, AboutTeaser
-    ProjectCard.jsx, Work.jsx, Header.jsx, Footer.jsx, BarChart.jsx …
+app/
+  layout.tsx            fonts, metadata/SEO, header, footer, cursor
+  page.tsx              homepage
+  work/[slug]/page.tsx  case-study pages (statically generated)
+  template.tsx          page transition
+  not-found.tsx, sitemap.ts, robots.ts, icon.svg
+components/
+  home/                 Hero, Marquee, SelectedWork, ProjectCard, AboutSection, ContactSection
+  case-study/           CaseStudy template, CaseSection, Figure, ReadingProgress
+  ui/                   ButtonLink, Reveal, MediaFrame, PlaceholderArt, Potato, InteractivePotato…
+  SiteHeader.tsx, SiteFooter.tsx, CustomCursor.tsx, MotionProvider.tsx
+content/                all editable text and links
+lib/types.ts            content types
 ```
 
-## Deploy
+## Accessibility & motion
 
-`npm run build` outputs static files to `dist/` and copies `index.html` to `404.html`,
-so routes like `/about` load directly on static hosts.
+- Respects `prefers-reduced-motion`: reveals, page transitions, marquee, potato bounce,
+  eye-tracking and the custom cursor are all reduced or turned off.
+- Skip link, visible focus styles, labelled controls, keyboard-operable mobile menu
+  (Escape closes it), one `h1` per page.
+- The custom cursor only appears on devices with a mouse; the normal cursor stays visible.
 
-- **Vercel / Netlify:** import the GitHub repo; build command `npm run build`, output folder `dist`.
-- **GitHub Pages:** serve `dist/`. If the site lives at `username.github.io/designdevportfolio/`,
-  set `base: "/designdevportfolio/"` in `vite.config.js` first.
+## Deploy with GitHub + Vercel
+
+1. Push this branch (or merge it into `main`) on GitHub.
+2. Go to [vercel.com/new](https://vercel.com/new), sign in with GitHub, and import
+   **designdevportfolio**.
+3. Vercel detects Next.js automatically — keep the defaults and click **Deploy**.
+4. After the first deploy, set `site.url` in `content/site.ts` to your Vercel URL
+   (or custom domain) so SEO metadata and the sitemap use the right address.
+
+Every push to the connected branch redeploys automatically, and pull requests get preview links.

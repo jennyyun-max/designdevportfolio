@@ -1,4 +1,9 @@
 node_modules
+.next
+out
 dist
 .DS_Store
 .figma-export
+*.tsbuildinfo
+next-env.d.ts
+.vercel
