@@ -2,52 +2,43 @@
 
 /* ------------------------------------------------------------------
    DESIGN TOKENS — change the palette here and it updates everywhere.
+   Graphite canvas · cool-white type · brushed silver · one pink accent.
    ------------------------------------------------------------------ */
 :root {
-  /* Neutrals */
-  --cream: #fbf6ef; /* page background */
-  --ivory: #fffbf6; /* raised surfaces */
-  --espresso: #3a2620; /* primary text */
-  --espresso-soft: #6d5850; /* secondary text — 6.3:1 on cream */
-  --line: #ecdcd2; /* hairlines */
-
-  /* Signature pinks */
-  --blush: #f2c4c0; /* signature color */
-  --pink: #f8dedb; /* cards & decorative sections */
-  --rose: #c9736b; /* small decorative marks only (not text) */
-
-  /* Occasional accents */
-  --lavender: #ddd4ef;
-  --butter: #f6e4a8;
-  --sage: #d3dfca;
+  --bg: #0d0e10; /* graphite canvas */
+  --surface: #15171a; /* raised panels */
+  --surface-2: #1d2024; /* cards, chips */
+  --line: #2b2f34; /* hairlines */
+  --fg: #eef1f4; /* cool-white type */
+  --muted: #9ba2ab; /* secondary type — 7.6:1 on --bg */
+  --silver: #c4c9cf; /* brushed-silver details */
+  --accent: #ff2d87; /* electric pink: links, focus, selected — nothing else */
+  --paper: #f3f1ec; /* photo-print borders */
 }
 
 @theme inline {
-  --color-cream: var(--cream);
-  --color-ivory: var(--ivory);
-  --color-espresso: var(--espresso);
-  --color-espresso-soft: var(--espresso-soft);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
   --color-line: var(--line);
-  --color-blush: var(--blush);
-  --color-pink: var(--pink);
-  --color-rose: var(--rose);
-  --color-lavender: var(--lavender);
-  --color-butter: var(--butter);
-  --color-sage: var(--sage);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-silver: var(--silver);
+  --color-accent: var(--accent);
+  --color-paper: var(--paper);
 
-  --font-display: var(--font-fraunces), Georgia, serif;
-  --font-sans: var(--font-figtree), system-ui, sans-serif;
-  --font-accent: var(--font-instrument), Georgia, serif;
-  --font-hand: var(--font-caveat), "Comic Sans MS", cursive;
+  --font-sans: var(--font-inter-tight), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
 
-  --radius-card: 20px;
-  --radius-button: 10px;
+  --radius-card: 4px;
+  --radius-button: 2px;
 }
 
 @layer base {
   html {
-    background: var(--cream);
-    color: var(--espresso);
+    background: var(--bg);
+    color: var(--fg);
+    color-scheme: dark;
     -webkit-text-size-adjust: 100%;
   }
   @media (prefers-reduced-motion: no-preference) {
@@ -58,54 +49,66 @@
   body {
     font-family: var(--font-sans);
     font-size: 1.0625rem;
-    line-height: 1.65;
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
   }
   section[id] {
-    scroll-margin-top: 5.5rem;
+    scroll-margin-top: 4.5rem;
   }
   :focus-visible {
-    outline: 2px solid var(--espresso);
+    outline: 2px solid var(--accent);
     outline-offset: 3px;
-    border-radius: 6px;
   }
   ::selection {
-    background: var(--blush);
+    background: var(--accent);
+    color: var(--bg);
   }
 }
 
 @layer components {
-  /* Polaroid preview dialog */
+  /* Photo preview dialog */
   .photo-dialog::backdrop {
-    background: rgb(58 38 32 / 0.55);
+    background: rgb(5 6 7 / 0.82);
   }
 
-  /* Editorial display type: soft serif headings, italic accent via <em> */
+  /* Oversized, tightly spaced sans headings. *word* renders in silver. */
   .display {
-    font-family: var(--font-display);
-    font-weight: 560;
-    font-variation-settings: "SOFT" 100, "opsz" 144;
-    letter-spacing: -0.03em;
-    line-height: 0.98;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    line-height: 0.92;
   }
-  .display em,
+  .display em {
+    font-style: normal;
+    color: var(--silver);
+  }
+  /* Small monospace details: indices, captions, metadata */
   .accent {
-    font-family: var(--font-accent);
-    font-style: italic;
-    font-weight: 400;
-    letter-spacing: -0.01em;
+    font-family: var(--font-mono);
+    font-style: normal;
+    letter-spacing: 0;
+    color: var(--silver);
   }
   .eyebrow {
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.16em;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--espresso-soft);
+    color: var(--muted);
+  }
+  .mono {
+    font-family: var(--font-mono);
+  }
+
+  /* Brushed-silver hairline */
+  .silver-line {
+    background: linear-gradient(90deg, transparent, #7d838a 12%, #e9ecef 50%, #7d838a 88%, transparent);
   }
 
   /* Nav links: underline slides in from the left */
   .nav-link {
-    background-image: linear-gradient(var(--espresso), var(--espresso));
+    background-image: linear-gradient(var(--fg), var(--fg));
     background-size: 0% 1px;
     background-position: 0 100%;
     background-repeat: no-repeat;
@@ -115,9 +118,9 @@
     background-size: 100% 1px;
   }
 
-  /* Links: underline that grows on hover */
+  /* Text links: pink underline that thickens on hover */
   .link {
-    background-image: linear-gradient(var(--rose), var(--rose));
+    background-image: linear-gradient(var(--accent), var(--accent));
     background-size: 100% 1px;
     background-position: 0 100%;
     background-repeat: no-repeat;
@@ -126,59 +129,5 @@
   }
   .link:hover {
     background-size: 100% 2px;
-  }
-}
-
-/* ---------- Motion (CSS) — off for reduced-motion users ---------- */
-@media (prefers-reduced-motion: no-preference) {
-  .marquee-track {
-    animation: marquee 40s linear infinite;
-  }
-  .marquee:hover .marquee-track {
-    animation-play-state: paused;
-  }
-  @keyframes marquee {
-    to {
-      transform: translateX(-50%);
-    }
-  }
-
-  .twinkle {
-    animation: twinkle 3.6s ease-in-out infinite;
-  }
-  @keyframes twinkle {
-    50% {
-      transform: scale(0.7) rotate(25deg);
-      opacity: 0.6;
-    }
-  }
-
-  .potato-idle {
-    animation: potato-bob 3.2s ease-in-out infinite;
-  }
-  @keyframes potato-bob {
-    50% {
-      transform: translateY(-4px) rotate(-2deg);
-    }
-  }
-  .potato-bounce {
-    transform-origin: 50% 90%;
-    animation: potato-bounce 700ms cubic-bezier(0.28, 0.84, 0.42, 1);
-  }
-  @keyframes potato-bounce {
-    15% { transform: scale(1.18, 0.82); }
-    40% { transform: translateY(-34%) scale(0.9, 1.1) rotate(-6deg); }
-    60% { transform: translateY(0) scale(1.12, 0.88); }
-    78% { transform: translateY(-6%) scale(0.97, 1.03) rotate(3deg); }
-  }
-
-  .wiggle-on-hover:hover,
-  .group:hover .wiggle-on-hover {
-    animation: wiggle 600ms ease-in-out;
-  }
-  @keyframes wiggle {
-    25% { transform: rotate(-12deg) scale(1.06); }
-    50% { transform: rotate(9deg) scale(1.06); }
-    75% { transform: rotate(-5deg); }
   }
 }

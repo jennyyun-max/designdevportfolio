@@ -1,57 +1,51 @@
+import Image from "next/image";
 import { about } from "@/content/site";
 import Container from "../ui/Container";
 import SectionHeader from "../ui/SectionHeader";
 import Reveal from "../ui/Reveal";
 import Rich from "../ui/Rich";
-import Potato, { Sparkle } from "../ui/Potato";
 
 export default function AboutSection() {
   return (
-    <section id="about" aria-labelledby="about-heading" className="bg-pink">
+    <section id="about" aria-labelledby="about-heading" className="border-t border-line">
       <Container className="py-24 sm:py-32">
-        <SectionHeader id="about-heading" eyebrow="about me" heading={about.heading} />
+        <SectionHeader id="about-heading" eyebrow="02 — about" heading={about.heading} />
 
-        <div className="mt-14 grid gap-12 lg:grid-cols-[19rem_1fr] lg:gap-20">
-          {/* Photo */}
-          <Reveal className="group relative mx-auto w-full max-w-[17rem] lg:max-w-none">
-            <figure>
-              <div className="overflow-hidden rounded-t-full rounded-b-[var(--radius-card)] bg-lavender">
-                {about.photo.src ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={about.photo.src} alt={about.photo.alt} className="aspect-[4/5] w-full object-cover" />
-                ) : (
-                  <div className="grid aspect-[4/5] place-items-center" role="img" aria-label="Photo placeholder">
-                    <span className="rounded-[6px] bg-ivory px-2.5 py-1 text-[0.6875rem] font-semibold uppercase tracking-[0.12em]">photo</span>
-                  </div>
+        <div className="mt-14 grid gap-12 lg:grid-cols-[20rem_1fr] lg:gap-20">
+          {/* Photo, printed like the desk prints */}
+          <Reveal className="mx-auto w-full max-w-[17rem] lg:max-w-none">
+            <figure className="bg-paper p-[6%] pb-0 shadow-[0_1px_0_rgba(0,0,0,0.5),0_24px_40px_-18px_rgba(0,0,0,0.9)]">
+              <div className="relative aspect-[4/5] bg-[#2a2c30]">
+                {about.photo.src && (
+                  <Image src={about.photo.src} alt={about.photo.alt} fill sizes="(min-width: 1024px) 320px, 272px" className="object-cover" />
                 )}
               </div>
-              {about.photo.caption && <figcaption className="mt-3 text-center text-sm text-espresso-soft">{about.photo.caption}</figcaption>}
+              <figcaption className="mono flex h-12 items-center text-[0.68rem] uppercase tracking-[0.08em] text-[#2a2c30]">
+                {about.photo.caption || "Chloe Yun · Ann Arbor"}
+              </figcaption>
             </figure>
-            <Potato className="wiggle-on-hover absolute -bottom-3 -right-3 w-14" />
           </Reveal>
 
           <div>
-            <Reveal className="max-w-[40rem] space-y-5 text-lg leading-relaxed">
+            <Reveal className="max-w-[40rem] space-y-5 text-lg leading-relaxed text-muted [&>p:first-child]:text-fg">
               {about.paragraphs.map((p) => (
                 <p key={p}>{p}</p>
               ))}
             </Reveal>
 
-            {/* Design philosophy */}
+            {/* How I work */}
             <Reveal delay={0.1}>
-              <h3 className="eyebrow mt-14 flex items-center gap-2">
-                <Sparkle className="h-3.5 w-3.5" /> how i like to work
-              </h3>
-              <ol className="mt-5 grid gap-4 sm:grid-cols-3">
+              <h3 className="eyebrow mt-14">how i work</h3>
+              <ol className="mt-5 grid border-t border-line sm:grid-cols-3">
                 {about.philosophy.map((item, i) => (
-                  <li key={item.title} className="rounded-[var(--radius-card)] bg-ivory p-6">
-                    <span className="accent text-2xl text-rose" aria-hidden="true">
+                  <li key={item.title} className="border-b border-line py-6 sm:border-b-0 sm:pr-6 [&:not(:first-child)]:sm:border-l [&:not(:first-child)]:sm:pl-6">
+                    <span className="accent text-[0.75rem]" aria-hidden="true">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <p className="display mt-3 text-2xl tracking-[-0.02em]">
+                    <p className="display mt-3 text-[1.6rem] tracking-[-0.035em]">
                       <Rich text={item.title} />
                     </p>
-                    <p className="mt-2 text-[0.9375rem] leading-relaxed text-espresso-soft">{item.text}</p>
+                    <p className="mt-2 text-[0.9375rem] leading-relaxed text-muted">{item.text}</p>
                   </li>
                 ))}
               </ol>
@@ -59,15 +53,15 @@ export default function AboutSection() {
 
             {/* Interests */}
             <Reveal delay={0.15}>
-              <h3 className="eyebrow mt-12">things i’m into</h3>
-              <ul className="mt-4 flex flex-wrap gap-2.5">
-                {about.interests.map((interest, i) => (
-                  <li key={interest} className={`rounded-[8px] px-3.5 py-1.5 font-medium ${["bg-blush", "bg-lavender", "bg-butter", "bg-sage", "bg-ivory"][i % 5]}`}>
+              <h3 className="eyebrow mt-12">interested in</h3>
+              <ul className="mt-4 flex flex-wrap gap-2">
+                {about.interests.map((interest) => (
+                  <li key={interest} className="mono border border-line px-3 py-1.5 text-[0.75rem] uppercase tracking-[0.06em] text-silver">
                     {interest}
                   </li>
                 ))}
               </ul>
-              <p className="mt-6 max-w-[38rem] text-espresso-soft">{about.offTheClock}</p>
+              <p className="mt-6 max-w-[38rem] text-muted">{about.offTheClock}</p>
             </Reveal>
           </div>
         </div>

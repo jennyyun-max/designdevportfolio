@@ -63,24 +63,34 @@ export interface Project {
   caseStudy: CaseStudy;
 }
 
-/** A position inside the polaroid area, in % of its width/height (top-left of the photo). */
-export interface DeskSpot {
+/** A print position in the hero, in % of the hero area.
+    x = left edge; y = height of the print’s BOTTOM edge above the hero’s bottom
+    (the silver ground line sits at y ≈ 6 on desktop, 5 on mobile). */
+export interface PrintSpot {
   x: number;
   y: number;
+  /** degrees */
+  rotate: number;
 }
 
-export interface PolaroidPhoto {
-  /** Image in /public/images/polaroids/ — portrait, landscape or square all work */
+export interface PrintLayout {
+  /** Where it hangs before falling. Omit and the print starts on the ground. */
+  hang?: PrintSpot;
+  /** Where it ends up on the ground */
+  rest: PrintSpot;
+}
+
+export interface DeskPrint {
+  /** Image in /public — "" leaves the photo well empty */
   src: string;
   alt: string;
-  /** Optional handwritten caption under the photo */
-  caption?: string;
-  /** Final resting angle in degrees (e.g. -6 … 7) */
-  rotate: number;
-  /** Where it lands on desktop */
-  desktop: DeskSpot;
-  /** Where it lands on phones/tablets. Omit to hide this photo on small screens. */
-  mobile?: DeskSpot;
-  /** CSS object-position for cropping inside the square window, e.g. "50% 30%" */
+  /** Small monospace caption on the print’s bottom border */
+  caption: string;
+  /** CSS object-position for the square crop, e.g. "50% 30%" */
   focus?: string;
+  /** Project slug → clicking the print opens that case study instead of the photo */
+  project?: string;
+  /** Omit a layout to hide the print there */
+  desktop?: PrintLayout;
+  mobile?: PrintLayout;
 }

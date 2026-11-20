@@ -3,12 +3,12 @@ import type { ImageAsset, Tone, Visual } from "@/lib/types";
 import PlaceholderArt from "./PlaceholderArt";
 
 export const toneBg: Record<Tone, string> = {
-  blush: "bg-blush",
-  pink: "bg-pink",
-  lavender: "bg-lavender",
-  butter: "bg-butter",
-  sage: "bg-sage",
-  ivory: "bg-ivory",
+  blush: "bg-surface-2",
+  pink: "bg-surface",
+  lavender: "bg-surface-2",
+  butter: "bg-surface-2",
+  sage: "bg-surface-2",
+  ivory: "bg-surface",
 };
 
 /* Image in a rounded frame with a fixed aspect ratio.

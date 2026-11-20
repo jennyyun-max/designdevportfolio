@@ -1,6 +1,6 @@
 # Chloe Yun — UX & Product Design Portfolio
 
-A soft, editorial portfolio built with **Next.js (App Router), React, TypeScript,
+A futuristic, editorial portfolio built with **Next.js (App Router), React, TypeScript,
 Tailwind CSS v4, Motion for React and Lucide icons**.
 
 ## Run it locally
@@ -29,8 +29,7 @@ You shouldn't need to touch components to update the site.
 |---|---|
 | Name, SEO description, site URL, **email / LinkedIn / GitHub / resume** | `content/site.ts` → `site` |
 | Hero text, status line | `content/site.ts` → `hero` |
-| **Falling polaroid photos** (hero) | `content/polaroids.ts` + images in `public/images/polaroids/` |
-| Scrolling interests strip | `content/site.ts` → `marquee` |
+| **Falling photo prints** (hero) + **drop timing** | `content/polaroids.ts` (`prints`, `dropSettings`) + images in `public/images/` |
 | About section, philosophy, interests | `content/site.ts` → `about` |
 | **Projects + case studies** | `content/projects.ts` |
 
@@ -42,24 +41,25 @@ You shouldn't need to touch components to update the site.
 - **Resume:** add `public/resume.pdf` and set `resume: "/resume.pdf"`.
 - **New project:** copy a project object in `content/projects.ts`, give it a unique `slug`.
   Its page appears at `/work/<slug>` automatically.
-- **Polaroids:** drop your photos into `public/images/polaroids/`, then edit `content/polaroids.ts` —
-  `src`, `alt`, optional handwritten `caption`, resting `rotate` angle, and landing spots
-  (`desktop` / `mobile`, in % of the photo area). Photos without a `mobile` spot are hidden on
-  small screens (desktop shows up to 6–7 comfortably, mobile 3–4). Portrait, landscape and square
-  photos are all cropped into the same square window; use `focus` (e.g. `"50% 30%"`) to pick the crop.
-  The enlarged preview always shows the whole, uncropped photo.
-- **Potato quotes:** `LINES` in `components/ui/InteractivePotato.tsx`.
+- **Hero prints:** edit `prints` in `content/polaroids.ts`. Each print has `src` (`""` = empty photo
+  well), `alt`, a short `caption`, optional `focus` (square crop, e.g. `"50% 30%"`) and optional
+  `project: "<slug>"` (the print then opens that case study). `desktop` / `mobile` set where it hangs
+  (`hang`, omit to start on the ground) and where it lands (`rest`), in % of the hero — `y` is the height
+  of the print’s bottom edge (the silver ground line is at ≈ 6). Prints drop in the order listed.
+- **Drop timing:** `dropSettings` in the same file — `firstDropAt` (how far to scroll before the first
+  drop), `dropEvery` (scroll between drops), `holdAfter` (scroll kept after the last drop) and
+  `fallSeconds` (how long a fall takes).
 
 ## Design system
 
-Colors live as CSS variables at the top of `app/globals.css` — change a value there and it
-updates everywhere:
+Colors live as CSS variables at the top of `app/globals.css`:
 
-`--cream` background · `--blush` signature · `--pink` cards/sections · `--espresso` text ·
-`--lavender` / `--butter` / `--sage` accents · `--rose` decorative marks only.
+`--bg` graphite canvas · `--surface` / `--surface-2` panels · `--line` hairlines · `--fg` cool-white
+type · `--muted` secondary type · `--silver` brushed-silver details · `--paper` print borders ·
+`--accent` electric pink — **only** for links, focus states and selected items.
 
-Fonts (loaded with `next/font` in `app/layout.tsx`): **Fraunces** (display headings),
-**Figtree** (body & navigation), **Instrument Serif italic** (accents).
+Fonts (loaded with `next/font` in `app/layout.tsx`): **Inter Tight** (oversized headings + body) and
+**JetBrains Mono** (captions, metadata, navigation).
 
 ## Project structure
 
@@ -71,10 +71,11 @@ app/
   template.tsx          page transition
   not-found.tsx, sitemap.ts, robots.ts, icon.svg
 components/
-  home/                 Hero, Marquee, SelectedWork, ProjectCard, AboutSection, ContactSection
-  polaroids/            PolaroidGallery, Polaroid (fall + drag), PolaroidFrame, PhotoPreview
+  home/                 DeskHero (scroll-released prints), Print (fall + drag), SelectedWork, ProjectCard,
+                        AboutSection, ContactSection
+  polaroids/            PhotoPreview (enlarged photo dialog)
   case-study/           CaseStudy template, CaseSection, Figure, ReadingProgress
-  ui/                   ButtonLink, Reveal, MediaFrame, PlaceholderArt, Potato, InteractivePotato…
+  ui/                   ButtonLink, Reveal, MediaFrame, PlaceholderArt, SectionHeader…
   SiteHeader.tsx, SiteFooter.tsx, CustomCursor.tsx, MotionProvider.tsx
 content/                all editable text and links
 lib/types.ts            content types
@@ -82,14 +83,13 @@ lib/types.ts            content types
 
 ## Accessibility & motion
 
-- Respects `prefers-reduced-motion`: reveals, page transitions, marquee, potato bounce,
-  eye-tracking, the custom cursor and the falling polaroids (they simply appear in place)
-  are all reduced or turned off.
-- Polaroids are buttons: Enter opens the preview, arrow keys nudge the focused photo
-  (Shift = bigger steps); the preview is a native dialog (Escape / backdrop / × close it).
-- Skip link, visible focus styles, labelled controls, keyboard-operable mobile menu
-  (Escape closes it), one `h1` per page.
-- The custom cursor only appears on devices with a mouse; the normal cursor stays visible.
+- Respects `prefers-reduced-motion`: prints start already settled on the ground (no scroll-length hero),
+  and reveals, page transitions and the custom cursor are reduced or off.
+- Prints: the photo well is a real button (opens the photo) or link (opens the case study), so every
+  project is reachable by keyboard — and every project is also in Selected Work right below the hero.
+  The white border picks a print up; arrow keys move a focused, landed print (Shift = bigger steps).
+- Touchscreens keep vertical scrolling everywhere (prints use `touch-action: pan-y`).
+- Skip link, visible pink focus outlines, labelled controls, keyboard-operable mobile menu, one `h1` per page.
 
 ## Deploy with GitHub + Vercel
 

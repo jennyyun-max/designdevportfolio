@@ -17,7 +17,7 @@ export default function Figure({
   return (
     <figure>
       <MediaFrame image={image} tone={tone} visual={visual} aspect={aspect} sizes={sizes} />
-      {image.caption && <figcaption className="mt-3 text-sm text-espresso-soft">{image.caption}</figcaption>}
+      {image.caption && <figcaption className="mt-3 text-sm text-muted">{image.caption}</figcaption>}
     </figure>
   );
 }

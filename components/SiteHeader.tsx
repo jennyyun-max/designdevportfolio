@@ -7,11 +7,10 @@ import { Menu, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { site } from "@/content/site";
 import Container from "./ui/Container";
-import Potato from "./ui/Potato";
 
 type NavKey = "home" | "work" | "about" | "contact";
+// "home" is the wordmark; the visible nav is work / about / contact
 const NAV: { key: NavKey; label: string; href: string }[] = [
-  { key: "home", label: "home", href: "/" },
   { key: "work", label: "work", href: "/#work" },
   { key: "about", label: "about", href: "/#about" },
   { key: "contact", label: "contact", href: "/#contact" },
@@ -78,30 +77,27 @@ export default function SiteHeader() {
       resume ↗
     </a>
   ) : (
-    <span className="text-espresso-soft" title="Resume coming soon">
+    <span className="text-muted" title="Resume coming soon">
       resume<span className="sr-only"> (coming soon)</span>
     </span>
   );
 
   return (
-    <header className={`sticky top-0 z-50 bg-cream transition-[border-color] duration-300 ${scrolled ? "border-b border-line" : "border-b border-transparent"}`}>
+    <header className={`sticky top-0 z-50 bg-bg/90 backdrop-blur-sm transition-[border-color] duration-300 ${scrolled ? "border-b border-line" : "border-b border-transparent"}`}>
       <Container className="flex h-[4.5rem] items-center justify-between">
-        <Link href="/" className="group flex items-center gap-2.5" aria-label={`${site.name} — home`}>
-          <Potato className="wiggle-on-hover h-7 w-7" />
-          <span className="display text-[1.375rem] tracking-[-0.02em]">
-            chloe <em>yun</em>
-          </span>
+        <Link href="/" className="text-[1.0625rem] font-semibold tracking-[-0.03em]" aria-label={`${site.name} — home`}>
+          Chloe Yun
         </Link>
 
         {/* Desktop */}
         <nav aria-label="Primary" className="hidden md:block">
-          <ul className="flex items-center gap-7 text-[0.9375rem] font-medium">
+          <ul className="mono flex items-center gap-7 text-[0.75rem] uppercase tracking-[0.08em]">
             {NAV.map((item) => (
               <li key={item.key}>
                 <Link href={item.href} aria-current={active === item.key ? "page" : undefined} className="nav-link relative py-1">
                   {item.label}
                   {active === item.key && (
-                    <motion.span layoutId="nav-dot" className="absolute -bottom-1.5 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-rose" />
+                    <motion.span layoutId="nav-dot" className="absolute -bottom-2 left-0 h-px w-full bg-accent" />
                   )}
                 </Link>
               </li>
@@ -114,7 +110,7 @@ export default function SiteHeader() {
         <button
           ref={menuButton}
           type="button"
-          className="grid h-11 w-11 place-items-center rounded-[var(--radius-button)] border border-espresso/20 md:hidden"
+          className="grid h-11 w-11 place-items-center rounded-[var(--radius-button)] border border-line md:hidden"
           aria-expanded={open}
           aria-controls="mobile-menu"
           aria-label={open ? "Close menu" : "Open menu"}
@@ -129,7 +125,7 @@ export default function SiteHeader() {
           <motion.nav
             id="mobile-menu"
             aria-label="Primary"
-            className="fixed inset-x-0 bottom-0 top-[4.5rem] z-40 bg-cream md:hidden"
+            className="fixed inset-x-0 bottom-0 top-[4.5rem] z-40 bg-bg md:hidden"
             initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
@@ -144,7 +140,7 @@ export default function SiteHeader() {
                       href={item.href}
                       onClick={() => setOpen(false)}
                       aria-current={active === item.key ? "page" : undefined}
-                      className="display block py-3 text-[2.75rem] aria-[current=page]:text-rose"
+                      className="display block py-3 text-[2.75rem] aria-[current=page]:text-accent"
                     >
                       {item.label}
                     </Link>

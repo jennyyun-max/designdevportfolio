@@ -3,7 +3,7 @@
 import { motion, useMotionValue, useSpring } from "motion/react";
 import { useEffect, useState } from "react";
 
-/* Soft blush ring that trails the pointer on desktop. It grows over links and
+/* Thin silver ring that trails the pointer on desktop. It grows over links and
    shows a label over elements with data-cursor="view". The normal cursor stays
    visible. Disabled on touch devices and for reduced-motion users. */
 export default function CustomCursor() {
@@ -50,14 +50,14 @@ export default function CustomCursor() {
         width: size,
         height: size,
         opacity: visible ? 1 : 0,
-        backgroundColor: mode === "view" ? "rgba(58,38,32,0.92)" : "rgba(242,196,192,0.35)",
-        borderColor: mode === "view" ? "rgba(58,38,32,0)" : "rgba(201,115,107,0.7)",
+        backgroundColor: mode === "view" ? "rgba(238,241,244,0.95)" : "rgba(238,241,244,0)",
+        borderColor: mode === "view" ? "rgba(238,241,244,0)" : "rgba(196,201,207,0.6)",
       }}
       transition={{ type: "spring", stiffness: 380, damping: 30 }}
       initial={false}
     >
       <span className="absolute inset-0 rounded-full border" style={{ borderColor: "inherit" }} />
-      {mode === "view" && <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.14em] text-ivory">view</span>}
+      {mode === "view" && <span className="mono text-[0.625rem] uppercase tracking-[0.1em] text-bg">view</span>}
     </motion.div>
   );
 }

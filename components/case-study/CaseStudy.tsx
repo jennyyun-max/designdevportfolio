@@ -39,10 +39,10 @@ export default function CaseStudy({ project, index, next }: { project: Project; 
           "insights",
           <ol className={`grid gap-5 ${cs.insights.length % 2 === 0 && cs.insights.length < 6 ? "md:grid-cols-2" : "md:grid-cols-3"}`}>
             {cs.insights.map((ins, i) => (
-              <Reveal as="li" key={`${ins.title}-${i}`} delay={(i % 3) * 0.08} className="rounded-[var(--radius-card)] bg-blush/60 p-7">
-                <span className="accent text-4xl text-rose" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+              <Reveal as="li" key={`${ins.title}-${i}`} delay={(i % 3) * 0.08} className="border border-line bg-surface p-7">
+                <span className="accent text-[0.8rem]" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
                 <p className="display mt-4 text-2xl tracking-[-0.02em]">{ins.title}</p>
-                <p className="mt-2 text-espresso-soft">{ins.detail}</p>
+                <p className="mt-2 text-muted">{ins.detail}</p>
               </Reveal>
             ))}
           </ol>,
@@ -59,10 +59,10 @@ export default function CaseStudy({ project, index, next }: { project: Project; 
             {cs.process.map((step, i) => (
               <Reveal as="li" key={`${step.title}-${i}`} className="grid gap-2 border-t border-line py-7 last:border-b sm:grid-cols-[12rem_1fr] sm:gap-10">
                 <p className="display text-3xl">
-                  <span className="accent mr-2 text-rose">{i + 1}.</span>
+                  <span className="accent mr-3 align-middle text-[0.8rem]">{String(i + 1).padStart(2, "0")}</span>
                   {step.title}
                 </p>
-                <p className="text-lg leading-relaxed text-espresso-soft">{step.detail}</p>
+                <p className="text-lg leading-relaxed text-muted">{step.detail}</p>
               </Reveal>
             ))}
           </ol>
@@ -81,12 +81,12 @@ export default function CaseStudy({ project, index, next }: { project: Project; 
           </Link>
           <Reveal>
             <p className="eyebrow mt-12">
-              <span className="accent mr-2 text-lg normal-case tracking-normal text-rose">{String(index + 1).padStart(2, "0")}</span>
+              <span className="mr-2 text-silver">{String(index + 1).padStart(2, "0")}</span>
               {project.category}
               {project.year && ` · ${project.year}`}
             </p>
             <h1 className="display mt-4 max-w-[14ch] text-balance text-[clamp(3.2rem,9vw,7.5rem)] leading-[0.92]">{project.title}</h1>
-            <p className="mt-8 max-w-[42rem] text-[clamp(1.15rem,2vw,1.4rem)] leading-relaxed text-espresso-soft">{cs.overview}</p>
+            <p className="mt-8 max-w-[42rem] text-[clamp(1.15rem,2vw,1.4rem)] leading-relaxed text-muted">{cs.overview}</p>
           </Reveal>
           {facts.length > 0 && (
             <Reveal delay={0.1}>
@@ -116,9 +116,9 @@ export default function CaseStudy({ project, index, next }: { project: Project; 
           "problem",
           <Reveal>
             <p className="display max-w-[24ch] text-balance text-[clamp(2rem,4.2vw,3.4rem)] leading-[1.08]">
-              <span className="accent text-rose" aria-hidden="true">“</span>
+              
               {cs.problem}
-              <span className="accent text-rose" aria-hidden="true">”</span>
+              
             </p>
           </Reveal>
         )}
@@ -132,8 +132,8 @@ export default function CaseStudy({ project, index, next }: { project: Project; 
           <Reveal>
             <ul className="grid gap-3 sm:grid-cols-2">
               {cs.role.responsibilities.map((r) => (
-                <li key={r} className="flex gap-3 rounded-[14px] bg-ivory p-5">
-                  <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-rose" aria-hidden="true" />
+                <li key={r} className="flex gap-3 border-t border-line py-4">
+                  <span className="mt-2 h-2 w-2 shrink-0 bg-silver" aria-hidden="true" />
                   {r}
                 </li>
               ))}
@@ -152,7 +152,7 @@ export default function CaseStudy({ project, index, next }: { project: Project; 
             <ol className="grid gap-4 border-l border-line pl-6 sm:grid-cols-2 sm:border-l-0 sm:pl-0 lg:grid-cols-4">
               {cs.timeline.phases.map((phase) => (
                 <li key={phase.label} className="relative sm:border-t sm:border-line sm:pt-5">
-                  <span className="absolute -left-[1.85rem] top-1.5 h-3 w-3 rounded-full border-2 border-rose bg-cream sm:-top-1.5 sm:left-0" aria-hidden="true" />
+                  <span className="absolute -left-[1.85rem] top-1.5 h-3 w-3 border border-silver bg-bg sm:-top-1.5 sm:left-0" aria-hidden="true" />
                   <p className="eyebrow">{phase.label}</p>
                   <p className="mt-1 font-medium">{phase.detail}</p>
                 </li>
@@ -161,7 +161,7 @@ export default function CaseStudy({ project, index, next }: { project: Project; 
             {cs.tools && cs.tools.length > 0 && (
               <ul className="mt-10 flex flex-wrap gap-2.5" aria-label="Tools">
                 {cs.tools.map((t) => (
-                  <li key={t} className="rounded-[8px] bg-lavender px-3.5 py-1.5 font-medium">{t}</li>
+                  <li key={t} className="mono border border-line px-3 py-1.5 text-[0.75rem] uppercase tracking-[0.06em] text-silver">{t}</li>
                 ))}
               </ul>
             )}
@@ -180,9 +180,9 @@ export default function CaseStudy({ project, index, next }: { project: Project; 
               {cs.research.stats && (
                 <dl className="mb-10 grid grid-cols-3 gap-4">
                   {cs.research.stats.map((s) => (
-                    <div key={s.label} className="rounded-[var(--radius-card)] bg-ivory p-5 sm:p-7">
+                    <div key={s.label} className="border border-line p-5 sm:p-7">
                       <dd className="display text-[clamp(2.5rem,6vw,4.5rem)] leading-none">{s.value}</dd>
-                      <dt className="mt-2 text-sm font-medium text-espresso-soft sm:text-base">{s.label}</dt>
+                      <dt className="mt-2 text-sm font-medium text-muted sm:text-base">{s.label}</dt>
                     </div>
                   ))}
                 </dl>
@@ -191,7 +191,7 @@ export default function CaseStudy({ project, index, next }: { project: Project; 
               {cs.research.methods && (
                 <ul className="mt-6 flex flex-wrap gap-2.5" aria-label="Methods">
                   {cs.research.methods.map((m) => (
-                    <li key={m} className="rounded-[8px] bg-ivory px-3.5 py-1.5 font-medium">{m}</li>
+                    <li key={m} className="mono border border-line px-3 py-1.5 text-[0.75rem] uppercase tracking-[0.06em] text-silver">{m}</li>
                   ))}
                 </ul>
               )}
@@ -202,7 +202,7 @@ export default function CaseStudy({ project, index, next }: { project: Project; 
               </Reveal>
             ))}
           </>,
-          { tone: "bg-pink" }
+          { tone: "bg-surface" }
         )}
 
       {/* Insights & process (order is configurable) */}
@@ -231,7 +231,7 @@ export default function CaseStudy({ project, index, next }: { project: Project; 
               </Reveal>
             ))}
           </div>,
-          { tone: "bg-ivory" }
+          { tone: "bg-surface" }
         )}
 
       {/* Final designs */}
@@ -270,13 +270,13 @@ export default function CaseStudy({ project, index, next }: { project: Project; 
               <ul className="mb-12 space-y-3">
                 {cs.outcomes.map((o) => (
                   <li key={o} className="display flex gap-4 text-[clamp(1.4rem,2.4vw,1.9rem)] tracking-[-0.02em]">
-                    <span className="accent text-rose" aria-hidden="true">✦</span>
+                    <span className="accent mt-2 text-[0.8rem]" aria-hidden="true">→</span>
                     {o}
                   </li>
                 ))}
               </ul>
             )}
-            {cs.reflection && <blockquote className="max-w-[40rem] border-l-2 border-rose pl-6 text-lg leading-relaxed">{cs.reflection}</blockquote>}
+            {cs.reflection && <blockquote className="max-w-[40rem] border-l-2 border-silver pl-6 text-lg leading-relaxed">{cs.reflection}</blockquote>}
             {links.length > 0 && (
               <ul className="mt-10 flex flex-wrap gap-4">
                 {links.map((l) => (
@@ -289,7 +289,7 @@ export default function CaseStudy({ project, index, next }: { project: Project; 
               </ul>
             )}
           </Reveal>,
-          { tone: "bg-pink" }
+          { tone: "bg-surface" }
         )}
 
       {/* Next project */}
@@ -298,12 +298,12 @@ export default function CaseStudy({ project, index, next }: { project: Project; 
           <Link href={`/work/${next.slug}`} data-cursor="view" className="group block">
             <p className="eyebrow">next project</p>
             <p className="display mt-4 flex items-center gap-5 text-[clamp(2.6rem,7vw,5.5rem)] leading-none">
-              <span className="bg-[linear-gradient(var(--rose),var(--rose))] bg-[length:0%_3px] bg-left-bottom bg-no-repeat pb-2 transition-[background-size] duration-500 group-hover:bg-[length:100%_3px]">
+              <span className="bg-[linear-gradient(var(--accent),var(--accent))] bg-[length:0%_3px] bg-left-bottom bg-no-repeat pb-2 transition-[background-size] duration-500 group-hover:bg-[length:100%_3px]">
                 {next.title}
               </span>
               <ArrowUpRight className="h-[0.6em] w-[0.6em] shrink-0 transition-transform duration-300 group-hover:rotate-45" aria-hidden="true" />
             </p>
-            <p className="mt-3 text-espresso-soft">
+            <p className="mt-3 text-muted">
               {next.category}
               {next.year && ` · ${next.year}`}
             </p>

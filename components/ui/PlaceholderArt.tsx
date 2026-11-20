@@ -4,8 +4,8 @@ import type { Visual } from "@/lib/types";
    Drawn on an 800×600 canvas; key shapes stay inside y 140–460 so the
    wide (21:9) featured crop still shows the whole composition. */
 
-const INK = "#3a2620";
-const PAPER = "#fffbf6";
+const INK = "#c4c9cf";
+const PAPER = "#1d2024";
 
 function Frames() {
   return (
@@ -97,7 +97,7 @@ export default function PlaceholderArt({ variant = "frames", label = "Placeholde
       <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" className="h-full w-full" aria-hidden="true" focusable="false">
         <Art />
       </svg>
-      <span className="absolute left-4 top-4 rounded-[6px] bg-ivory px-2.5 py-1 text-[0.6875rem] font-semibold uppercase tracking-[0.12em]">
+      <span className="absolute left-4 top-4 rounded-[2px] bg-surface px-2.5 py-1 text-[0.6875rem] font-semibold uppercase tracking-[0.12em]">
         {label}
       </span>
     </div>
