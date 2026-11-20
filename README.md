@@ -29,9 +29,9 @@ You shouldn't need to touch components to update the site.
 |---|---|
 | Name, SEO description, site URL, **email / LinkedIn / GitHub / resume** | `content/site.ts` → `site` |
 | Hero text, status line | `content/site.ts` → `hero` |
-| **Falling photo prints** (hero) + **drop timing** | `content/polaroids.ts` (`prints`, `dropSettings`) + images in `public/images/` |
-| About section, philosophy, interests | `content/site.ts` → `about` |
-| **Projects + case studies** | `content/projects.ts` |
+| **Hero prints, Play archive, drop timing** | `content/polaroids.ts` (`prints`, `playPrints`, `reveal`, `dropSettings`) |
+| About page story (`/about`) and homepage teaser | `content/site.ts` → `story`, `about` |
+| **Projects + case studies** (incl. each one-line `tagline`, and Brookfield’s `spotlight`) | `content/projects.ts` |
 
 - Anything in `[square brackets]` is a placeholder.
 - Wrap a word in `*asterisks*` to set it in the italic accent font (e.g. `"hi, i’m *chloe*!"`).
@@ -41,14 +41,17 @@ You shouldn't need to touch components to update the site.
 - **Resume:** add `public/resume.pdf` and set `resume: "/resume.pdf"`.
 - **New project:** copy a project object in `content/projects.ts`, give it a unique `slug`.
   Its page appears at `/work/<slug>` automatically.
-- **Hero prints:** edit `prints` in `content/polaroids.ts`. Each print has `src` (`""` = empty photo
-  well), `alt`, a short `caption`, optional `focus` (square crop, e.g. `"50% 30%"`) and optional
+- **Hero prints:** `prints` in `content/polaroids.ts`. Each has `src` (`""` = empty photo well), `alt`, a
+  short `caption`, optional `focus` (square crop, e.g. `"50% 30%"`), `size` (`"large"` / `"focal"`) and
   `project: "<slug>"` (the print then opens that case study). `desktop` / `mobile` set where it hangs
-  (`hang`, omit to start on the ground) and where it lands (`rest`), in % of the hero — `y` is the height
-  of the print’s bottom edge (the silver ground line is at ≈ 6). Prints drop in the order listed.
-- **Drop timing:** `dropSettings` in the same file — `firstDropAt` (how far to scroll before the first
-  drop), `dropEvery` (scroll between drops), `holdAfter` (scroll kept after the last drop) and
-  `fallSeconds` (how long a fall takes).
+  (`hang`, omit to start on the floor) and where it lands (`rest`), in % of the hero — `y` is the height of
+  the print’s bottom edge (the silver floor is at 6 desktop / 5 mobile). Prints drop in the order listed.
+- **The reveal:** the print with `cover: true` (keep it last) hides `reveal` — a detail from the featured
+  project. Its matching spot in the project screen is `spotlight.detail` in `content/projects.ts`
+  (fractions of the screenshot). Change both together if you swap the featured project.
+- **Drop timing:** `dropSettings` — `firstDropAt` (scroll before the first drop), `dropEvery` (scroll
+  between drops), `tipSeconds` (how long a print hangs by one corner) and `fallSeconds` (how heavy it feels).
+- **Play:** `playPrints` — just a list; the table lays them out automatically.
 
 ## Design system
 
@@ -68,14 +71,16 @@ app/
   layout.tsx            fonts, metadata/SEO, header, footer, cursor
   page.tsx              homepage
   work/[slug]/page.tsx  case-study pages (statically generated)
+  play/, about/         photo archive and the full story
   template.tsx          page transition
   not-found.tsx, sitemap.ts, robots.ts, icon.svg
 components/
-  home/                 DeskHero (scroll-released prints), Print (fall + drag), SelectedWork, ProjectCard,
-                        AboutSection, ContactSection
+  home/                 DeskHero (scroll-released prints), Print (tip, fall, toss), DetailFlight (reveal →
+                        spread), SelectedWork (Brookfield spread + project rows), AboutSection, ContactSection
+  play/                 PlayTable (the photo archive at /play)
   polaroids/            PhotoPreview (enlarged photo dialog)
   case-study/           CaseStudy template, CaseSection, Figure, ReadingProgress
-  ui/                   ButtonLink, Reveal, MediaFrame, PlaceholderArt, SectionHeader…
+  ui/                   ButtonLink, Reveal, MediaFrame, PlaceholderArt…
   SiteHeader.tsx, SiteFooter.tsx, CustomCursor.tsx, MotionProvider.tsx
 content/                all editable text and links
 lib/types.ts            content types
@@ -83,8 +88,8 @@ lib/types.ts            content types
 
 ## Accessibility & motion
 
-- Respects `prefers-reduced-motion`: prints start already settled on the ground (no scroll-length hero),
-  and reveals, page transitions and the custom cursor are reduced or off.
+- Respects `prefers-reduced-motion`: prints start settled on the floor, the featured detail is visible,
+  the detail flight is off, and reveals, page transitions and the custom cursor are reduced or off.
 - Prints: the photo well is a real button (opens the photo) or link (opens the case study), so every
   project is reachable by keyboard — and every project is also in Selected Work right below the hero.
   The white border picks a print up; arrow keys move a focused, landed print (Shift = bigger steps).

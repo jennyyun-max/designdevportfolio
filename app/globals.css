@@ -106,6 +106,17 @@
     background: linear-gradient(90deg, transparent, #7d838a 12%, #e9ecef 50%, #7d838a 88%, transparent);
   }
 
+  /* The thread a hanging print is suspended from */
+  .silver-thread {
+    background: linear-gradient(180deg, transparent, rgb(196 201 207 / 0.55) 40%, rgb(233 236 239 / 0.85));
+  }
+
+  /* While the hero detail flies into the featured screen, its spot shows as an empty slot */
+  [data-reveal-target][data-flight="on"] {
+    background: var(--bg);
+    outline-color: var(--silver);
+  }
+
   /* Nav links: underline slides in from the left */
   .nav-link {
     background-image: linear-gradient(var(--fg), var(--fg));

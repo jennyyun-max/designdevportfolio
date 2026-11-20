@@ -53,6 +53,8 @@ export interface Project {
   slug: string;
   title: string;
   category: string;
+  /** One sentence about the actual problem, in the “Helping … ” voice — shown in Selected Work */
+  tagline?: string;
   /** "" hides it */
   year: string;
   description: string;
@@ -61,6 +63,14 @@ export interface Project {
   visual: Visual;
   tone: Tone;
   caseStudy: CaseStudy;
+  /** Editorial spread on the homepage: one real screen + the detail that explains the design */
+  spotlight?: {
+    image: ImageAsset;
+    /** The detail inside `image`, as fractions of its width/height (0–1). The hero reveal flies here. */
+    detail: { x: number; y: number; w: number; h: number };
+    heading: string;
+    text: string;
+  };
 }
 
 /** A print position in the hero, in % of the hero area.
@@ -90,6 +100,10 @@ export interface DeskPrint {
   focus?: string;
   /** Project slug → clicking the print opens that case study instead of the photo */
   project?: string;
+  /** "large" or "focal" (the hero’s main image); default is regular */
+  size?: "large" | "focal";
+  /** This print hides the Brookfield detail; it should be the last one to fall */
+  cover?: boolean;
   /** Omit a layout to hide the print there */
   desktop?: PrintLayout;
   mobile?: PrintLayout;

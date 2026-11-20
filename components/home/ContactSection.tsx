@@ -17,7 +17,7 @@ export default function ContactSection() {
     <section id="contact" aria-labelledby="contact-heading" className="border-t border-line">
       <Container className="py-24 sm:py-32">
         <Reveal>
-          <p className="eyebrow">03 — contact</p>
+          <p className="eyebrow">Contact</p>
           <h2 id="contact-heading" className="display mt-6 max-w-[14ch] text-[clamp(3rem,9vw,8rem)]">
             Let’s build something <em>useful.</em>
           </h2>

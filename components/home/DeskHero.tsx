@@ -1,26 +1,25 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
-import { ArrowDown } from "lucide-react";
-import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { hero, site } from "@/content/site";
-import { dropSettings, prints } from "@/content/polaroids";
-import ButtonLink from "../ui/ButtonLink";
+import { dropSettings, prints, reveal } from "@/content/polaroids";
 import PhotoPreview from "../polaroids/PhotoPreview";
-import Print, { type PrintPhase } from "./Print";
+import Print, { PRINT_WIDTH, type PrintPhase } from "./Print";
 
 const ease = [0.22, 1, 0.36, 1] as const;
-const HEADER_PX = 72; // sticky header height (4.5rem)
-const GROUND = { desktop: 6, mobile: 5 }; // % of the hero, matches the `y` values in content/polaroids.ts
+const FLOOR = { desktop: 6, mobile: 5 }; // % of the hero, matches the `y` values in content/polaroids.ts
 
-/* Scroll length of the hero for a given number of falling prints (in svh beyond one screen) */
-const extraScroll = (falling: number) => (falling ? dropSettings.firstDropAt + (falling - 1) * dropSettings.dropEvery + dropSettings.holdAfter : 0);
+/* The homepage hero, composed like an editorial spread: “Chloe Yun” anchored on the left,
+   a few large prints suspended on silver threads on the right, a silver floor at the bottom.
+   The hero is slightly shorter than the screen so the featured project peeks in below.
 
-/* The homepage hero: name, one-line intro, “View my work”, and photo prints around the edges.
-   The hero is taller than the screen; its stage sticks while you scroll through it, and each
-   print drops once the visitor has scrolled past its threshold. Normal page scrolling throughout. */
+   Normal page scrolling: each print lets go once the page has scrolled past its threshold and
+   then finishes its fall on its own. The last print hides a detail from the featured project;
+   Selected Work (DetailFlight) carries that detail into the project spread. */
 export default function DeskHero() {
-  const sectionRef = useRef<HTMLElement>(null);
   const boundsRef = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
   const [isDesktop, setIsDesktop] = useState<boolean | null>(null); // null until mounted
@@ -42,24 +41,22 @@ export default function DeskHero() {
     [isDesktop],
   );
   const fallingOrder = useMemo(() => visible.filter((v) => v.layout!.hang).map((v) => v.i), [visible]);
+  const cover = visible.find((v) => v.print.cover && v.layout!.hang);
 
-  // Reset when the layout changes; reduced-motion visitors start with everything on the ground
+  // Reset when the layout changes; reduced-motion visitors start with everything on the floor
   useEffect(() => {
     setPhases(prints.map((p) => ((isDesktop ? p.desktop : p.mobile)?.hang && !reduced ? "hanging" : "landed")));
     setStack(prints.map((_, i) => i));
   }, [isDesktop, reduced]);
 
-  // Release prints as the visitor scrolls through the hero. Once released, a print keeps falling.
+  // Release prints as the page scrolls. Once released, a print keeps falling even if scrolling stops.
   useEffect(() => {
     if (reduced || !fallingOrder.length) return;
     let frame = 0;
     const check = () => {
       frame = 0;
-      const section = sectionRef.current;
-      if (!section) return;
-      const scrolled = HEADER_PX - section.getBoundingClientRect().top; // 0 at the top of the page
       const vh = window.innerHeight / 100;
-      const released = fallingOrder.filter((_, n) => scrolled >= (dropSettings.firstDropAt + n * dropSettings.dropEvery) * vh);
+      const released = fallingOrder.filter((_, n) => window.scrollY >= (dropSettings.firstDropAt + n * dropSettings.dropEvery) * vh);
       if (!released.length) return;
       setPhases((ph) => {
         let changed = false;
@@ -93,72 +90,86 @@ export default function DeskHero() {
     [bringToFront],
   );
 
-  const counts = {
-    "--extra-m": `${extraScroll(prints.filter((p) => p.mobile?.hang).length)}svh`,
-    "--extra-d": `${extraScroll(prints.filter((p) => p.desktop?.hang).length)}svh`,
-  } as CSSProperties;
-  const ground = isDesktop ? GROUND.desktop : GROUND.mobile;
+  const floor = isDesktop ? FLOOR.desktop : FLOOR.mobile;
+  const revealed = cover ? phases[cover.i] !== "hanging" : false;
   const openPrint = open === null ? null : { ...prints[open], rotate: 0 };
 
   return (
     <section
-      ref={sectionRef}
       aria-labelledby="hero-heading"
-      style={counts}
-      className="relative h-[calc(100svh-4.5rem+var(--extra-m))] md:h-[calc(100svh-4.5rem+var(--extra-d))] motion-reduce:h-[calc(100svh-4.5rem)] motion-reduce:md:h-[calc(100svh-4.5rem)]"
+      className="relative h-[calc(100svh-4.5rem-9svh)] min-h-[30rem] overflow-hidden md:h-[calc(100svh-4.5rem-13svh)] md:min-h-[34rem]"
     >
-      <div className="sticky top-[4.5rem] h-[calc(100svh-4.5rem)] overflow-hidden">
-        {/* Intro — prints are placed so they never cover it */}
-        <div className="absolute inset-x-5 top-[24%] text-left md:inset-x-[24%] md:top-[15%] md:text-center">
-          <motion.p className="eyebrow" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }}>
-            {hero.eyebrow}
-          </motion.p>
-          <motion.h1
-            id="hero-heading"
-            className="display mt-4 whitespace-nowrap text-[clamp(3.4rem,19vw,6rem)] leading-[0.84] tracking-[-0.06em] md:text-[min(12.5vw,19svh)]"
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease }}
+      {/* Name, anchored left */}
+      <div className="absolute inset-x-5 top-[4%] md:left-[6%] md:right-auto md:top-[14%] md:w-[34%]">
+        <motion.p className="eyebrow" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }}>
+          {hero.eyebrow}
+        </motion.p>
+        <motion.h1
+          id="hero-heading"
+          className="display mt-3 whitespace-nowrap text-[min(19vw,10.5svh)] leading-[0.8] tracking-[-0.065em] md:text-[min(13vw,17svh)]"
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease }}
+        >
+          {site.name.split(" ")[0]}
+          <span className="md:block"> {site.name.split(" ").slice(1).join(" ")}</span>
+        </motion.h1>
+        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.35, ease }}>
+          <p className="mt-4 max-w-[26rem] text-[clamp(0.98rem,1.4vw,1.15rem)] leading-snug md:mt-7">{hero.text}</p>
+          <p className="mt-4 flex flex-wrap items-baseline gap-x-6 gap-y-2 md:mt-6">
+            <a href="#work" className="link mono text-[0.75rem] uppercase tracking-[0.08em]">
+              View my work ↓
+            </a>
+            <span id="prints-help" className="mono sr-only text-[0.68rem] uppercase tracking-[0.08em] text-muted md:not-sr-only">
+              {reduced ? "drag a print by its border" : "scroll — the prints will fall"}
+            </span>
+          </p>
+        </motion.div>
+      </div>
+
+      {/* The floor: a thin silver line the prints land on */}
+      <div className="silver-line absolute inset-x-0 h-px" style={{ bottom: `${floor}%` }} aria-hidden="true" />
+
+      {/* Drag area = everything above the floor */}
+      <div ref={boundsRef} className="pointer-events-none absolute inset-x-0 top-0" style={{ bottom: `${floor}%` }} aria-hidden="true" />
+
+      {/* The payoff: a detail from the featured project, hidden under the cover print.
+          Its slot has the cover print's exact size and spot, so the print always hides it. */}
+      {cover && (
+        <div
+          className={`absolute ${PRINT_WIDTH[cover.print.size ?? "regular"]} aspect-[1/1.139]`}
+          style={{ left: `${cover.layout!.hang!.x}%`, bottom: `${cover.layout!.hang!.y}%`, zIndex: 5 }}
+        >
+          <Link
+            href={`/work/${reveal.project}`}
+            data-reveal-source
+            data-revealed={revealed || reduced ? "true" : "false"}
+            aria-label={`${reveal.alt}. Open the case study`}
+            className="absolute left-[7%] top-[13%] block aspect-[438/181] w-[86%] shadow-[0_0_0_1px_rgba(196,201,207,0.35),0_18px_40px_-12px_rgba(0,0,0,0.9)]"
           >
-            {site.name}
-          </motion.h1>
-          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.35, ease }}>
-            <p className="mt-4 max-w-[34rem] text-[clamp(0.95rem,1.6vw,1.2rem)] leading-snug text-muted md:mx-auto md:mt-5">{hero.text}</p>
-            <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3 md:mt-6 md:justify-center">
-              <ButtonLink href="#work" variant="primary" icon={<ArrowDown size={14} aria-hidden="true" />}>
-                View my work
-              </ButtonLink>
-              <p id="prints-help" className="mono sr-only text-[0.68rem] uppercase tracking-[0.08em] text-muted md:not-sr-only">
-                {reduced ? "drag a print by its border" : "scroll to drop the prints"}
-              </p>
-            </div>
-          </motion.div>
+            <Image src={reveal.src} alt="" fill sizes="(min-width: 768px) 300px, 130px" className="object-cover" />
+          </Link>
         </div>
+      )}
 
-        {/* The ground: prints land on this line */}
-        <div className="silver-line absolute inset-x-0 h-px" style={{ bottom: `${ground}%` }} aria-hidden="true" />
-
-        {/* Drag area = everything above the ground line */}
-        <div ref={boundsRef} className="pointer-events-none absolute inset-x-0 top-0" style={{ bottom: `${ground}%` }} aria-hidden="true" />
-
-        <div role="group" aria-label="Photo prints" aria-describedby="prints-help">
-          {phases.length > 0 &&
-            visible.map(({ print, i, layout }) => (
-              <Print
-                key={`${isDesktop ? "d" : "m"}-${i}`}
-                print={print}
-                layout={layout!}
-                index={i}
-                phase={phases[i]}
-                zIndex={10 + stack.indexOf(i)}
-                fallSeconds={dropSettings.fallSeconds}
-                boundsRef={boundsRef}
-                onLanded={() => land(i)}
-                onFront={() => bringToFront(i)}
-                onOpenPhoto={() => setOpen(i)}
-              />
-            ))}
-        </div>
+      <div role="group" aria-label="Photo prints" aria-describedby="prints-help">
+        {phases.length > 0 &&
+          visible.map(({ print, i, layout }) => (
+            <Print
+              key={`${isDesktop ? "d" : "m"}-${i}`}
+              print={print}
+              layout={layout!}
+              index={i}
+              phase={phases[i]}
+              zIndex={10 + stack.indexOf(i)}
+              fallSeconds={dropSettings.fallSeconds}
+              tipSeconds={dropSettings.tipSeconds}
+              boundsRef={boundsRef}
+              onLanded={() => land(i)}
+              onFront={() => bringToFront(i)}
+              onOpenPhoto={() => setOpen(i)}
+            />
+          ))}
       </div>
       <PhotoPreview photo={openPrint} onClose={() => setOpen(null)} />
     </section>

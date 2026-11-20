@@ -8,11 +8,12 @@ import { useEffect, useRef, useState } from "react";
 import { site } from "@/content/site";
 import Container from "./ui/Container";
 
-type NavKey = "home" | "work" | "about" | "contact";
-// "home" is the wordmark; the visible nav is work / about / contact
+type NavKey = "home" | "work" | "play" | "about" | "contact";
+// "home" is the wordmark; the visible nav is work / play / about / contact
 const NAV: { key: NavKey; label: string; href: string }[] = [
   { key: "work", label: "work", href: "/#work" },
-  { key: "about", label: "about", href: "/#about" },
+  { key: "play", label: "play", href: "/play" },
+  { key: "about", label: "about", href: "/about" },
   { key: "contact", label: "contact", href: "/#contact" },
 ];
 
@@ -21,7 +22,7 @@ function useActiveSection(pathname: string): NavKey {
   const [active, setActive] = useState<NavKey>("home");
   useEffect(() => {
     if (pathname !== "/") return;
-    const ids: NavKey[] = ["work", "about", "contact"];
+    const ids: NavKey[] = ["work", "contact"];
     const onScroll = () => {
       let current: NavKey = "home";
       for (const id of ids) {
@@ -35,6 +36,8 @@ function useActiveSection(pathname: string): NavKey {
     return () => window.removeEventListener("scroll", onScroll);
   }, [pathname]);
   if (pathname.startsWith("/work/")) return "work";
+  if (pathname === "/play") return "play";
+  if (pathname === "/about") return "about";
   return pathname === "/" ? active : "home";
 }
 

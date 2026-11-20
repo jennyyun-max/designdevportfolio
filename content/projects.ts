@@ -12,7 +12,85 @@ import type { Project } from "@/lib/types";
 
 export const projects: Project[] = [
   {
+    slug: "brookfield",
+    tagline: "Helping analysts spot when one deal model reports two different IRRs — before anyone quotes the wrong one.",
+    title: "Brookfield Knowledge Hub",
+    category: "Data product · Atlas Digital",
+    year: "2026",
+    description:
+      "One searchable source of truth for Brookfield Renewable’s 100+ Excel deal models — every number traced back to the cell it came from.",
+    cover: { src: "/images/projects/brookfield/project-page.webp", alt: "Knowledge Hub project page for Solar Alpha, flagging two different IRRs" },
+    visual: "frames",
+    tone: "ivory",
+    spotlight: {
+      image: {
+        src: "/images/projects/brookfield/project-page-top.webp",
+        alt: "Knowledge Hub project page. The IRR card reads: two values found, 16.98% or 16.56%, each linked to its Excel cell — don’t quote until a reviewer confirms which is right.",
+      },
+      detail: { x: 954 / 1440, y: 354 / 560, w: 438 / 1440, h: 181 / 560 },
+      heading: "Two IRRs. Which one do you trust?",
+      text: "When a deal model reports two different IRRs, the hub never picks one. It shows both, links each to the exact Excel cell it came from, and tells the analyst not to quote either until a reviewer confirms. Hide the volume — never hide the risk.",
+    },
+    caseStudy: {
+      overview:
+        "With Atlas Digital, our team is building a Financial Model Knowledge Hub for Brookfield Renewable’s Business Development team: one searchable source of truth for 100+ Excel deal models, with every number traced back to the cell it came from.",
+      problem:
+        "Brookfield’s Excel deal models sit in SharePoint with no way to search across them — every model is built differently, and numbers get quoted without knowing if they’re current.",
+      role: {
+        summary: "Designer",
+        responsibilities: [
+          "Dashboard: risk stands out",
+          "Project page: three numbers, full evidence",
+          "Detail view: every figure read from the workbook",
+        ],
+      },
+      timeline: {
+        duration: "Fall 2026 · in progress",
+        phases: [
+          { label: "01", detail: "Context" },
+          { label: "02", detail: "Design" },
+          { label: "03", detail: "Ingestion" },
+          { label: "04", detail: "Search" },
+        ],
+      },
+      team: "6 — 2 project managers, 3 analysts, 1 designer",
+      research: {
+        stats: [
+          { value: "100+", label: "Excel models in SharePoint" },
+          { value: "57", label: "data fields per model" },
+          { value: "1", label: "source cell behind every number" },
+        ],
+        summary:
+          "Brookfield Renewable develops, acquires, sells and refinances renewable projects. Its Business Development team builds an Excel financial model for every deal — generation, cost, financing, revenue, return — and those models are the analytical record of every deal, approved or not. Portfolio questions mean opening files by hand.",
+      },
+      labels: { insights: "the constraints", insightsHeading: "Too much information, too little attention", process: "the design rule", final: "the screens", wireframes: "iteration", outcomes: "trade-offs" },
+      insights: [
+        { title: "Every number needs its source", detail: "Each figure links back to its Excel cell." },
+        { title: "Uncertainty has to be seen", detail: "Low confidence and conflicts can’t be buried." },
+        { title: "Users are busy executives", detail: "A cluttered screen gets abandoned." },
+      ],
+      process: [
+        { title: "Hide the volume", detail: "Extra columns, charts and capacity totals, and long narrative sections can wait — one click away." },
+        { title: "Never hide the risk", detail: "Confidence and review status, conflicting values, units and source cells are always visible." },
+        { title: "Conflicts are flagged", detail: "Two IRRs found: we show both, never pick one." },
+        { title: "Gaps are stated", detail: "“Not stated in model”, so empty never looks like a bug." },
+      ],
+      wireframes: [
+        { src: "/images/projects/brookfield/dashboard-first-pass.webp", alt: "First-pass dashboard with four summary cards and charts behind a Show breakdown toggle", caption: "First pass — 4 of 7 summary cards; charts one click away", fit: "contain", aspect: "aspect-[1440/1141]" },
+        { src: "/images/projects/brookfield/dashboard.webp", alt: "Revised dashboard with all seven summary cards and six small grey charts", caption: "Revised — all 7 cards and 6 charts on screen, kept small and grey", fit: "contain", aspect: "aspect-[1440/1229]" },
+      ],
+      finalDesigns: [
+        { src: "/images/projects/brookfield/project-page-full.webp", alt: "Solar Alpha project page: a warning that the model shows two IRRs, key numbers with source cells, and collapsed detail sections", caption: "Project page — three numbers, full evidence", fit: "contain", aspect: "aspect-[1440/1330]" },
+        { src: "/images/projects/brookfield/more-details.webp", alt: "More details view: quotes from the workbook, a Not stated in model note, and every metric with its source and confidence", caption: "More details — nothing is hidden for good", fit: "contain", aspect: "aspect-[1440/1100]" },
+      ],
+      outcomes: ["Only the risk is loud", "Trust on every row", "Every number links to its Excel cell"],
+      reflection:
+        "What minimalism cost us: our first dashboard showed 4 of 7 summary cards and put the charts behind a toggle the spec wanted visible. The revision brings all 7 cards and 6 charts back on screen, kept small and grey — full spec, still calm. These are trade-offs we still want to confirm with Brookfield.",
+    },
+  },
+  {
     slug: "lumen",
+    tagline: "Helping 50,000 festival-goers see what’s next, where to go, and how to get in — without digging through screens.",
     title: "LUMEN",
     category: "Mobile app · design challenge",
     year: "2026",
@@ -126,6 +204,7 @@ export const projects: Project[] = [
   },
   {
     slug: "costco-redesign",
+    tagline: "Making a crowded, disconnected shopping app easier to navigate, from planning a warehouse trip to checkout.",
     title: "Costco App Redesign",
     category: "UX/UI · research · mobile",
     year: "2026",
@@ -198,6 +277,7 @@ export const projects: Project[] = [
   },
   {
     slug: "nuseum",
+    tagline: "Turning research, market data and internal know-how into systems a fast-moving AI nutrition startup could use.",
     title: "AI Food & Health Startup",
     category: "Product · research · operations",
     year: "2026",
@@ -239,6 +319,7 @@ export const projects: Project[] = [
   },
   {
     slug: "data-analysis",
+    tagline: "Turning messy real-world datasets into charts and takeaways people can actually act on.",
     title: "Data Analysis Projects",
     category: "Data · analytics · visualization",
     year: "",
@@ -269,6 +350,7 @@ export const projects: Project[] = [
   },
   {
     slug: "kpop-to-data",
+    tagline: "What five years on stage with cignature taught me about audiences, feedback, and people.",
     title: "From K-pop to Data Science",
     category: "Story · communication · curiosity",
     year: "",

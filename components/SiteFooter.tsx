@@ -18,7 +18,8 @@ export default function SiteFooter() {
           <ul className="mono flex flex-wrap gap-x-6 gap-y-2 text-[0.75rem] uppercase tracking-[0.08em]">
             <li><Link href="/" className="link">home</Link></li>
             <li><Link href="/#work" className="link">work</Link></li>
-            <li><Link href="/#about" className="link">about</Link></li>
+            <li><Link href="/play" className="link">play</Link></li>
+            <li><Link href="/about" className="link">about</Link></li>
             <li><Link href="/#contact" className="link">contact</Link></li>
           </ul>
         </nav>
