@@ -12,7 +12,7 @@ export default function ProjectCard({ project, index, featured = false }: { proj
         image={cover}
         tone={tone}
         visual={visual}
-        aspect={featured ? "aspect-[4/3] md:aspect-[16/8]" : "aspect-[4/3]"}
+        aspect={featured ? "aspect-video" : "aspect-[4/3]"}
         sizes={featured ? "(min-width: 1024px) 1200px, 100vw" : "(min-width: 768px) 50vw, 100vw"}
         imageClassName="transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
       />

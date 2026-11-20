@@ -52,7 +52,7 @@ export default function CaseStudy({ project, index, next }: { project: Project; 
         </Container>
         <Container>
           <Reveal>
-            <MediaFrame image={project.cover} tone={tone} visual={visual} aspect="aspect-[4/3] md:aspect-[16/8]" sizes="(min-width: 1216px) 1136px, 100vw" priority />
+            <MediaFrame image={project.cover} tone={tone} visual={visual} aspect="aspect-video" sizes="(min-width: 1216px) 1136px, 100vw" priority />
           </Reveal>
         </Container>
       </header>
@@ -163,7 +163,7 @@ export default function CaseStudy({ project, index, next }: { project: Project; 
         <div className="space-y-10">
           {cs.finalDesigns.map((img, i) => (
             <Reveal key={i}>
-              <Figure image={img} tone={tone} visual={visual} aspect="aspect-[16/10]" sizes="(min-width: 1024px) 860px, 100vw" />
+              <Figure image={img} tone={tone} visual={visual} sizes="(min-width: 1024px) 860px, 100vw" />
             </Reveal>
           ))}
         </div>

@@ -5,7 +5,7 @@ export default function Figure({
   image,
   tone,
   visual,
-  aspect = "aspect-[16/10]",
+  aspect = "aspect-video",
   sizes,
 }: {
   image: ImageAsset;
