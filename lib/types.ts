@@ -1,4 +1,4 @@
-export type Tone = "blush" | "pink" | "lavender" | "butter" | "sage";
+export type Tone = "blush" | "pink" | "lavender" | "butter" | "sage" | "ivory";
 
 export type Visual = "bars" | "circles" | "frames";
 
@@ -7,6 +7,12 @@ export interface ImageAsset {
   src: string;
   alt: string;
   caption?: string;
+  /** "contain" shows the whole image (diagrams, slides with text); default "cover" fills the frame */
+  fit?: "cover" | "contain";
+  /** CSS object-position for the crop, e.g. "20% 50%" */
+  focus?: string;
+  /** Tailwind aspect class to override the default frame shape, e.g. "aspect-[9/19]" */
+  aspect?: string;
 }
 
 export interface Insight {
@@ -19,27 +25,35 @@ export interface ProcessStep {
   detail: string;
 }
 
+/* Every section except the overview is optional — leave one out and it disappears
+   (section numbers adjust automatically). `labels` renames section labels. */
 export interface CaseStudy {
   overview: string;
-  problem: string;
-  role: { summary: string; responsibilities: string[] };
-  timeline: { duration: string; phases: { label: string; detail: string }[] };
-  tools: string[];
-  team: string;
-  research: { summary: string; methods: string[]; image?: ImageAsset };
-  insights: Insight[];
-  process: ProcessStep[];
-  wireframes: ImageAsset[];
-  finalDesigns: ImageAsset[];
-  outcomes: string[];
-  reflection: string;
+  problem?: string;
+  role?: { summary: string; responsibilities?: string[] };
+  timeline?: { duration: string; phases?: { label: string; detail: string }[] };
+  tools?: string[];
+  team?: string;
+  research?: { summary: string; methods?: string[]; stats?: { value: string; label: string }[]; images?: ImageAsset[] };
+  insights?: Insight[];
+  process?: ProcessStep[];
+  wireframes?: ImageAsset[];
+  finalDesigns?: ImageAsset[];
+  /** "phones" lays final designs out side by side (for tall phone screens) */
+  finalLayout?: "stack" | "phones";
+  /** Show the process section before insights */
+  processFirst?: boolean;
+  outcomes?: string[];
+  reflection?: string;
   links?: { label: string; href: string }[];
+  labels?: Partial<Record<"problem" | "role" | "timeline" | "research" | "insights" | "insightsHeading" | "process" | "wireframes" | "final" | "outcomes", string>>;
 }
 
 export interface Project {
   slug: string;
   title: string;
   category: string;
+  /** "" hides it */
   year: string;
   description: string;
   cover: ImageAsset;

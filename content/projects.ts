@@ -1,12 +1,13 @@
-import type { CaseStudy, Project } from "@/lib/types";
+import type { Project } from "@/lib/types";
 
 /* ==================================================================
    PROJECTS — each one gets a card on the homepage and a case-study
-   page at /work/<slug>. Replace anything in [square brackets].
+   page at /work/<slug>. Order here = order on the homepage
+   (the first one gets the big featured card).
 
-   Images: put files in /public/images/projects/<slug>/ and set
-   src: "/images/projects/<slug>/cover.jpg". An empty src shows
-   placeholder art in the project's `tone` color.
+   Every case-study section except `overview` is optional: leave one
+   out and it disappears. Images live in /public/images/projects/<slug>/.
+   Anything in [square brackets] is a placeholder.
    ================================================================== */
 
 export const projects: Project[] = [
@@ -49,11 +50,11 @@ export const projects: Project[] = [
         summary:
           "I ran short interviews to understand how people navigate, plan their day, get into the event, and discover things at large festivals. Questions were grouped into four areas: navigation, scheduling, access & wallet, and discovery.",
         methods: ["Short interviews", "Working hypotheses", "User journey map", "Information architecture"],
-        image: {
+        images: [{
           src: "/images/projects/lumen/03-research-plan.png",
           alt: "Research plan: four interview areas — navigation, scheduling, access and wallet, discovery — with notes from interviews",
           caption: "Research plan: four interview areas and what people told me",
-        },
+        }],
       },
       insights: [
         {
@@ -124,53 +125,199 @@ export const projects: Project[] = [
     },
   },
   {
-    slug: "project-two",
-    title: "[Project Two]",
-    category: "[Web app · research]",
-    year: "[2025]",
-    description: "[One or two sentences describing the project.]",
-    cover: { src: "", alt: "" },
-    visual: "circles",
+    slug: "costco-redesign",
+    title: "Costco App Redesign",
+    category: "UX/UI · research · mobile",
+    year: "2026",
+    description:
+      "A collaborative redesign exploring how clearer navigation, stronger information architecture, and more intentional UI could improve the Costco mobile shopping experience.",
+    cover: { src: "/images/projects/costco/cover.webp", alt: "Costco Redesign title card with two redesigned app screens", focus: "15% 50%" },
+    visual: "frames",
     tone: "lavender",
-    caseStudy: placeholderCaseStudy(),
+    caseStudy: {
+      overview:
+        "A collaborative UX/UI project focused on making Costco’s mobile experience clearer, more intuitive, and easier to navigate through research, usability testing, and interface redesign.",
+      problem:
+        "The Costco app felt inconsistent, crowded, and disconnected. Important features were hard to find, navigation could feel overwhelming, and the interface lacked clear visual hierarchy.",
+      role: {
+        summary: "Team project",
+        responsibilities: [
+          "User research",
+          "Synthesis of findings",
+          "Ideation",
+          "UI / product design",
+        ],
+      },
+      timeline: { duration: "Spring 2026" },
+      team: "Collaborative UX/UI",
+      research: {
+        stats: [
+          { value: "5", label: "usability tests" },
+          { value: "10", label: "user interviews" },
+          { value: "28", label: "survey responses" },
+        ],
+        summary:
+          "We combined usability testing, interviews, and survey research to understand how shoppers plan trips, use grocery apps, and experience Costco both digitally and in-store. Then we compared Costco with competing grocery and retail apps — the biggest opportunities were in planning, navigation, content hierarchy, and everyday convenience.",
+        methods: ["Usability testing", "User interviews", "Survey", "Competitive analysis"],
+        images: [
+          { src: "/images/projects/costco/survey.webp", alt: "Survey bar chart: which features of grocery store apps do you use, 28 responses", caption: "Survey: the grocery-app features shoppers actually use", fit: "contain" },
+          { src: "/images/projects/costco/competitive.webp", alt: "Competitive analysis table comparing Costco with Sam’s Club, Walmart, BJ’s, Target, Kroger and Aldi across eight features", caption: "Competitive analysis across seven grocery and retail apps", fit: "contain" },
+        ],
+      },
+      labels: { insightsHeading: "what the research revealed" },
+      insights: [
+        { title: "Crowds cause stress", detail: "Shoppers feel stressed when long lines and crowding make their trip unpredictable and inefficient." },
+        { title: "Items are hard to find", detail: "Costco’s large layout and limited navigation support make it hard to quickly find items." },
+        { title: "Clutter drives people away", detail: "Users disengage when the app feels slow, cluttered, or difficult for basic tasks." },
+        { title: "Apps are for saving time", detail: "Shoppers use grocery apps mainly to plan, check inventory, and navigate in-store." },
+        { title: "Value should be visible", detail: "Users see the most value when membership benefits, deals, and useful info are easy to find." },
+      ],
+      process: [
+        { title: "How might we…", detail: "…make grocery shopping feel less overwhelming? …make relevant features more visible and easier to access? …make the Costco trip more time-efficient?" },
+        { title: "Structure", detail: "Before polished UI, we explored navigation patterns, information hierarchy, and feature organization through sketches and low-fidelity wireframes, testing structural ideas before committing to visual design." },
+        { title: "Redesign", detail: "Landing, Shop, Warehouse, and Product details & cart — each redesigned around simpler navigation, clearer hierarchy, and fewer interruptions." },
+      ],
+      wireframes: [
+        { src: "/images/projects/costco/sketch-landing.webp", alt: "Hand-drawn sketch of the Costco landing page with annotations", caption: "Landing page sketch", fit: "contain", aspect: "aspect-[4/5]" },
+        { src: "/images/projects/costco/sketch-shop.webp", alt: "Hand-drawn sketch of the shop page with departments and trending items", caption: "Shop sketch", fit: "contain", aspect: "aspect-[4/5]" },
+        { src: "/images/projects/costco/sketch-warehouse.webp", alt: "Hand-drawn sketch of the warehouse page with annotations", caption: "Warehouse sketch", fit: "contain", aspect: "aspect-[4/5]" },
+      ],
+      finalLayout: "phones",
+      finalDesigns: [
+        { src: "/images/projects/costco/landing.webp", alt: "Screen recording of the redesigned landing page", caption: "Landing — less clutter, important actions up front", aspect: "aspect-[300/618]" },
+        { src: "/images/projects/costco/shop.webp", alt: "Screen recording of the redesigned shop page", caption: "Shop — clearer categories, less navigating", aspect: "aspect-[300/618]" },
+        { src: "/images/projects/costco/warehouse.webp", alt: "Screen recording of the warehouse page showing crowd levels and gas prices", caption: "Warehouse — trip planning with crowd levels & gas prices", aspect: "aspect-[300/618]" },
+        { src: "/images/projects/costco/cart.webp", alt: "Screen recording of product details and the cart", caption: "Product details & cart — fewer interruptions to checkout", aspect: "aspect-[300/618]" },
+      ],
+      outcomes: [
+        "The biggest usability problems were structural, not just visual",
+      ],
+      reflection:
+        "Navigation, information architecture, and task flow had a bigger impact on the experience than visual styling alone. Working as a team also showed me how important it is to align on research findings and priorities before moving into high-fidelity UI. With more time, I’d prototype and test the redesigned flows to measure task completion, and narrow the scope to deeply refine the highest-impact journey. (Research, concepts, and design decisions were developed as a team; this case study highlights my contributions.)",
+    },
   },
   {
-    slug: "project-three",
-    title: "[Project Three]",
-    category: "[Data visualization]",
-    year: "[2025]",
-    description: "[One or two sentences describing the project.]",
-    cover: { src: "", alt: "" },
+    slug: "nuseum",
+    title: "AI Food & Health Startup",
+    category: "Product · research · operations",
+    year: "2026",
+    description:
+      "Working across research, operations, and technology at NUSEUM taught me how products are shaped by both user needs and business constraints.",
+    cover: { src: "/images/projects/nuseum/cover.webp", alt: "Diagram: how NUSEUM AI works — capture, structure, safety check, personalize", fit: "contain" },
+    visual: "circles",
+    tone: "ivory",
+    caseStudy: {
+      overview:
+        "At NUSEUM, I worked across research, operations, and technology to support the development of a personalized food-as-medicine platform.",
+      problem: "NUSEUM is a precision nutrition AI platform connecting food, health information, and personalized recommendations — a product where accuracy really matters.",
+      role: {
+        summary: "Research, operations & technology",
+        responsibilities: [
+          "Organized information and supported internal workflows",
+          "Studied the market",
+          "Helped the team communicate complex ideas",
+        ],
+      },
+      processFirst: true,
+      labels: { process: "the work", insights: "connecting research to product", insightsHeading: "turning complex information into something a team can use", outcomes: "the takeaway" },
+      process: [
+        { title: "Research", detail: "Researched healthcare, digital health, food delivery, and industry trends to support product and business decisions." },
+        { title: "Structure", detail: "Organized research, hiring, and onboarding information into clearer systems and reusable internal resources." },
+        { title: "Support", detail: "Contributed to operations across recruiting, research, partnerships, and team workflows in a fast-moving startup." },
+      ],
+      insights: [
+        { title: "Market research", detail: "Understanding companies, trends, and opportunities." },
+        { title: "Internal systems", detail: "Creating clearer workflows for hiring and onboarding." },
+        { title: "Product context", detail: "Connecting business needs, technical constraints, and user-facing problems." },
+      ],
+      finalDesigns: [
+        { src: "/images/projects/nuseum/what-is-nuseum.webp", alt: "What is NUSEUM: safety first and evidence & validation", fit: "contain" },
+      ],
+      reflection:
+        "Good products are shaped by more than the technology behind them. NUSEUM showed me how product decisions are influenced by research, user needs, business constraints, operations, and technical feasibility at the same time — and made me more interested in the space between data, product, and people.",
+    },
+  },
+  {
+    slug: "data-analysis",
+    title: "Data Analysis Projects",
+    category: "Data · analytics · visualization",
+    year: "",
+    description:
+      "Exploring real-world datasets through analysis, experimentation, and visualization to uncover patterns and communicate actionable insights.",
+    cover: { src: "/images/projects/data-analysis/cover.webp", alt: "Three data projects: Grammy web traffic analysis, UNESCO World Heritage visualization, A/B testing", fit: "contain" },
     visual: "bars",
-    tone: "butter",
-    caseStudy: placeholderCaseStudy(),
+    tone: "ivory",
+    caseStudy: {
+      overview:
+        "A collection of analytics projects exploring user behavior, experimentation, web traffic, and real-world datasets through Excel, Tableau, and statistical analysis.",
+      problem: "Real-world datasets are often messy, complex, and difficult to interpret without structure.",
+      role: { summary: "Data analysis · research · strategy" },
+      tools: ["Excel", "Tableau", "Statistical analysis"],
+      labels: { process: "the process", final: "selected work", outcomes: "the takeaway" },
+      process: [
+        { title: "Explore", detail: "Cleaned and organized datasets to understand the variables, context, and questions worth investigating." },
+        { title: "Analyze", detail: "Used comparisons, statistical methods, and visualization to uncover patterns and evaluate relationships." },
+        { title: "Communicate", detail: "Turned results into charts, dashboards, and concise takeaways that made the findings easier to understand." },
+      ],
+      finalDesigns: [
+        { src: "/images/projects/data-analysis/unesco-map.webp", alt: "World map of 1,121 UNESCO World Heritage Sites", caption: "UNESCO World Heritage Sites — data visualization", fit: "contain" },
+        { src: "/images/projects/data-analysis/web-traffic.webp", alt: "Web traffic and engagement dashboard", caption: "Web traffic & engagement analysis", fit: "contain" },
+      ],
+      reflection:
+        "Data is only useful when people can understand what it means. Good analysis means deciding what matters, finding the clearest way to show it, and helping someone understand what to do next.",
+    },
+  },
+  {
+    slug: "kpop-to-data",
+    title: "From K-pop to Data Science",
+    category: "Story · communication · curiosity",
+    year: "",
+    description:
+      "What five years in entertainment taught me about audiences, feedback, collaboration, adaptability, and understanding people.",
+    cover: { src: "/images/projects/kpop-to-data/cover.webp", alt: "cignature album cover: the group standing in stadium seats", focus: "50% 60%" },
+    visual: "circles",
+    tone: "lavender",
+    caseStudy: {
+      overview:
+        "Before returning to school to study Data Science at the University of Michigan, I spent five years pursuing a professional career as a K-pop artist, including as a member of cignature.",
+      role: { summary: "K-pop artist → Data Science student" },
+      timeline: { duration: "5 years in entertainment" },
+      team: "cignature",
+      processFirst: true,
+      labels: {
+        problem: "the shift",
+        process: "then → now",
+        insights: "what transferred",
+        insightsHeading: "different field. same core skills.",
+        final: "the cignature years",
+        outcomes: "the connection",
+      },
+      problem: "Changing industries without starting from zero.",
+      process: [
+        { title: "Where I came from", detail: "Entertainment taught me how much success depends on understanding people — audiences, teammates, feedback, timing, and communication." },
+        { title: "Where I am now", detail: "Data Science gave me a new way to understand those same questions: through patterns, evidence, systems, and structured problem solving." },
+      ],
+      insights: [
+        { title: "Audience", detail: "Performing taught me to pay attention to how people react, what resonates, and how small changes can shape an experience." },
+        { title: "Feedback", detail: "I became comfortable receiving constant feedback, adjusting quickly, and improving under pressure." },
+        { title: "Collaboration", detail: "Music, choreography, content, styling, production, and promotion all required working across teams toward one shared outcome." },
+        { title: "Adaptability", detail: "Live performances and fast-moving schedules taught me to stay calm, react quickly, and keep moving when plans changed." },
+      ],
+      outcomes: [
+        "People — understanding behavior, audiences, and needs",
+        "Patterns — looking for signals inside complex information",
+        "Decisions — turning observations into something useful",
+      ],
+      finalDesigns: [
+        { src: "/images/projects/kpop-to-data/sweetie-but-saltie.webp", alt: "cignature group photo for Sweetie but Saltie", caption: "Sweetie but Saltie", aspect: "aspect-[5/4]" },
+        { src: "/images/projects/kpop-to-data/my-little-aurora.webp", alt: "cignature group photo for My Little Aurora", caption: "My Little Aurora", aspect: "aspect-[4/3]" },
+        { src: "/images/projects/kpop-to-data/spotify.webp", alt: "cignature’s Spotify artist page with popular tracks", caption: "cignature on Spotify", fit: "contain", aspect: "aspect-[2000/1243]" },
+      ],
+      reflection:
+        "Entertainment made me curious about why people respond differently to the same thing, how feedback changes decisions, and how teams turn ideas into something people actually experience — Data Science gave me tools to explore those questions. My path into technology was unconventional, but the skills were never unrelated. Today I bring both perspectives with me: the analytical mindset I’m developing through Data Science, and the communication, adaptability, collaboration, and audience awareness I learned through entertainment. I’m especially interested in work where technology, data, and human behavior meet.",
+      links: [{ label: "Watch a cignature performance", href: "https://www.youtube.com/watch?v=C3diP5kT6HI" }],
+    },
   },
 ];
 
 export const getProject = (slug: string) => projects.find((p) => p.slug === slug);
-
-/* Shorter filler for Projects Two and Three — replace with a full
-   object like Project One’s when you write these case studies. */
-function placeholderCaseStudy(): CaseStudy {
-  return {
-    overview: "[Project overview.]",
-    problem: "[Problem statement.]",
-    role: { summary: "[Your role]", responsibilities: ["[Responsibility]", "[Responsibility]"] },
-    timeline: { duration: "[Timeline]", phases: [{ label: "[Phase]", detail: "[What happened]" }] },
-    tools: ["[Tool]", "[Tool]"],
-    team: "[Team]",
-    research: { summary: "[Research & discovery.]", methods: ["[Method]", "[Method]"] },
-    insights: [
-      { title: "[Insight]", detail: "[Detail]" },
-      { title: "[Insight]", detail: "[Detail]" },
-    ],
-    process: [
-      { title: "[Step]", detail: "[Detail]" },
-      { title: "[Step]", detail: "[Detail]" },
-    ],
-    wireframes: [{ src: "", alt: "", caption: "[Wireframe]" }],
-    finalDesigns: [{ src: "", alt: "", caption: "[Final design]" }],
-    outcomes: ["[Outcome]"],
-    reflection: "[Reflection.]",
-  };
-}

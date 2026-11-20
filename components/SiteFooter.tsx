@@ -15,7 +15,7 @@ export default function SiteFooter() {
             </span>
           </Link>
           <p className="mt-3 max-w-[22rem] text-sm text-espresso-soft">
-            Aspiring UX & product designer at the University of Michigan School of Information.
+            Exploring the space between data, technology, and people. Ann Arbor, MI.
           </p>
         </div>
         <nav aria-label="Footer">

@@ -1,5 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900"><!-- Placeholder: landscape photo (4:3) -->
-<rect width="1200" height="900" fill="#d3dfca"/><g fill="#c3d3b8"><rect y="0" width="1200" height="150"/><rect y="300" width="1200" height="150"/><rect y="600" width="1200" height="150"/></g>
-<circle cx="600" cy="470" r="150" fill="#fffbf6" stroke="#3a2620" stroke-width="8"/>
-<path d="M600 400l55 40-21 64h-68l-21-64z" fill="#3a2620"/><path d="M600 320v80M655 440l100-30M634 504l60 80M566 504l-60 80M545 440l-100-30" stroke="#3a2620" stroke-width="8"/>
-<g transform="translate(381 728) scale(3)"><rect x="14" y="14" width="118" height="30" rx="6" fill="#fffbf6" opacity=".9"/><text x="73" y="35" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="700" letter-spacing="1.5" fill="#3a2620">REPLACE ME</text></g></svg>

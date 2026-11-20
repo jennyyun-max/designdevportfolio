@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000"><!-- Placeholder: portrait photo (4:5) -->
-<rect width="800" height="1000" fill="#ddd4ef"/><rect x="0" y="760" width="800" height="240" fill="#c9bde6"/>
-<rect x="210" y="640" width="380" height="80" rx="8" fill="#f2c4c0" stroke="#3a2620" stroke-width="6"/>
-<rect x="240" y="560" width="330" height="80" rx="8" fill="#fbf6ef" stroke="#3a2620" stroke-width="6"/>
-<rect x="190" y="480" width="360" height="80" rx="8" fill="#f6e4a8" stroke="#3a2620" stroke-width="6"/>
-<rect x="250" y="720" width="300" height="40" fill="#3a2620" opacity=".15"/>
-<g transform="translate(210 745) scale(2.6)"><rect x="14" y="14" width="118" height="30" rx="6" fill="#fffbf6" opacity=".9"/><text x="73" y="35" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="700" letter-spacing="1.5" fill="#3a2620">REPLACE ME</text></g></svg>

@@ -18,19 +18,19 @@ export default function ContactSection() {
     <section id="contact" aria-labelledby="contact-heading">
       <Container className="py-24 sm:py-32">
         <Reveal className="relative text-center">
-          <p className="eyebrow">say hello</p>
+          <p className="eyebrow">let’s connect ✦</p>
           <h2 id="contact-heading" className="display mx-auto mt-6 max-w-[12ch] text-[clamp(3rem,9vw,7rem)] leading-[0.92]">
-            let’s make something <em>lovely</em>.
+            let’s build something <em>useful</em>.
           </h2>
-          <p className="mx-auto mt-6 max-w-[30rem] text-lg text-espresso-soft">
-            Whether it’s an internship, a project, or just a chat about design — my inbox is open.
+          <p className="mx-auto mt-6 max-w-[34rem] text-lg text-espresso-soft">
+            I’m excited to learn from new people, explore interesting problems, and bring my perspective in data, research, technology, and creative work.
           </p>
           <InteractivePotato className="absolute right-[6%] top-0 hidden w-16 lg:block" />
         </Reveal>
 
         <Reveal delay={0.1}>
           <ul className="mx-auto mt-14 max-w-[44rem] divide-y divide-line border-y border-line">
-            {items.map((item) => (
+            {items.filter((item) => item.href || item.label !== "github").map((item) => (
               <li key={item.label}>
                 {item.href ? (
                   <a

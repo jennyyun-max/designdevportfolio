@@ -7,12 +7,12 @@ import MediaFrame from "../ui/MediaFrame";
 export default function ProjectCard({ project, index, featured = false }: { project: Project; index: number; featured?: boolean }) {
   const { slug, title, category, year, description, cover, tone, visual } = project;
   return (
-    <Link href={`/work/${slug}`} data-cursor="view" aria-label={`${title} — ${category}, ${year}. View case study`} className="group block">
+    <Link href={`/work/${slug}`} data-cursor="view" aria-label={`${title} — ${category}${year ? `, ${year}` : ""}. View case study`} className="group block">
       <MediaFrame
         image={cover}
         tone={tone}
         visual={visual}
-        aspect={featured ? "aspect-video" : "aspect-[4/3]"}
+        aspect={featured ? "aspect-video" : "aspect-[16/10]"}
         sizes={featured ? "(min-width: 1024px) 1200px, 100vw" : "(min-width: 768px) 50vw, 100vw"}
         imageClassName="transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
       />
@@ -20,7 +20,8 @@ export default function ProjectCard({ project, index, featured = false }: { proj
         <div>
           <p className="eyebrow">
             <span className="accent mr-2 text-base normal-case tracking-normal text-rose">{String(index + 1).padStart(2, "0")}</span>
-            {category} · {year}
+            {category}
+            {year && ` · ${year}`}
           </p>
           <h3 className={`display mt-2 ${featured ? "text-[clamp(2.25rem,4.5vw,3.5rem)]" : "text-[clamp(2rem,3.5vw,2.6rem)]"}`}>
             <span className="bg-[linear-gradient(var(--rose),var(--rose))] bg-[length:0%_2px] bg-left-bottom bg-no-repeat pb-1 transition-[background-size] duration-500 group-hover:bg-[length:100%_2px]">

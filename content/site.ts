@@ -9,21 +9,21 @@ export const site = {
   // Used for SEO + link previews. Set to your deployed URL once you have one.
   url: "https://example.com",
   description:
-    "Chloe Yun — aspiring UX & product designer. Information Analysis student at the University of Michigan School of Information.",
+    "Chloe Yun — Information Analysis / Data Science student at the University of Michigan, exploring the space between data, technology, and people.",
 
   /* CONTACT */
-  email: "", // e.g. "chloe@example.com"
-  linkedin: "", // e.g. "https://www.linkedin.com/in/your-handle"
-  github: "", // e.g. "https://github.com/your-handle"
-  resume: "", // e.g. "/resume.pdf" (put the PDF in /public)
+  email: "jennyyun@umich.edu",
+  linkedin: "https://www.linkedin.com/in/chloejiwonyun/",
+  github: "", // e.g. "https://github.com/your-handle" — hidden while empty
+  resume: "https://drive.google.com/file/d/1TuOWojUzS8913IjWCzmtRsSBz-P08I8j/view?usp=sharing", // or "/resume.pdf" in /public
 };
 
 /* Wrap a word in *asterisks* to set it in the italic accent font. */
 export const hero = {
-  eyebrow: "UX & product design · University of Michigan",
+  eyebrow: "data ✦ product ✦ people",
   headline: "hi, i’m *chloe*!",
-  text: "an aspiring UX & product designer who loves turning complex problems into thoughtful, human-centered experiences.",
-  status: "open to internships · [season & year]", // "" hides it
+  text: "I’m an Information Analysis / Data Science student at the University of Michigan with experience across AI research, technology, operations, and entertainment.",
+  status: "", // e.g. "open to internships · summer 2027" — "" hides it
   // Hero photos are the falling polaroids → content/polaroids.ts
 };
 
@@ -40,17 +40,19 @@ export const marquee = [
 ];
 
 export const about = {
-  heading: "where *people*, data, and design meet",
+  heading: "exploring the space between *data*, technology, and people",
   paragraphs: [
-    "I’m Chloe — a junior at the University of Michigan School of Information, studying Information Analysis with a minor in Data Science.",
-    "I’m drawn to design because it sits right between creativity and technology. I like starting with people — listening, observing, asking better questions — and then using data and craft to shape something that feels clear and kind to use.",
+    "My path into technology has been a little unconventional. I’m an Information Analysis / Data Science student at the University of Michigan, but before returning to school, I spent five years in the K-pop industry as a member of the girl group cignature.",
+    "Working in entertainment taught me to think deeply about audiences, communication, feedback, and collaboration — experiences that now influence how I approach technology and human-centered problem solving.",
+    "My work in data and AI has taught me another side of problem-solving: breaking complex problems into pieces, testing assumptions, iterating, and using evidence to make decisions.",
+    "UX interests me because it sits between those two worlds — analytical problem-solving and understanding people. I’m excited to bring that perspective to Atlas Digital while learning more about user research, product thinking, and design.",
   ],
-  photo: { src: "", alt: "Photo of Chloe Yun", caption: "[your photo]" },
+  photo: { src: "/images/about/chloe.jpg", alt: "Portrait of Chloe Yun", caption: "" },
   philosophy: [
-    { title: "Start with *people*", text: "Understand the humans and their context before deciding what to make." },
-    { title: "Let data *guide*", text: "Use evidence to see patterns clearly — and stay honest about what it can’t say." },
-    { title: "Craft with *care*", text: "Small details add up to experiences that feel thoughtful." },
+    { title: "Research + *analysis*", text: "Break complex problems into pieces, test assumptions, and use evidence to decide." },
+    { title: "Creative *thinking*", text: "Years on stage taught me to notice how people react and what resonates." },
+    { title: "*Collaborative*", text: "Music, choreography, production — great work comes from many teams toward one outcome." },
   ],
-  interests: ["user research", "interaction design", "data-informed design", "information visualization", "prototyping"],
-  offTheClock: "Outside of design you’ll find me doing Pilates, reading, playing board games with friends, or watching soccer.",
+  interests: ["user research", "product thinking", "data & AI", "information visualization", "human behavior"],
+  offTheClock: "Outside of school you’ll find me doing Pilates, reading, playing board games with friends, or watching soccer.",
 };

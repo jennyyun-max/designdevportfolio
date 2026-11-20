@@ -8,6 +8,7 @@ export const toneBg: Record<Tone, string> = {
   lavender: "bg-lavender",
   butter: "bg-butter",
   sage: "bg-sage",
+  ivory: "bg-ivory",
 };
 
 /* Image in a rounded frame with a fixed aspect ratio.
@@ -32,10 +33,18 @@ export default function MediaFrame({
   imageClassName?: string;
 }) {
   return (
-    <div className={`relative overflow-hidden rounded-[var(--radius-card)] ${toneBg[tone]} ${aspect} ${className}`}>
+    <div className={`relative overflow-hidden rounded-[var(--radius-card)] ${toneBg[tone]} ${image?.aspect ?? aspect} ${className}`}>
       <div className={`absolute inset-0 ${imageClassName}`}>
         {image?.src ? (
-          <Image src={image.src} alt={image.alt} fill sizes={sizes} priority={priority} className="object-cover" />
+          <Image
+            src={image.src}
+            alt={image.alt}
+            fill
+            sizes={sizes}
+            priority={priority}
+            className={image.fit === "contain" ? "object-contain" : "object-cover"}
+            style={image.focus ? { objectPosition: image.focus } : undefined}
+          />
         ) : (
           <PlaceholderArt variant={visual} />
         )}
