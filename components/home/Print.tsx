@@ -9,8 +9,9 @@ import type { DeskPrint, PrintLayout } from "@/lib/types";
 export type PrintPhase = "hanging" | "falling" | "landed";
 
 const SHADOW = {
-  rest: "0 1px 1px rgba(0,0,0,0.55), 0 10px 18px -8px rgba(0,0,0,0.75)",
-  air: "0 2px 3px rgba(0,0,0,0.4), 0 26px 40px -14px rgba(0,0,0,0.85)",
+  // soft, warm shadows — like real prints lying on paper
+  rest: "0 1px 2px rgba(58,38,32,0.14), 0 8px 18px -8px rgba(58,38,32,0.28)",
+  air: "0 2px 4px rgba(58,38,32,0.1), 0 24px 40px -16px rgba(58,38,32,0.32)",
 };
 
 const pct = (n: number) => `${n}%`;
@@ -149,7 +150,7 @@ export default function Print({
   };
 
   const well = (
-    <span className="relative block aspect-square overflow-hidden bg-[#2a2c30]">
+    <span className="relative block aspect-square overflow-hidden bg-[#efe4dc]">
       {print.src ? (
         <Image
           src={print.src}
@@ -167,7 +168,7 @@ export default function Print({
           style={{ objectPosition: print.focus ?? "50% 50%" }}
         />
       ) : (
-        <span className="absolute inset-0 shadow-[inset_0_1px_6px_rgba(0,0,0,0.55)]" aria-hidden="true" />
+        <span className="absolute inset-0 shadow-[inset_0_1px_5px_rgba(58,38,32,0.18)]" aria-hidden="true" />
       )}
     </span>
   );
@@ -206,10 +207,10 @@ export default function Print({
       onFocus={onFront}
       onKeyDown={onKeyDown}
     >
-      {/* thin silver thread it hangs from — gone once it lets go */}
+      {/* thin thread it hangs from — gone once it lets go */}
       {hang && (
         <span
-          className={`silver-thread pointer-events-none absolute bottom-full h-[22svh] w-px md:h-[120svh] transition-opacity duration-150 ${side === 1 ? "left-[6%]" : "right-[6%]"} ${
+          className={`silver-thread pointer-events-none absolute bottom-full h-[12svh] w-px md:h-[120svh] transition-opacity duration-150 ${side === 1 ? "left-[6%]" : "right-[6%]"} ${
             phase === "hanging" ? "opacity-100" : "opacity-0"
           }`}
           aria-hidden="true"
@@ -238,12 +239,12 @@ export default function Print({
               {well}
             </span>
           )}
-          <span className="mono flex aspect-[100/21] items-center justify-between gap-2 text-[max(0.56rem,5.4cqw)] uppercase leading-none tracking-[0.04em] text-[#2a2c30]">
+          <span className="mono flex aspect-[100/21] items-center justify-between gap-2 text-[max(0.56rem,5.4cqw)] uppercase leading-none tracking-[0.04em] text-fg">
             <span className="truncate">{print.caption}</span>
             {print.project && <span aria-hidden="true">↗</span>}
           </span>
         </div>
-        {/* selected print: pink hairline */}
+        {/* selected print: rose hairline */}
         <span
           className="pointer-events-none absolute inset-0 outline outline-1 outline-transparent transition-[outline-color] group-focus-within/print:outline-accent group-active/print:outline-accent"
           aria-hidden="true"

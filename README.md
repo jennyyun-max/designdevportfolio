@@ -45,7 +45,7 @@ You shouldn't need to touch components to update the site.
   short `caption`, optional `focus` (square crop, e.g. `"50% 30%"`), `size` (`"large"` / `"focal"`) and
   `project: "<slug>"` (the print then opens that case study). `desktop` / `mobile` set where it hangs
   (`hang`, omit to start on the floor) and where it lands (`rest`), in % of the hero — `y` is the height of
-  the print’s bottom edge (the silver floor is at 6 desktop / 5 mobile). Prints drop in the order listed.
+  the print’s bottom edge (the floor line is at 6 desktop / 5 mobile). Prints drop in the order listed.
 - **The reveal:** the print with `cover: true` (keep it last) hides `reveal` — a detail from the featured
   project. Its matching spot in the project screen is `spotlight.detail` in `content/projects.ts`
   (fractions of the screenshot). Change both together if you swap the featured project.
@@ -57,12 +57,14 @@ You shouldn't need to touch components to update the site.
 
 Colors live as CSS variables at the top of `app/globals.css`:
 
-`--bg` graphite canvas · `--surface` / `--surface-2` panels · `--line` hairlines · `--fg` cool-white
-type · `--muted` secondary type · `--silver` brushed-silver details · `--paper` print borders ·
-`--accent` electric pink — **only** for links, focus states and selected items.
+Warm pink and beige (from the earlier potato version): `--bg` cream page · `--surface` ivory ·
+`--surface-2` pink chips · `--line` hairlines · `--fg` espresso type · `--muted` / `--silver` secondary
+type · `--paper` ivory print borders · `--blush` featured-project backdrop · `--rose` decorative marks ·
+`--accent` deepened rose for hover, active and focus. The photos supply the bright colors. There are no
+dark-mode overrides, so the site looks the same in light and dark system settings.
 
-Fonts (loaded with `next/font` in `app/layout.tsx`): **Inter Tight** (oversized headings + body) and
-**JetBrains Mono** (captions, metadata, navigation).
+Fonts (loaded with `next/font` in `app/layout.tsx`): **Instrument Serif** (the homepage “hi, i’m chloe”),
+**Inter Tight** (headings + body) and **JetBrains Mono** (captions, metadata, navigation).
 
 ## Project structure
 
@@ -94,7 +96,7 @@ lib/types.ts            content types
   project is reachable by keyboard — and every project is also in Selected Work right below the hero.
   The white border picks a print up; arrow keys move a focused, landed print (Shift = bigger steps).
 - Touchscreens keep vertical scrolling everywhere (prints use `touch-action: pan-y`).
-- Skip link, visible pink focus outlines, labelled controls, keyboard-operable mobile menu, one `h1` per page.
+- Skip link, visible rose focus outlines, labelled controls, keyboard-operable mobile menu, one `h1` per page.
 
 ## Deploy with GitHub + Vercel
 

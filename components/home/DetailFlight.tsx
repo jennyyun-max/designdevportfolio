@@ -86,7 +86,7 @@ export default function DetailFlight() {
     <div
       ref={overlay}
       aria-hidden="true"
-      className="pointer-events-none fixed left-0 top-0 z-40 shadow-[0_0_0_1px_rgba(196,201,207,0.4),0_24px_50px_-14px_rgba(0,0,0,0.9)]"
+      className="pointer-events-none fixed left-0 top-0 z-40 shadow-[0_0_0_1px_rgba(58,38,32,0.12),0_18px_40px_-14px_rgba(58,38,32,0.35)]"
       style={{ visibility: "hidden" }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}

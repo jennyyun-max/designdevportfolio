@@ -12,11 +12,11 @@ export default function AboutSection() {
     <section id="about" aria-labelledby="about-heading" className="border-t border-line">
       <Container className="grid gap-10 py-24 sm:py-32 md:grid-cols-12 md:gap-10">
         <Reveal className="md:col-span-3">
-          <figure className="max-w-[12rem] -rotate-2 bg-paper p-[6%] pb-0 shadow-[0_24px_40px_-18px_rgba(0,0,0,0.9)]">
-            <div className="relative aspect-[4/5] bg-[#2a2c30]">
+          <figure className="max-w-[12rem] -rotate-2 bg-paper p-[6%] pb-0 shadow-[0_1px_2px_rgba(58,38,32,0.14),0_18px_32px_-16px_rgba(58,38,32,0.32)]">
+            <div className="relative aspect-[4/5] bg-[#efe4dc]">
               <Image src={about.photo.src} alt={about.photo.alt} fill sizes="192px" className="object-cover" />
             </div>
-            <figcaption className="mono flex h-9 items-center text-[0.6rem] uppercase tracking-[0.08em] text-[#2a2c30]">that’s me</figcaption>
+            <figcaption className="mono flex h-9 items-center text-[0.6rem] uppercase tracking-[0.08em] text-fg">that’s me</figcaption>
           </figure>
         </Reveal>
         <div className="md:col-span-8 md:col-start-5">

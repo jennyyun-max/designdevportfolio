@@ -4,7 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { hero, site } from "@/content/site";
+import { hero } from "@/content/site";
+import Rich from "../ui/Rich";
 import { dropSettings, prints, reveal } from "@/content/polaroids";
 import PhotoPreview from "../polaroids/PhotoPreview";
 import Print, { PRINT_WIDTH, type PrintPhase } from "./Print";
@@ -12,8 +13,8 @@ import Print, { PRINT_WIDTH, type PrintPhase } from "./Print";
 const ease = [0.22, 1, 0.36, 1] as const;
 const FLOOR = { desktop: 6, mobile: 5 }; // % of the hero, matches the `y` values in content/polaroids.ts
 
-/* The homepage hero, composed like an editorial spread: “Chloe Yun” anchored on the left,
-   a few large prints suspended on silver threads on the right, a silver floor at the bottom.
+/* The homepage hero, composed like an editorial spread: “hi, i’m chloe” anchored on the left,
+   a few large prints suspended on threads on the right, a warm floor line at the bottom.
    The hero is slightly shorter than the screen so the featured project peeks in below.
 
    Normal page scrolling: each print lets go once the page has scrolled past its threshold and
@@ -101,23 +102,19 @@ export default function DeskHero() {
     >
       {/* Name, anchored left */}
       <div className="absolute inset-x-5 top-[4%] md:left-[6%] md:right-auto md:top-[12%] md:w-[33%]">
-        <motion.p className="eyebrow" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }}>
-          {hero.eyebrow}
-        </motion.p>
         <motion.h1
           id="hero-heading"
-          className="display mt-3 whitespace-nowrap text-[min(19vw,10.5svh)] leading-[0.8] tracking-[-0.065em] md:text-[min(14vw,19svh)]"
+          className="font-serif text-[min(17vw,10svh)] font-normal leading-[0.92] tracking-[-0.01em] md:text-[min(9.5vw,15svh)]"
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease }}
         >
-          {site.name.split(" ")[0]}
-          <span className="md:block"> {site.name.split(" ").slice(1).join(" ")}</span>
+          <Rich text={hero.headline} />
         </motion.h1>
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.35, ease }}>
-          <p className="mt-4 max-w-[26rem] text-[clamp(0.98rem,1.4vw,1.15rem)] leading-snug md:mt-7">{hero.text}</p>
+          <p className="mt-3 max-w-[24rem] text-[clamp(1rem,1.4vw,1.2rem)] leading-snug md:mt-6">{hero.text}</p>
           <p className="mt-4 flex flex-wrap items-baseline gap-x-6 gap-y-2 md:mt-6">
-            <a href="#work" className="link mono text-[0.75rem] uppercase tracking-[0.08em]">
+            <a href="#work" className="link text-[1rem] text-fg">
               View my work ↓
             </a>
             <span id="prints-help" className="mono sr-only text-[0.68rem] uppercase tracking-[0.08em] text-muted md:not-sr-only">
@@ -127,7 +124,7 @@ export default function DeskHero() {
         </motion.div>
       </div>
 
-      {/* The floor: a thin silver line the prints land on */}
+      {/* The floor: a thin warm line the prints land on */}
       <div className="silver-line absolute inset-x-0 h-px" style={{ bottom: `${floor}%` }} aria-hidden="true" />
 
       {/* Drag area = everything above the floor */}
@@ -145,7 +142,7 @@ export default function DeskHero() {
             data-reveal-source
             data-revealed={revealed || reduced ? "true" : "false"}
             aria-label={`${reveal.alt}. Open the case study`}
-            className="absolute left-[7%] top-[13%] block aspect-[438/181] w-[86%] shadow-[0_0_0_1px_rgba(196,201,207,0.35),0_18px_40px_-12px_rgba(0,0,0,0.9)]"
+            className="absolute left-[7%] top-[13%] block aspect-[438/181] w-[86%] shadow-[0_0_0_1px_rgba(58,38,32,0.12),0_12px_28px_-12px_rgba(58,38,32,0.35)]"
           >
             <Image src={reveal.src} alt="" fill sizes="(min-width: 768px) 300px, 130px" className="object-cover" />
           </Link>

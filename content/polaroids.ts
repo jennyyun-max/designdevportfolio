@@ -65,7 +65,7 @@ export const prints: DeskPrint[] = [
     size: "focal",
     cover: true,
     desktop: { hang: { x: 60.5, y: 27, rotate: 2 }, rest: { x: 61, y: 6.5, rotate: -2 } },
-    mobile: { hang: { x: 35.5, y: 23, rotate: -2 }, rest: { x: 38, y: 6, rotate: 3 } },
+    mobile: { hang: { x: 35.5, y: 18, rotate: -2 }, rest: { x: 38, y: 6, rotate: 3 } },
   },
 ];
 

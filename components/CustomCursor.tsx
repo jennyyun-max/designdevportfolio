@@ -50,8 +50,8 @@ export default function CustomCursor() {
         width: size,
         height: size,
         opacity: visible ? 1 : 0,
-        backgroundColor: mode === "view" ? "rgba(238,241,244,0.95)" : "rgba(238,241,244,0)",
-        borderColor: mode === "view" ? "rgba(238,241,244,0)" : "rgba(196,201,207,0.6)",
+        backgroundColor: mode === "view" ? "rgba(58,38,32,0.92)" : "rgba(58,38,32,0)",
+        borderColor: mode === "view" ? "rgba(58,38,32,0)" : "rgba(58,38,32,0.45)",
       }}
       transition={{ type: "spring", stiffness: 380, damping: 30 }}
       initial={false}

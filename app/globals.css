@@ -2,18 +2,22 @@
 
 /* ------------------------------------------------------------------
    DESIGN TOKENS — change the palette here and it updates everywhere.
-   Graphite canvas · cool-white type · brushed silver · one pink accent.
+   Warm pink and beige, recovered from the earlier potato version.
+   The photos supply the bright colors. The same palette is used in
+   light and dark system settings (no dark-mode overrides on purpose).
    ------------------------------------------------------------------ */
 :root {
-  --bg: #0d0e10; /* graphite canvas */
-  --surface: #15171a; /* raised panels */
-  --surface-2: #1d2024; /* cards, chips */
-  --line: #2b2f34; /* hairlines */
-  --fg: #eef1f4; /* cool-white type */
-  --muted: #9ba2ab; /* secondary type — 7.6:1 on --bg */
-  --silver: #c4c9cf; /* brushed-silver details */
-  --accent: #ff2d87; /* electric pink: links, focus, selected — nothing else */
-  --paper: #f3f1ec; /* photo-print borders */
+  --bg: #fbf6ef; /* cream page */
+  --surface: #fffbf6; /* ivory raised surfaces */
+  --surface-2: #f8dedb; /* pink cards & chips */
+  --line: #ecdcd2; /* hairlines */
+  --fg: #3a2620; /* espresso type — 13:1 on --bg */
+  --muted: #6d5850; /* secondary type — 6.2:1 on --bg */
+  --silver: #6d5850; /* small details (indices, metadata) */
+  --accent: #a4524a; /* deepened rose: hover, active, focus — 5:1 on --bg */
+  --paper: #fffbf6; /* ivory photo-print borders */
+  --blush: #f2c4c0; /* signature pink: featured-project backdrop */
+  --rose: #c9736b; /* small decorative marks only (not text) */
 }
 
 @theme inline {
@@ -26,9 +30,12 @@
   --color-silver: var(--silver);
   --color-accent: var(--accent);
   --color-paper: var(--paper);
+  --color-blush: var(--blush);
+  --color-rose: var(--rose);
 
   --font-sans: var(--font-inter-tight), system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+  --font-serif: var(--font-instrument), Georgia, serif;
 
   --radius-card: 4px;
   --radius-button: 2px;
@@ -38,7 +45,7 @@
   html {
     background: var(--bg);
     color: var(--fg);
-    color-scheme: dark;
+    color-scheme: light;
     -webkit-text-size-adjust: 100%;
   }
   @media (prefers-reduced-motion: no-preference) {
@@ -60,15 +67,15 @@
     outline-offset: 3px;
   }
   ::selection {
-    background: var(--accent);
-    color: var(--bg);
+    background: var(--blush);
+    color: var(--fg);
   }
 }
 
 @layer components {
   /* Photo preview dialog */
   .photo-dialog::backdrop {
-    background: rgb(5 6 7 / 0.82);
+    background: rgb(58 38 32 / 0.55);
   }
 
   /* Oversized, tightly spaced sans headings. *word* renders in silver. */
@@ -101,20 +108,20 @@
     font-family: var(--font-mono);
   }
 
-  /* Brushed-silver hairline */
+  /* The hero's ground line: a soft warm hairline */
   .silver-line {
-    background: linear-gradient(90deg, transparent, #7d838a 12%, #e9ecef 50%, #7d838a 88%, transparent);
+    background: linear-gradient(90deg, transparent, #dcc5b9 12%, #c9ab9d 50%, #dcc5b9 88%, transparent);
   }
 
   /* The thread a hanging print is suspended from */
   .silver-thread {
-    background: linear-gradient(180deg, transparent, rgb(196 201 207 / 0.55) 40%, rgb(233 236 239 / 0.85));
+    background: linear-gradient(180deg, transparent, rgb(58 38 32 / 0.18) 40%, rgb(58 38 32 / 0.35));
   }
 
   /* While the hero detail flies into the featured screen, its spot shows as an empty slot */
   [data-reveal-target][data-flight="on"] {
     background: var(--bg);
-    outline-color: var(--silver);
+    outline-color: var(--rose);
   }
 
   /* Nav links: underline slides in from the left */
@@ -129,9 +136,9 @@
     background-size: 100% 1px;
   }
 
-  /* Text links: pink underline that thickens on hover */
+  /* Text links: thin espresso underline that thickens on hover */
   .link {
-    background-image: linear-gradient(var(--accent), var(--accent));
+    background-image: linear-gradient(var(--fg), var(--fg));
     background-size: 100% 1px;
     background-position: 0 100%;
     background-repeat: no-repeat;

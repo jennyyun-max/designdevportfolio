@@ -18,8 +18,8 @@ function Spotlight({ project }: { project: Project }) {
   return (
     <article aria-labelledby={`${project.slug}-title`}>
       <Link href={`/work/${project.slug}`} data-cursor="view" className="group block" aria-label={`${project.title} — read the case study`}>
-        <div className="relative bg-paper p-[1.2%] shadow-[0_40px_80px_-40px_rgba(0,0,0,0.9)]">
-          <div className="relative" style={{ aspectRatio: "1440 / 560" }}>
+        <div className="relative bg-blush p-[3%]">
+          <div className="relative bg-paper shadow-[0_1px_2px_rgba(58,38,32,0.12),0_22px_44px_-22px_rgba(58,38,32,0.4)]" style={{ aspectRatio: "1440 / 560" }}>
             <Image src={s.image.src} alt={s.image.alt} fill priority sizes="(min-width: 1216px) 1136px, 100vw" className="object-cover object-top" />
             <span
               data-reveal-target

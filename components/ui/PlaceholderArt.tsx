@@ -4,8 +4,8 @@ import type { Visual } from "@/lib/types";
    Drawn on an 800×600 canvas; key shapes stay inside y 140–460 so the
    wide (21:9) featured crop still shows the whole composition. */
 
-const INK = "#c4c9cf";
-const PAPER = "#1d2024";
+const INK = "#6d5850";
+const PAPER = "#fffbf6";
 
 function Frames() {
   return (

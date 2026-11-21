@@ -28,11 +28,11 @@ export default function AboutPage() {
           <p className="mt-8 max-w-[36rem] text-[clamp(1.1rem,1.6vw,1.35rem)] leading-snug">{story.lead}</p>
         </div>
         <Reveal className="md:col-span-4 md:col-start-9 md:pt-10">
-          <figure className="mx-auto max-w-[19rem] rotate-[2deg] bg-paper p-[6%] pb-0 shadow-[0_1px_0_rgba(0,0,0,0.5),0_30px_50px_-20px_rgba(0,0,0,0.9)] md:max-w-none">
-            <div className="relative aspect-[4/5] bg-[#2a2c30]">
+          <figure className="mx-auto max-w-[19rem] rotate-[2deg] bg-paper p-[6%] pb-0 shadow-[0_1px_2px_rgba(58,38,32,0.14),0_24px_44px_-20px_rgba(58,38,32,0.32)] md:max-w-none">
+            <div className="relative aspect-[4/5] bg-[#efe4dc]">
               <Image src={about.photo.src} alt={about.photo.alt} fill priority sizes="(min-width: 768px) 360px, 300px" className="object-cover" />
             </div>
-            <figcaption className="mono flex h-12 items-center text-[0.68rem] uppercase tracking-[0.08em] text-[#2a2c30]">Chloe Yun · Ann Arbor</figcaption>
+            <figcaption className="mono flex h-12 items-center text-[0.68rem] uppercase tracking-[0.08em] text-fg">Chloe Yun · Ann Arbor</figcaption>
           </figure>
         </Reveal>
       </Container>

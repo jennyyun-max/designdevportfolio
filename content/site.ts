@@ -20,9 +20,10 @@ export const site = {
 
 /* Wrap a word in *asterisks* to set it in the italic accent font. */
 export const hero = {
-  eyebrow: "From stage to screen",
-  headline: "hi, i’m *chloe*!",
-  text: "I used to perform on stage with cignature. Now I design interfaces at Michigan.",
+  // Headline in Instrument Serif; *chloe* is set in its italic, like the earlier potato version
+  headline: "hi, i’m *chloe*",
+  // Your original intro sentence from the potato version of the site
+  text: "an aspiring UX & product designer who loves turning complex problems into thoughtful, human-centered experiences.",
   status: "", // e.g. "open to internships · summer 2027" — "" hides it
   // Hero photos are the falling polaroids → content/polaroids.ts
 };

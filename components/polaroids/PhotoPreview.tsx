@@ -31,7 +31,7 @@ export default function PhotoPreview({ photo, onClose }: { photo: (DeskPrint & {
       {photo && (
         <motion.figure
           key={photo.src}
-          className="relative bg-paper p-4 pb-2 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.8)] sm:p-5 sm:pb-3"
+          className="relative bg-paper p-4 pb-2 shadow-[0_30px_60px_-20px_rgba(58,38,32,0.45)] sm:p-5 sm:pb-3"
           initial={{ opacity: 0, scale: 0.9, rotate: photo.rotate * 0.6 }}
           animate={{ opacity: 1, scale: 1, rotate: photo.rotate * 0.15 }}
           transition={{ type: "spring", stiffness: 260, damping: 22 }}
@@ -40,9 +40,9 @@ export default function PhotoPreview({ photo, onClose }: { photo: (DeskPrint & {
           <img
             src={photo.src}
             alt={photo.alt}
-            className="block max-h-[68vh] w-auto max-w-[min(84vw,40rem)] bg-[#d9d6cf] object-contain"
+            className="block max-h-[68vh] w-auto max-w-[min(84vw,40rem)] bg-[#efe4dc] object-contain"
           />
-          <figcaption className="mono flex min-h-[3rem] items-center justify-center px-2 text-center text-[0.8rem] uppercase tracking-[0.08em] text-[#2a2c30]">
+          <figcaption className="mono flex min-h-[3rem] items-center justify-center px-2 text-center text-[0.8rem] uppercase tracking-[0.08em] text-fg">
             {photo.caption}
           </figcaption>
           <button
