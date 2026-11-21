@@ -5,6 +5,7 @@ import Link from "next/link";
 import { animate, motion, useDragControls, useMotionValue, type TargetAndTransition, type Transition } from "motion/react";
 import { useRef, type KeyboardEvent, type PointerEvent, type RefObject } from "react";
 import type { DeskPrint, PrintLayout } from "@/lib/types";
+import { MichiganSketch } from "../intro/Sketch";
 
 export type PrintPhase = "hanging" | "falling" | "landed";
 
@@ -21,6 +22,7 @@ export const PRINT_WIDTH = {
   regular: "w-[min(26vw,16svh)] md:w-[min(14vw,24svh)]",
   large: "w-[min(30vw,18svh)] md:w-[min(17vw,30svh)]",
   focal: "w-[min(34vw,20svh)] md:w-[min(22vw,40svh)]",
+  hero: "w-[min(52vw,30svh)] md:w-[min(22vw,40svh)]", // the Michigan drawing: bigger on phones
 } as const;
 
 /* One physical photo print, pinned by one top corner.
@@ -149,7 +151,11 @@ export default function Print({
     y.set(y.get() + Math.max(bounds.top - me.top, Math.min(delta[1], bounds.bottom - me.bottom)));
   };
 
-  const well = (
+  const well = print.art ? (
+    <span className="paper-grain relative block aspect-square overflow-hidden bg-[#ebe1cf]">
+      <MichiganSketch />
+    </span>
+  ) : (
     <span className="relative block aspect-square overflow-hidden bg-[#efe4dc]">
       {print.src ? (
         <Image
@@ -157,7 +163,7 @@ export default function Print({
           alt=""
           fill
           sizes={
-            print.size === "focal"
+            print.size === "focal" || print.size === "hero"
               ? "(min-width: 768px) 440px, 170px"
               : print.size === "large"
                 ? "(min-width: 768px) 360px, 140px"
@@ -182,6 +188,9 @@ export default function Print({
       className={`group/print absolute select-none ${PRINT_WIDTH[print.size ?? "regular"]} ${phase === "landed" ? "cursor-grab active:cursor-grabbing" : ""}`}
       // pinned by one top corner: rotation (hanging, tipping, settling) pivots there
       style={{ x, y, zIndex, touchAction: "pan-y", originX: side === 1 ? 0 : 1, originY: 0 }}
+      // the intro’s last frame slides onto this print
+      data-intro-print={print.art ? "" : undefined}
+      data-rotate={print.art ? (hang ?? rest).rotate : undefined}
       initial={
         phase === "hanging" && hang ? at(hang) : deal !== undefined ? { ...at(rest), opacity: 0, scale: 1.12, rotate: rest.rotate + side * 10 } : at(rest)
       }
@@ -193,10 +202,12 @@ export default function Print({
           onLanded();
         }
       }}
-      drag
+      // only once it's down: prints waiting above the screen are outside the bounds, and Motion
+      // would otherwise "correct" them into the bounds and keep that offset after they land
+      drag={phase === "landed"}
       dragControls={controls}
       dragListener={false}
-      dragConstraints={boundsRef}
+      dragConstraints={phase === "landed" ? boundsRef : undefined}
       dragElastic={0.08}
       dragTransition={{ power: 0.28, timeConstant: 260, bounceStiffness: 320, bounceDamping: 24 }}
       whileDrag={{ scale: 1.04 }}
@@ -207,8 +218,8 @@ export default function Print({
       onFocus={onFront}
       onKeyDown={onKeyDown}
     >
-      {/* thin thread it hangs from — gone once it lets go */}
-      {hang && (
+      {/* thin thread it hangs from — gone once it lets go (prints raining in from above have none) */}
+      {hang && hang.y < 100 && (
         <span
           className={`silver-thread pointer-events-none absolute bottom-full h-[12svh] w-px md:h-[120svh] transition-opacity duration-150 ${side === 1 ? "left-[6%]" : "right-[6%]"} ${
             phase === "hanging" ? "opacity-100" : "opacity-0"
@@ -230,12 +241,12 @@ export default function Print({
             >
               {well}
             </Link>
-          ) : print.src ? (
+          ) : print.src && !print.art ? (
             <button type="button" data-well aria-label={`${label}${print.alt}. Open the photo`} className={`${wellClass} w-full`} onClick={onOpenPhoto}>
               {well}
             </button>
           ) : (
-            <span role="img" aria-label={`${label}empty photo well`} className="block">
+            <span role="img" aria-label={print.art ? print.alt : `${label}empty photo well`} className="block">
               {well}
             </span>
           )}

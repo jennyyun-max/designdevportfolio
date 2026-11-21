@@ -45,12 +45,19 @@ You shouldn't need to touch components to update the site.
   short `caption`, optional `focus` (square crop, e.g. `"50% 30%"`), `size` (`"large"` / `"focal"`) and
   `project: "<slug>"` (the print then opens that case study). `desktop` / `mobile` set where it hangs
   (`hang`, omit to start on the floor) and where it lands (`rest`), in % of the hero — `y` is the height of
-  the print’s bottom edge (the floor line is at 6 desktop / 5 mobile). Prints drop in the order listed.
-- **The reveal:** the print with `cover: true` (keep it last) hides `reveal` — a detail from the featured
+  the print’s bottom edge (the floor line is at 6 desktop / 5 mobile). A `hang.y` above 100 starts the print
+  off-screen, so it rains in. `art: "michigan"` shows the intro’s last frame instead of a photo.
+- **The reveal:** the print with `cover: true` (the Michigan drawing) hides `reveal` — a detail from the featured
   project. Its matching spot in the project screen is `spotlight.detail` in `content/projects.ts`
   (fractions of the screenshot). Change both together if you swap the featured project.
-- **Drop timing:** `dropSettings` — `firstDropAt` (scroll before the first drop), `dropEvery` (scroll
-  between drops), `tipSeconds` (how long a print hangs by one corner) and `fallSeconds` (how heavy it feels).
+- **Drop timing:** `dropSettings` — `firstDropAt` (scroll before the Michigan print drops), `rainDelay` /
+  `rainEvery` (when the other prints rain in), `tipSeconds` (how long it hangs by one corner) and
+  `fallSeconds` (how heavy the prints feel).
+- **The intro:** the hand-drawn story (California → Korea → Michigan) is drawn in
+  `components/intro/Sketch.tsx`; every timing is in seconds in `components/intro/timeline.ts`. It plays on
+  entering the homepage, once per browser session (the small script in `app/layout.tsx` decides), never for
+  direct links such as `/#work` or a case study, and not for reduced-motion visitors. To see it again, open
+  the site in a new tab or clear the `intro-seen` key in session storage.
 - **Play:** `playPrints` — just a list; the table lays them out automatically.
 
 ## Design system
@@ -74,9 +81,9 @@ app/
   page.tsx              homepage
   work/[slug]/page.tsx  case-study pages (statically generated)
   play/, about/         photo archive and the full story
-  template.tsx          page transition
   not-found.tsx, sitemap.ts, robots.ts, icon.svg
 components/
+  intro/                IntroStory (overlay, skip, hand-off to the hero print), Sketch (the drawings), timeline
   home/                 DeskHero (scroll-released prints), Print (tip, fall, toss), DetailFlight (reveal →
                         spread), SelectedWork (Brookfield spread + project rows), AboutSection, ContactSection
   play/                 PlayTable (the photo archive at /play)
@@ -90,8 +97,9 @@ lib/types.ts            content types
 
 ## Accessibility & motion
 
-- Respects `prefers-reduced-motion`: prints start settled on the floor, the featured detail is visible,
-  the detail flight is off, and reveals, page transitions and the custom cursor are reduced or off.
+- Respects `prefers-reduced-motion`: no intro (the finished Michigan drawing hangs beside the greeting),
+  the other prints start settled on the floor, the detail flight is off, and reveals and the custom cursor
+  are reduced or off.
 - Prints: the photo well is a real button (opens the photo) or link (opens the case study), so every
   project is reachable by keyboard — and every project is also in Selected Work right below the hero.
   The white border picks a print up; arrow keys move a focused, landed print (Shift = bigger steps).

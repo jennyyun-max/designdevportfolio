@@ -13,13 +13,13 @@ import Print, { PRINT_WIDTH, type PrintPhase } from "./Print";
 const ease = [0.22, 1, 0.36, 1] as const;
 const FLOOR = { desktop: 6, mobile: 5 }; // % of the hero, matches the `y` values in content/polaroids.ts
 
-/* The homepage hero, composed like an editorial spread: “hi, i’m chloe” anchored on the left,
-   a few large prints suspended on threads on the right, a warm floor line at the bottom.
-   The hero is slightly shorter than the screen so the featured project peeks in below.
+/* The homepage hero: “hi, i’m chloe” on the left and, beside it, the Michigan drawing the
+   intro ends on, hanging from a thread. A warm floor line runs along the bottom; the hero is
+   slightly shorter than the screen so the featured project peeks in below.
 
-   Normal page scrolling: each print lets go once the page has scrolled past its threshold and
-   then finishes its fall on its own. The last print hides a detail from the featured project;
-   Selected Work (DetailFlight) carries that detail into the project spread. */
+   On the first downward scroll the Michigan print drops, and the other prints rain in from
+   above the screen. Each finishes its fall on its own. The Michigan print hides a detail from
+   the featured project; Selected Work (DetailFlight) carries that detail into the spread. */
 export default function DeskHero() {
   const boundsRef = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
@@ -44,32 +44,31 @@ export default function DeskHero() {
   const fallingOrder = useMemo(() => visible.filter((v) => v.layout!.hang).map((v) => v.i), [visible]);
   const cover = visible.find((v) => v.print.cover && v.layout!.hang);
 
-  // Reset when the layout changes; reduced-motion visitors start with everything on the floor
+  // Reset when the layout changes. Reduced-motion visitors get a settled hero: the Michigan
+  // drawing beside the greeting, every other print already on the floor.
   useEffect(() => {
-    setPhases(prints.map((p) => ((isDesktop ? p.desktop : p.mobile)?.hang && !reduced ? "hanging" : "landed")));
+    setPhases(prints.map((p) => ((isDesktop ? p.desktop : p.mobile)?.hang && (!reduced || p.cover) ? "hanging" : "landed")));
     setStack(prints.map((_, i) => i));
   }, [isDesktop, reduced]);
 
-  // Release prints as the page scrolls. Once released, a print keeps falling even if scrolling stops.
+  // First downward scroll: drop the Michigan print, then rain the rest in, one after another.
+  // Once released, a print keeps falling even if scrolling stops.
   useEffect(() => {
     if (reduced || !fallingOrder.length) return;
     let frame = 0;
+    const timers: number[] = [];
+    const release = (i: number) =>
+      setPhases((ph) => (ph[i] === "hanging" ? ph.map((p, n) => (n === i ? "falling" : p)) : ph));
     const check = () => {
       frame = 0;
-      const vh = window.innerHeight / 100;
-      const released = fallingOrder.filter((_, n) => window.scrollY >= (dropSettings.firstDropAt + n * dropSettings.dropEvery) * vh);
-      if (!released.length) return;
-      setPhases((ph) => {
-        let changed = false;
-        const next = ph.map((p, i) => {
-          if (p === "hanging" && released.includes(i)) {
-            changed = true;
-            return "falling" as const;
-          }
-          return p;
-        });
-        return changed ? next : ph;
-      });
+      if (document.documentElement.dataset.intro === "play") return; // nothing drops while the intro is on screen
+      if (window.scrollY < (dropSettings.firstDropAt * window.innerHeight) / 100) return;
+      window.removeEventListener("scroll", onScroll);
+      const first = cover?.i ?? fallingOrder[0];
+      release(first);
+      fallingOrder
+        .filter((i) => i !== first)
+        .forEach((i, n) => timers.push(window.setTimeout(() => release(i), (dropSettings.rainDelay + n * dropSettings.rainEvery) * 1000)));
     };
     const onScroll = () => {
       if (!frame) frame = requestAnimationFrame(check);
@@ -79,8 +78,9 @@ export default function DeskHero() {
     return () => {
       window.removeEventListener("scroll", onScroll);
       cancelAnimationFrame(frame);
+      timers.forEach(clearTimeout);
     };
-  }, [fallingOrder, reduced]);
+  }, [fallingOrder, cover?.i, reduced]);
 
   const bringToFront = useCallback((i: number) => setStack((s) => (s[s.length - 1] === i ? s : [...s.filter((n) => n !== i), i])), []);
   const land = useCallback(
@@ -160,7 +160,7 @@ export default function DeskHero() {
               phase={phases[i]}
               zIndex={10 + stack.indexOf(i)}
               fallSeconds={dropSettings.fallSeconds}
-              tipSeconds={dropSettings.tipSeconds}
+              tipSeconds={print.cover ? dropSettings.tipSeconds : 0}
               boundsRef={boundsRef}
               onLanded={() => land(i)}
               onFront={() => bringToFront(i)}

@@ -11,26 +11,30 @@ import type { DeskPrint } from "@/lib/types";
 
 /* Drop timing for the homepage prints — tweak these to change how they fall. */
 export const dropSettings = {
-  /** How far the visitor scrolls (in % of screen height) before the first print lets go */
+  /** How far the visitor scrolls (in % of screen height) before the Michigan print lets go */
   firstDropAt: 2,
-  /** Extra scrolling (% of screen height) between one drop and the next */
-  dropEvery: 5,
-  /** Seconds a print hangs by one corner (tipping) before it falls */
+  /** Seconds after that before the other prints start raining in from above */
+  rainDelay: 0.25,
+  /** Seconds between one raining print and the next */
+  rainEvery: 0.2,
+  /** Seconds the Michigan print hangs by one corner (tipping) before it falls */
   tipSeconds: 0.38,
   /** Seconds for a print to fall the full height of the hero (bigger = slower, heavier) */
   fallSeconds: 1.1,
 };
 
 /* ------------------------------------------------------------------
-   HOMEPAGE HERO — prints suspended on the right, at different heights.
+   HOMEPAGE HERO — the Michigan drawing from the intro hangs beside
+   “hi, i’m chloe”. On the first scroll it drops, and the others rain
+   in from above the screen.
    Positions are % of the hero: x = left edge, y = height of the
-   print’s bottom edge above the bottom of the hero (the silver floor
-   is at 6 on desktop, 5 on mobile). `hang` = where it waits before
-   dropping (omit it and the print starts on the floor). Prints drop
-   in the order listed. Omit `desktop` or `mobile` to hide a print.
+   print’s bottom edge above the bottom of the hero (the floor line
+   is at 6 on desktop, 5 on mobile). `hang` = where it waits: a `y`
+   above 100 is off-screen, so that print rains in (no thread).
+   Omit `desktop` or `mobile` to hide a print there.
 
    The print marked `cover: true` hides the featured project detail
-   (`reveal` below). Keep it last so its fall is the payoff.
+   (`reveal` below), which shows once it drops.
    ------------------------------------------------------------------ */
 export const reveal = {
   src: "/images/projects/brookfield/irr-detail.webp",
@@ -45,8 +49,20 @@ export const prints: DeskPrint[] = [
     caption: "that’s me",
     focus: "50% 25%",
     size: "large",
-    desktop: { hang: { x: 41, y: 52, rotate: -4 }, rest: { x: 47, y: 6.5, rotate: -5 } },
-    mobile: { hang: { x: 1, y: 32, rotate: -3 }, rest: { x: 8, y: 5.5, rotate: -5 } },
+    desktop: { hang: { x: 63, y: 135, rotate: -16 }, rest: { x: 61, y: 6.5, rotate: 4 } },
+    mobile: { hang: { x: 4, y: 150, rotate: -16 }, rest: { x: 3, y: 5.5, rotate: -6 } },
+  },
+  {
+    // The intro's last frame (drawn in components/intro/Sketch.tsx). Second in the list → pinned by its
+    // right corner, so on phones its thread stays clear of the intro text
+    src: "",
+    art: "michigan",
+    alt: "Pencil drawing of Chloe smiling at a University of Michigan library desk, tapping a button she designed on her laptop",
+    caption: "",
+    size: "hero",
+    cover: true,
+    desktop: { hang: { x: 43, y: 30, rotate: -3 }, rest: { x: 41, y: 6.5, rotate: -5 } },
+    mobile: { hang: { x: 24, y: 14, rotate: -2 }, rest: { x: 22, y: 5.5, rotate: -4 } },
   },
   {
     src: "/images/projects/lumen/01-cover.png",
@@ -54,18 +70,14 @@ export const prints: DeskPrint[] = [
     caption: "LUMEN",
     focus: "68% 45%",
     project: "lumen",
-    desktop: { hang: { x: 84, y: 63, rotate: 4 }, rest: { x: 79, y: 6, rotate: 5 } },
-    mobile: { hang: { x: 73, y: 33, rotate: 3 }, rest: { x: 70, y: 5.5, rotate: 6 } },
+    desktop: { hang: { x: 78, y: 140, rotate: 14 }, rest: { x: 76, y: 6, rotate: -5 } },
+    mobile: { hang: { x: 72, y: 150, rotate: 14 }, rest: { x: 71, y: 5.5, rotate: 6 } },
   },
   {
-    // The cover — the most vivid image, last to fall; it hides the Brookfield detail
     src: "/images/polaroids/sweetie-but-saltie.jpg",
     alt: "cignature lying in a circle holding telephones",
     caption: "sweetie but saltie",
-    size: "focal",
-    cover: true,
-    desktop: { hang: { x: 60.5, y: 27, rotate: 2 }, rest: { x: 61, y: 6.5, rotate: -2 } },
-    mobile: { hang: { x: 35.5, y: 18, rotate: -2 }, rest: { x: 38, y: 6, rotate: 3 } },
+    desktop: { hang: { x: 87, y: 150, rotate: -12 }, rest: { x: 85, y: 7, rotate: 6 } },
   },
 ];
 

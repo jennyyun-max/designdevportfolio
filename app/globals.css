@@ -73,6 +73,40 @@
 }
 
 @layer components {
+  /* ---- The hand-drawn intro (components/intro) ---- */
+  .intro {
+    display: none;
+    --pw: min(62vw, 44svh); /* Polaroid width it pulls back into */
+  }
+  @media (min-width: 768px) {
+    .intro {
+      --pw: min(30vw, 52svh);
+    }
+  }
+  html[data-intro="play"] {
+    overflow: hidden;
+  }
+  html[data-intro="play"] .intro {
+    display: block;
+  }
+  html[data-intro="play"] [data-intro-print] {
+    visibility: hidden;
+  }
+  [class^="ik-"],
+  [class*=" ik-"] {
+    transform-box: view-box;
+    transform-origin: 0 0;
+  }
+  /* Paper grain over the drawings */
+  .paper-grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.3 0 0 0 0 0.23 0 0 0 0 0.2 0 0 0 0.16 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+
   /* Photo preview dialog */
   .photo-dialog::backdrop {
     background: rgb(58 38 32 / 0.55);

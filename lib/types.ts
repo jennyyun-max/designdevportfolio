@@ -100,10 +100,12 @@ export interface DeskPrint {
   focus?: string;
   /** Project slug → clicking the print opens that case study instead of the photo */
   project?: string;
-  /** "large" or "focal" (the hero’s main image); default is regular */
-  size?: "large" | "focal";
-  /** This print hides the Brookfield detail; it should be the last one to fall */
+  /** "large", "focal" or "hero" (the homepage’s main print, bigger on phones); default is regular */
+  size?: "large" | "focal" | "hero";
+  /** This print hides the Brookfield detail and is the first to drop */
   cover?: boolean;
+  /** Show a drawing instead of a photo: "michigan" = the last frame of the hand-drawn intro */
+  art?: "michigan";
   /** Omit a layout to hide the print there */
   desktop?: PrintLayout;
   mobile?: PrintLayout;
