@@ -100,13 +100,13 @@ export default function DeskHero() {
       className="relative h-[calc(100svh-4.5rem-9svh)] min-h-[30rem] overflow-hidden md:h-[calc(100svh-4.5rem-13svh)] md:min-h-[34rem]"
     >
       {/* Name, anchored left */}
-      <div className="absolute inset-x-5 top-[4%] md:left-[6%] md:right-auto md:top-[14%] md:w-[34%]">
+      <div className="absolute inset-x-5 top-[4%] md:left-[6%] md:right-auto md:top-[12%] md:w-[33%]">
         <motion.p className="eyebrow" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }}>
           {hero.eyebrow}
         </motion.p>
         <motion.h1
           id="hero-heading"
-          className="display mt-3 whitespace-nowrap text-[min(19vw,10.5svh)] leading-[0.8] tracking-[-0.065em] md:text-[min(13vw,17svh)]"
+          className="display mt-3 whitespace-nowrap text-[min(19vw,10.5svh)] leading-[0.8] tracking-[-0.065em] md:text-[min(14vw,19svh)]"
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease }}

@@ -58,7 +58,10 @@ export default function DetailFlight() {
       // Once Selected Work reaches the top (e.g. after “View my work”), the detail is home
       const work = document.getElementById("work")?.getBoundingClientRect();
       if (work && work.top <= 80) return show(1);
-      const end = Math.max(start + vh * 0.15, y + t.top - vh * 0.4);
+      // Arrive when the target reaches 40% of the screen or Selected Work reaches the header — whichever
+      // comes first — so the detail lands smoothly instead of snapping into place
+      const arrive = Math.min(y + t.top - vh * 0.4, work ? y + work.top - 80 : Infinity);
+      const end = Math.max(start + vh * 0.15, arrive);
       show(clamp((y - start) / (end - start)));
     };
 

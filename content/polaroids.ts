@@ -45,8 +45,8 @@ export const prints: DeskPrint[] = [
     caption: "that’s me",
     focus: "50% 25%",
     size: "large",
-    desktop: { hang: { x: 41, y: 53, rotate: -5 }, rest: { x: 51, y: 6.5, rotate: -4 } },
-    mobile: { hang: { x: 3, y: 32, rotate: -6 }, rest: { x: 22, y: 5.5, rotate: 5 } },
+    desktop: { hang: { x: 41, y: 52, rotate: -4 }, rest: { x: 47, y: 6.5, rotate: -5 } },
+    mobile: { hang: { x: 1, y: 32, rotate: -3 }, rest: { x: 8, y: 5.5, rotate: -5 } },
   },
   {
     src: "/images/projects/lumen/01-cover.png",
@@ -54,15 +54,8 @@ export const prints: DeskPrint[] = [
     caption: "LUMEN",
     focus: "68% 45%",
     project: "lumen",
-    desktop: { hang: { x: 85, y: 62, rotate: 5 }, rest: { x: 80, y: 6, rotate: 4 } },
-  },
-  {
-    // Photo removed — original file kept at /images/polaroids/cignature-stadium.jpg
-    src: "",
-    alt: "Empty photo well",
-    caption: "cignature",
-    desktop: { hang: { x: 84.5, y: 20, rotate: -4 }, rest: { x: 40, y: 6, rotate: -6 } },
-    mobile: { hang: { x: 70, y: 33, rotate: 5 }, rest: { x: 72, y: 5.5, rotate: -5 } },
+    desktop: { hang: { x: 84, y: 63, rotate: 4 }, rest: { x: 79, y: 6, rotate: 5 } },
+    mobile: { hang: { x: 73, y: 33, rotate: 3 }, rest: { x: 70, y: 5.5, rotate: 6 } },
   },
   {
     // The cover — the most vivid image, last to fall; it hides the Brookfield detail
@@ -71,33 +64,8 @@ export const prints: DeskPrint[] = [
     caption: "sweetie but saltie",
     size: "focal",
     cover: true,
-    desktop: { hang: { x: 57.5, y: 28, rotate: 2 }, rest: { x: 62, y: 6.5, rotate: -3 } },
-    mobile: { hang: { x: 35, y: 23, rotate: -2 }, rest: { x: 45, y: 6, rotate: -3 } },
-  },
-
-  /* Already on the floor when the page opens */
-  {
-    // Photo removed — original file kept at /images/polaroids/cignature-group.jpg
-    src: "",
-    alt: "Empty photo well",
-    caption: "the girls",
-    desktop: { rest: { x: 45, y: 7, rotate: 7 } },
-    mobile: { rest: { x: 2, y: 5, rotate: -6 } },
-  },
-  {
-    src: "/images/projects/costco/cover.webp",
-    alt: "Costco app redesign screens",
-    caption: "costco redesign",
-    focus: "62% 50%",
-    project: "costco-redesign",
-    desktop: { rest: { x: 72, y: 6, rotate: 5 } },
-  },
-  {
-    src: "/images/projects/nuseum/logo.webp",
-    alt: "NUSEUM logo",
-    caption: "NUSEUM",
-    project: "nuseum",
-    desktop: { rest: { x: 85, y: 6.5, rotate: -3 } },
+    desktop: { hang: { x: 60.5, y: 27, rotate: 2 }, rest: { x: 61, y: 6.5, rotate: -2 } },
+    mobile: { hang: { x: 35.5, y: 23, rotate: -2 }, rest: { x: 38, y: 6, rotate: 3 } },
   },
 ];
 
