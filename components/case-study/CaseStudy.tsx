@@ -7,7 +7,7 @@ import MediaFrame from "../ui/MediaFrame";
 import RevealImage from "../ui/RevealImage";
 import SplitHeading from "../ui/SplitHeading";
 import ReadingProgress from "./ReadingProgress";
-import { toolsOf } from "../work/ProjectTile";
+import { previewOf, toolsOf } from "../work/ProjectTile";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
@@ -297,7 +297,7 @@ export default function CaseStudy({ project, next }: { project: Project; index: 
           </dl>
         </div>
         <div className="mt-12">
-          <RevealImage image={project.cover} aspect="aspect-[4/3] md:aspect-[16/8]" sizes="(min-width: 1600px) 1540px, 100vw" priority parallax={4} />
+          <RevealImage {...previewOf(project)} aspect="aspect-[4/3] md:aspect-[16/8]" sizes="(min-width: 1600px) 1540px, 100vw" priority />
         </div>
       </header>
 
@@ -345,16 +345,21 @@ export default function CaseStudy({ project, next }: { project: Project; index: 
             </p>
             <p className="mt-4 max-w-[40ch] text-muted">{next.tagline ?? next.description}</p>
           </div>
-          <div className="relative aspect-[16/10] overflow-hidden bg-stone md:col-span-7">
-            <Image
-              src={next.cover.src}
-              alt=""
-              fill
-              sizes="(min-width: 768px) 58vw, 100vw"
-              className={`transition-transform duration-[1.2s] ease-[var(--ease-out-expo)] group-hover:scale-[1.03] ${next.cover.fit === "contain" ? "object-contain p-[4%]" : "object-cover"}`}
-              style={{ objectPosition: next.cover.focus ?? "50% 50%" }}
-            />
-          </div>
+          {(() => {
+            const { image, ratio } = previewOf(next);
+            return (
+              <div className="relative aspect-[16/10] self-start overflow-hidden bg-stone md:col-span-7" style={ratio ? { aspectRatio: ratio } : undefined}>
+                <Image
+                  src={image.src}
+                  alt=""
+                  fill
+                  sizes="(min-width: 768px) 58vw, 100vw"
+                  className={`transition-transform duration-[1.2s] ease-[var(--ease-out-expo)] group-hover:scale-[1.03] ${image.fit === "contain" ? "object-contain p-[4%]" : "object-cover"}`}
+                  style={{ objectPosition: image.focus ?? "50% 50%" }}
+                />
+              </div>
+            );
+          })()}
         </Link>
       </aside>
     </article>

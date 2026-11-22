@@ -20,6 +20,8 @@ export const projects: Project[] = [
     description:
       "One searchable source of truth for Brookfield Renewable’s 100+ Excel deal models — every number traced back to the cell it came from.",
     cover: { src: "/images/projects/brookfield/project-page.webp", alt: "Knowledge Hub project page for Solar Alpha, flagging two different IRRs" },
+    // a long UI screenshot: widescreen crop anchored to the top, where the two-IRR warning is
+    preview: { ratio: "16 / 9", focus: "50% 0%" },
     visual: "frames",
     tone: "ivory",
     spotlight: {
@@ -97,6 +99,8 @@ export const projects: Project[] = [
     description:
       "A festival companion app that puts lineups, maps, tickets and wristband access in one place, so 50,000 attendees spend less time on their phones.",
     cover: { src: "/images/projects/lumen/01-cover.png", alt: "LUMEN app home screen and lineup screen on two phones" },
+    // the full 16:9 title slide — title on the left, both phones on the right
+    preview: { ratio: "1920 / 1080" },
     visual: "frames",
     tone: "blush",
     caseStudy: {
@@ -210,7 +214,9 @@ export const projects: Project[] = [
     year: "2026",
     description:
       "A collaborative redesign exploring how clearer navigation, stronger information architecture, and more intentional UI could improve the Costco mobile shopping experience.",
-    cover: { src: "/images/projects/costco/cover.webp", alt: "Costco Redesign title card with two redesigned app screens", focus: "15% 50%" },
+    cover: { src: "/images/projects/costco/cover.webp", alt: "Costco Redesign title card with two redesigned app screens" },
+    // the full title card, so “Costco Redesign.” and both phones stay in frame
+    preview: { ratio: "2000 / 1036" },
     visual: "frames",
     tone: "lavender",
     caseStudy: {
@@ -290,6 +296,7 @@ export const projects: Project[] = [
     description:
       "Working across research, operations, and technology at NUSEUM taught me how products are shaped by both user needs and business constraints.",
     cover: { src: "/images/projects/nuseum/cover.webp", alt: "Diagram: how NUSEUM AI works — capture, structure, safety check, personalize", fit: "contain" },
+    preview: { ratio: "2000 / 800" },
     visual: "circles",
     tone: "ivory",
     caseStudy: {
@@ -332,6 +339,7 @@ export const projects: Project[] = [
     description:
       "Exploring real-world datasets through analysis, experimentation, and visualization to uncover patterns and communicate actionable insights.",
     cover: { src: "/images/projects/data-analysis/cover.webp", alt: "Three data projects: Grammy web traffic analysis, UNESCO World Heritage visualization, A/B testing", fit: "contain" },
+    preview: { ratio: "1800 / 900" },
     visual: "bars",
     tone: "ivory",
     caseStudy: {
@@ -363,6 +371,8 @@ export const projects: Project[] = [
     description:
       "What five years in entertainment taught me about audiences, feedback, collaboration, adaptability, and understanding people.",
     cover: { src: "/images/projects/kpop-to-data/cover.webp", alt: "cignature album cover: the group standing in stadium seats", focus: "50% 60%" },
+    // a square photo: a 4:3 crop centred on the faces
+    preview: { ratio: "4 / 3", focus: "50% 60%" },
     visual: "circles",
     tone: "lavender",
     caseStudy: {

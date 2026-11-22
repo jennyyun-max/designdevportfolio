@@ -53,6 +53,15 @@ export interface CaseStudy {
   labels?: Partial<Record<"problem" | "role" | "timeline" | "research" | "insights" | "insightsHeading" | "process" | "wireframes" | "final" | "outcomes", string>>;
 }
 
+export interface ProjectPreview {
+  /** CSS aspect-ratio of the frame, e.g. "1920 / 1080". Use the image's own ratio for no cropping. */
+  ratio: string;
+  /** Where the crop is anchored when `ratio` differs from the image (CSS object-position) */
+  focus?: string;
+  /** "contain" letterboxes on the stone ground instead of cropping */
+  fit?: "cover" | "contain";
+}
+
 export interface Project {
   slug: string;
   title: string;
@@ -63,6 +72,10 @@ export interface Project {
   year: string;
   description: string;
   cover: ImageAsset;
+  /** How the cover is framed in previews (work grid, project index, case-study header, next-project
+      card). Default: the image's own aspect ratio — so it is never cropped. Override per project to
+      art-direct a crop. */
+  preview?: ProjectPreview;
   /** Placeholder art + color used until a real cover image is added */
   visual: Visual;
   tone: Tone;

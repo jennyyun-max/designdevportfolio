@@ -5,14 +5,16 @@ import type { Project } from "@/lib/types";
 import ProjectTile from "./ProjectTile";
 import ProjectIndex from "./ProjectIndex";
 
-/* Where each plate sits on the 12-column grid — a rhythm of full, offset and paired plates */
-const LAYOUT: { cls: string; shape: "full" | "wide" | "tall" }[] = [
+/* Where each plate sits on the 12-column grid — a rhythm of full, offset and paired plates.
+   Each plate keeps its own image shape (content/projects.ts → `preview`), so the rhythm comes
+   from column spans and vertical offsets, not from cropping. */
+const LAYOUT: { cls: string; shape: "full" | "wide" }[] = [
   { cls: "md:col-span-12", shape: "full" },
   { cls: "md:col-span-7", shape: "wide" },
-  { cls: "md:col-span-4 md:col-start-9 md:mt-[24%]", shape: "tall" },
-  { cls: "md:col-span-5 md:col-start-2", shape: "tall" },
-  { cls: "md:col-span-6 md:col-start-7 md:mt-[34%]", shape: "wide" },
-  { cls: "md:col-span-8 md:col-start-3", shape: "wide" },
+  { cls: "md:col-span-5 md:col-start-8 md:mt-[18%]", shape: "wide" },
+  { cls: "md:col-span-6 md:col-start-1", shape: "wide" },
+  { cls: "md:col-span-6 md:col-start-7 md:mt-[14%]", shape: "wide" },
+  { cls: "md:col-span-6 md:col-start-4", shape: "wide" },
 ];
 
 /* The work, two ways: large plates (default) or a compact index. The choice is remembered. */

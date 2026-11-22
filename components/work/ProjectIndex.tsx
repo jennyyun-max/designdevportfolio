@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AnimatePresence, motion, useMotionValue, useSpring } from "motion/react";
 import { useEffect, useState } from "react";
 import type { Project } from "@/lib/types";
+import { previewOf } from "./ProjectTile";
 
 /* Every project as one row of an index: number, title, category, role, year.
    On desktop a preview of the project's image follows the pointer while you browse the list. */
@@ -65,16 +66,14 @@ export default function ProjectIndex({ projects }: { projects: Project[] }) {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
               >
-                <div className="relative aspect-[4/3]">
-                  <Image
-                    src={projects[hover].cover.src}
-                    alt=""
-                    fill
-                    sizes="320px"
-                    className={projects[hover].cover.fit === "contain" ? "object-contain p-3" : "object-cover"}
-                    style={{ objectPosition: projects[hover].cover.focus ?? "50% 50%" }}
-                  />
-                </div>
+                {(() => {
+                  const { image, ratio } = previewOf(projects[hover]);
+                  return (
+                    <div className="relative aspect-[4/3]" style={ratio ? { aspectRatio: ratio } : undefined}>
+                      <Image src={image.src} alt="" fill sizes="320px" className={image.fit === "contain" ? "object-contain p-3" : "object-cover"} style={{ objectPosition: image.focus ?? "50% 50%" }} />
+                    </div>
+                  );
+                })()}
               </motion.div>
             )}
           </AnimatePresence>

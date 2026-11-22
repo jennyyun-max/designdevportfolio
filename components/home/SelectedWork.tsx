@@ -32,8 +32,8 @@ export default function SelectedWork() {
         <div className="md:col-span-7">
           <ProjectTile project={second} n={2} shape="wide" />
         </div>
-        <div className="md:col-span-4 md:col-start-9 md:mt-[22%]">
-          <ProjectTile project={third} n={3} shape="tall" />
+        <div className="md:col-span-5 md:col-start-8 md:mt-[18%]">
+          <ProjectTile project={third} n={3} shape="wide" />
         </div>
       </div>
 

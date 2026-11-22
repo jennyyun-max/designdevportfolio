@@ -7,16 +7,19 @@ export function toolsOf(project: Project) {
   return [...(project.caseStudy.tools ?? []), ...(project.caseStudy.research?.methods ?? [])];
 }
 
-const ASPECT = {
-  full: "aspect-[4/3] md:aspect-[16/8]",
-  wide: "aspect-[4/3]",
-  tall: "aspect-[4/5]",
-} as const;
+/* How a project's cover is framed in previews: per-project `preview` settings from
+   content/projects.ts, or else the image's own shape (never cropped). */
+export function previewOf(project: Project) {
+  const p = project.preview;
+  return {
+    image: { ...project.cover, focus: p?.focus ?? project.cover.focus, fit: p?.fit ?? (p ? "cover" : project.cover.fit) },
+    ratio: p?.ratio,
+  };
+}
 
 const SIZES = {
   full: "(min-width: 1600px) 1540px, 100vw",
   wide: "(min-width: 768px) 60vw, 100vw",
-  tall: "(min-width: 768px) 42vw, 100vw",
 } as const;
 
 /* A project as an editorial plate: a large image that uncovers itself on scroll, then a strong
@@ -30,14 +33,15 @@ export default function ProjectTile({
 }: {
   project: Project;
   n: number;
-  shape?: keyof typeof ASPECT;
+  /** "full" = the lead plate (bigger title); "wide" = everything else */
+  shape?: keyof typeof SIZES;
   priority?: boolean;
 }) {
   const role = project.caseStudy.role?.summary;
   return (
     <Link href={`/work/${project.slug}`} data-cursor="view" className="group block">
       <div className="relative">
-        <RevealImage image={project.cover} aspect={ASPECT[shape]} sizes={SIZES[shape]} priority={priority} />
+        <RevealImage {...previewOf(project)} sizes={SIZES[shape]} priority={priority} />
         <span className="meta pointer-events-none absolute bottom-0 left-0 translate-y-2 bg-paper px-3 py-2 opacity-0 transition-[opacity,transform] duration-500 ease-[var(--ease-out-expo)] group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100 motion-reduce:transition-none">
           View case study →
         </span>
