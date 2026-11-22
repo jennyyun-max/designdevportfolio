@@ -28,10 +28,9 @@ export const PRINT_WIDTH = {
    - hanging → falling (released by scroll; keeps going once started) → landed.
    - The fall: one corner tips forward first, then the print lets go, tilts on the way down,
      strikes the floor corner-first, bounces once and settles.
-   - After landing it can be picked up by its white border and dragged or tossed; when let go it
+   - After landing it can be picked up anywhere and dragged or tossed; when let go it
      coasts, then drops back to the floor (or, with gravity off — the Play table — just stays put).
-   - The photo well is a separate button/link: clicking it opens the photo or case study, and it never
-     starts a drag — so a drag can’t open anything by accident. */
+   - The photo is a button: a click that doesn't move opens it; a drag never opens anything. */
 export default function Print({
   print,
   layout,
@@ -64,6 +63,7 @@ export default function Print({
   onOpenPhoto: () => void;
 }) {
   const ref = useRef<HTMLDivElement>(null);
+  const moved = useRef(false); // true once a drag has started, so the click that ends it doesn't open the photo
   const controls = useDragControls();
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -106,8 +106,8 @@ export default function Print({
   const startDrag = (e: PointerEvent<HTMLDivElement>) => {
     onFront();
     if (phase !== "landed") return;
-    // The photo well opens things; only the white border picks the print up
-    if ((e.target as Element).closest("[data-well]")) return;
+    // the whole print picks up; a click that doesn't move still opens the photo
+    moved.current = false;
     animate(shadow, SHADOW.air, { duration: 0.15 });
     controls.start(e);
   };
@@ -198,8 +198,9 @@ export default function Print({
       dragListener={false}
       dragConstraints={phase === "landed" ? boundsRef : undefined}
       dragElastic={0.08}
-      dragTransition={{ power: 0.28, timeConstant: 260, bounceStiffness: 320, bounceDamping: 24 }}
+      dragTransition={{ power: 0.1, timeConstant: 200, bounceStiffness: 320, bounceDamping: 26 }}
       whileDrag={{ scale: 1.04 }}
+      onDragStart={() => (moved.current = true)}
       onDragEnd={toss}
       // after the toss coasts to a stop, gravity takes over
       onDragTransitionEnd={dropToGround}
@@ -218,11 +219,27 @@ export default function Print({
               aria-label={print.project ? `${label}open the case study` : `${label}${print.alt}. Open`}
               className={wellClass}
               draggable={false}
+              onClick={(e) => {
+                if (moved.current) {
+                  e.preventDefault();
+                  moved.current = false;
+                }
+              }}
             >
               {well}
             </Link>
           ) : (
-            <button type="button" data-well data-cursor="open" aria-label={`${label}${print.alt}. Open the story`} className={`${wellClass} w-full`} onClick={onOpenPhoto}>
+            <button
+              type="button"
+              data-well
+              data-cursor="open"
+              aria-label={`${label}${print.alt}. Open the story`}
+              className={`${wellClass} w-full`}
+              onClick={() => {
+                if (moved.current) moved.current = false;
+                else onOpenPhoto();
+              }}
+            >
               {well}
             </button>
           )}

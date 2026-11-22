@@ -30,7 +30,7 @@ import pilates from "@/public/images/personal/pilates.jpg";
    1. Put the file in /public/images/personal/ (JPG or WebP, ~1200–1600px
       on the long side is plenty).
    2. Import it below, then add an entry to `photos`.
-   3. Use it: add its id to `wall` (the photo wall on /about — built for
+   3. Use it: add its id to `wall` (the photo wall on the homepage — built for
       20–30 photos, laid out automatically), `collection` (the playground
       camera), a print on the homepage (content/polaroids.ts), or a
       chapter of the journey (content/site.ts).
@@ -208,7 +208,7 @@ export const collection: PhotoId[] = [
   "nightSwim", "sanJuanStreet", "cherries", "photoBooth", "tacos", "corner", "streetMural", "candlelight", "pilates",
 ];
 
-/* The photo wall on /about, in this order (the layout is stable: position follows order).
+/* The photo wall (“Kept loosely”, on the homepage), in this order (the layout is stable: position follows order).
    Built for 20–30 photos — each id once, no repeats. */
 export const wall: PhotoId[] = [
   "portrait", "campusLawn", "costumeNight2", "stadiumNight", "studySession",

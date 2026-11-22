@@ -145,7 +145,7 @@ export default function Hero() {
       {/* The prints — a strip under the text on phones, over the whole hero on wider screens */}
       <div className="relative mt-10 h-[21rem] md:absolute md:inset-0 md:mt-0 md:h-auto">
         <div ref={boundsRef} className="absolute inset-0" aria-hidden="true" />
-        <div role="group" aria-label="Photo prints — drag them by the white border, or open one" className="hero-prints pointer-events-none absolute inset-0 z-30">
+        <div role="group" aria-label="Photo prints — drag to rearrange, or click one to open it" className="hero-prints pointer-events-none absolute inset-0 z-30">
           {phases.length > 0 &&
             visible.map(({ print, i, layout }) => (
               <Print
