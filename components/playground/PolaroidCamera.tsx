@@ -80,24 +80,28 @@ export default function PolaroidCamera() {
             {latest && (
               <motion.figure
                 key={latest.id}
-                className="relative bg-print p-[5%] pb-0 shadow-[0_24px_40px_-24px_rgba(37,37,34,0.6)]"
+                className="polaroid"
                 initial={reduced ? { opacity: 0 } : { y: "-70%", rotate: 0, opacity: 1 }}
                 animate={{ y: 0, rotate: latest.rotate / 3, opacity: 1 }}
                 exit={{ opacity: 0, x: 120, rotate: 12, transition: { duration: 0.3 } }}
                 transition={{ duration: reduced ? 0.2 : 0.9, ease: [0.22, 1, 0.36, 1] }}
               >
-                {/* the photo at its own aspect ratio */}
-                <span className="block overflow-hidden bg-night">
+                <span className="polaroid-photo aspect-[3/4]">
                   <Image
                     src={latest.photo.src}
                     alt={latest.photo.alt}
+                    fill
                     sizes="320px"
-                    className="block h-auto w-full grayscale [animation:develop_2.6s_ease-out_0.5s_both] motion-reduce:animate-none"
+                    className="object-cover grayscale [animation:develop_2.6s_ease-out_0.5s_both] motion-reduce:animate-none"
+                    style={{ objectPosition: latest.photo.focus ?? "50% 50%" }}
                   />
                 </span>
-                <figcaption className="pb-4 pt-3" aria-live="polite">
-                  {latest.photo.story && <span className="mt-2 block text-[0.9rem] leading-snug text-muted">{latest.photo.story}</span>}
-                </figcaption>
+                <span className="polaroid-chin" aria-hidden="true" />
+                {latest.photo.story && (
+                  <figcaption className="pb-4 text-[0.9rem] leading-snug text-muted" aria-live="polite">
+                    {latest.photo.story}
+                  </figcaption>
+                )}
               </motion.figure>
             )}
           </AnimatePresence>
@@ -121,10 +125,12 @@ export default function PolaroidCamera() {
                   animate={{ opacity: 1, scale: 1, y: 0, rotate: s.rotate }}
                   exit={{ opacity: 0, scale: 0.6 }}
                   transition={{ type: "spring", stiffness: 260, damping: 22 }}
-                  className="bg-print p-[5%] pb-0 shadow-[0_12px_22px_-14px_rgba(37,37,34,0.6)]"
+                  className="polaroid"
                 >
-                  <Image src={s.photo.src} alt={s.photo.alt} sizes="140px" className="block h-auto w-full bg-stone grayscale" />
-                  <span className="block h-6" aria-hidden="true" />
+                  <span className="polaroid-photo aspect-[3/4]">
+                    <Image src={s.photo.src} alt={s.photo.alt} fill sizes="140px" className="object-cover grayscale" style={{ objectPosition: s.photo.focus ?? "50% 50%" }} />
+                  </span>
+                  <span className="polaroid-chin" aria-hidden="true" />
                 </motion.li>
               ))}
             </AnimatePresence>

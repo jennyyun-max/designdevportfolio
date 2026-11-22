@@ -9,9 +9,9 @@ import type { DeskPrint, PrintLayout } from "@/lib/types";
 export type PrintPhase = "hanging" | "falling" | "landed";
 
 const SHADOW = {
-  // neutral, close shadows — prints lying on paper
-  rest: "0 1px 1px rgba(37,37,34,0.12), 0 10px 22px -12px rgba(37,37,34,0.35)",
-  air: "0 2px 3px rgba(37,37,34,0.08), 0 30px 50px -18px rgba(37,37,34,0.4)",
+  // layered like a real print on paper: a tight contact shadow plus soft ambient shadows
+  rest: "inset 0 0 0 0.5px rgba(37,37,34,0.07), 0 0.5px 0.5px rgba(37,37,34,0.22), 0 3px 5px -2px rgba(37,37,34,0.18), 0 14px 22px -10px rgba(37,37,34,0.28), 0 34px 48px -26px rgba(37,37,34,0.32)",
+  air: "inset 0 0 0 0.5px rgba(37,37,34,0.07), 0 2px 3px rgba(37,37,34,0.12), 0 12px 18px -8px rgba(37,37,34,0.22), 0 34px 52px -18px rgba(37,37,34,0.36), 0 60px 80px -40px rgba(37,37,34,0.3)",
 };
 
 const pct = (n: number) => `${n}%`;
@@ -150,10 +150,10 @@ export default function Print({
     y.set(y.get() + Math.max(bounds.top - me.top, Math.min(delta[1], bounds.bottom - me.bottom)));
   };
 
-  // the frame takes the photo's own shape, so nothing is cropped
-  const ratio = typeof print.src === "object" ? print.src.width / print.src.height : 4 / 5;
+  // every print has the same window: 3:4 (or 4:3 for landscape photos), like real instant film
+  const landscape = typeof print.src === "object" && print.src.width > print.src.height;
   const well = (
-    <span className="relative block overflow-hidden bg-stone" style={{ aspectRatio: ratio }}>
+    <span className="polaroid-photo" style={{ aspectRatio: landscape ? "4 / 3" : "3 / 4" }}>
       {print.src && (
         <Image
           src={print.src}
@@ -208,9 +208,9 @@ export default function Print({
       onFocus={onFront}
       onKeyDown={onKeyDown}
     >
-      <motion.div data-paper className="relative bg-print [container-type:inline-size]" style={{ rotate: tilt, boxShadow: shadow }}>
+      <motion.div data-paper className="polaroid" style={{ rotate: tilt, boxShadow: shadow }}>
         {/* % padding resolves against this print’s width (not the hero’s) inside this wrapper */}
-        <div className="p-[5%] pb-0">
+        <div>
           {print.project || print.href ? (
             <Link
               href={print.project ? `/work/${print.project}` : print.href!}
@@ -244,7 +244,7 @@ export default function Print({
             </button>
           )}
           {/* the deeper bottom border of an instant print — no title */}
-          <span className="block h-[max(1.4rem,14cqw)]" aria-hidden="true" />
+          <span className="polaroid-chin" aria-hidden="true" />
         </div>
         {/* focused print: oxblood hairline */}
         <span

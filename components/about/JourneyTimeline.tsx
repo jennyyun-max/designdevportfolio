@@ -19,7 +19,7 @@ function JourneyPrint({ photo, i, n }: { photo: PersonalPhoto; i: number; n: str
   return (
     <motion.figure
       ref={ref}
-      className={`group/print relative w-[min(62vw,17rem)] bg-print p-[5%] pb-0 shadow-[0_24px_50px_-28px_rgba(37,37,34,0.6)] ${i % 2 ? "ml-auto -mt-16 md:-mt-24" : ""}`}
+      className={`polaroid group/print w-[min(62vw,17rem)] ${i % 2 ? "ml-auto -mt-16 md:-mt-24" : ""}`}
       style={{ y: reduced ? 0 : y }}
       initial={reduced ? false : { opacity: 0, rotate: rotate * 3, scale: 0.94 }}
       whileInView={{ opacity: 1, rotate, scale: 1 }}
@@ -28,8 +28,10 @@ function JourneyPrint({ photo, i, n }: { photo: PersonalPhoto; i: number; n: str
       transition={{ duration: 1.1, ease }}
     >
       {/* the photo at its own aspect ratio */}
-      <Image src={photo.src} alt={photo.alt} sizes="(min-width: 768px) 280px, 62vw" className="mono-photo block h-auto w-full bg-stone" />
-      <span className="block h-10" aria-hidden="true" />
+      <span className="polaroid-photo aspect-[3/4]">
+        <Image src={photo.src} alt={photo.alt} fill sizes="(min-width: 768px) 280px, 62vw" className="mono-photo object-cover" style={{ objectPosition: photo.focus ?? "50% 50%" }} />
+      </span>
+      <span className="polaroid-chin" aria-hidden="true" />
     </motion.figure>
   );
 }

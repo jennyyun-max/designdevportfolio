@@ -271,3 +271,53 @@
     }
   }
 }
+
+/* ---------- Instant prints (Polaroids) ----------
+   Proportions of a real instant print: thin top and sides, a deep bottom edge. Warm off-white
+   paper with a little grain and light falloff; the photo sits *in* the paper (inset shadow) with a
+   faint gloss; layered shadows (contact + soft ambient). `.polaroid-chin` is the bottom edge. */
+.polaroid {
+  position: relative;
+  container-type: inline-size;
+  padding: 6% 6% 0;
+  background:
+    radial-gradient(120% 90% at 30% 10%, rgb(255 255 255 / 0.55), transparent 60%),
+    linear-gradient(172deg, #fdfcf8 0%, #f7f4ed 55%, #eeeae0 100%);
+  box-shadow:
+    inset 0 0 0 0.5px rgb(37 37 34 / 0.07),
+    0 0.5px 0.5px rgb(37 37 34 / 0.22),
+    0 3px 5px -2px rgb(37 37 34 / 0.18),
+    0 14px 22px -10px rgb(37 37 34 / 0.28),
+    0 34px 48px -26px rgb(37 37 34 / 0.32);
+}
+.polaroid::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.35;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.42 0 0 0 0 0.36 0 0 0 0.35 0'/></filter><rect width='100%' height='100%' filter='url(%23p)'/></svg>");
+}
+.polaroid-photo {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: #1c1c1a;
+}
+.polaroid-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(128deg, rgb(255 255 255 / 0.16) 0%, rgb(255 255 255 / 0.03) 34%, transparent 55%, rgb(255 255 255 / 0.05) 100%);
+  box-shadow:
+    inset 0 1px 2px rgb(0 0 0 / 0.45),
+    inset 0 0 0 0.5px rgb(0 0 0 / 0.25),
+    inset 0 0 14px rgb(0 0 0 / 0.14);
+  transition: opacity 0.6s;
+}
+.polaroid-chin {
+  display: block;
+  height: max(1.6rem, 21cqw);
+}

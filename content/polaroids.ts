@@ -39,7 +39,7 @@ export const prints: DeskPrint[] = [
     desktop: { hang: { x: 67, y: 160, rotate: 9 }, rest: { x: 67, y: 58, rotate: 3 } },
     mobile: { hang: { x: 3, y: 260, rotate: -12 }, rest: { x: 3, y: 6, rotate: -4 } } },
   { ...photos.saltAndLight,
-    desktop: { hang: { x: 77, y: 150, rotate: -9 }, rest: { x: 77, y: 20, rotate: -2 } }, },
+    desktop: { hang: { x: 77, y: 150, rotate: -9 }, rest: { x: 76.5, y: 29, rotate: -2 } }, },
   { ...photos.cherries,
     desktop: { hang: { x: 86.5, y: 170, rotate: 12 }, rest: { x: 86.5, y: 54, rotate: 4 } },
     mobile: { hang: { x: 65, y: 260, rotate: -12 }, rest: { x: 65, y: 3, rotate: -4 } } },
