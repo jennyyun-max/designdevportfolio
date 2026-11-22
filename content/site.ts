@@ -6,8 +6,13 @@
 
 export const site = {
   name: "Chloe Yun",
-  // Used for SEO + link previews. Set to your deployed URL once you have one.
-  url: "https://example.com",
+  // Used for SEO + link previews. On Vercel it's your production domain automatically;
+  // set NEXT_PUBLIC_SITE_URL (e.g. "https://chloeyun.com") to override it.
+  url:
+    process.env.NEXT_PUBLIC_SITE_URL ??
+    (process.env.VERCEL_PROJECT_PRODUCTION_URL
+      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+      : "http://localhost:3000"),
   description:
     "Chloe Yun — University of Michigan School of Information student and designer at Atlas Digital, exploring the space between data, technology, and people.",
 
