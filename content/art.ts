@@ -13,9 +13,8 @@ import perspective from "@/public/images/art/study-perspective.jpg";
 import torso from "@/public/images/art/body-marshmallow-torso.jpg";
 import torsoLying from "@/public/images/art/body-marshmallow-torso-lying.jpg";
 import torsoDetail from "@/public/images/art/body-marshmallow-torso-detail.jpg";
-import hiddenInTheCloset from "@/public/images/art/body-hidden-in-the-closet.jpg";
-import foodCollage from "@/public/images/art/body-food-collage.jpg";
-import foodFigures from "@/public/images/art/body-food-figures.jpg";
+import foodCollage from "@/public/images/art/body-photo-collage.jpg";
+import foodFigures from "@/public/images/art/body-figures.jpg";
 
 /* ==================================================================
    ART PORTFOLIO (/art) — the artwork photos from Chloe's portfolio PDF,
@@ -24,6 +23,8 @@ import foodFigures from "@/public/images/art/body-food-figures.jpg";
    Titles and materials only where the PDF gives them; pieces without a
    title are shown by number. Captions are one sentence in Chloe's own
    words from the PDF. The PDF's planning notes are not used here.
+   Body Image & Identity: selected pieces; captions stay on the art
+   itself (materials, collage, composition).
    `more` = a detail shot or another view, shown next to the piece.
    ================================================================== */
 
@@ -102,14 +103,14 @@ export const art: ArtSection[] = [
   {
     id: "body-image",
     title: "Body Image & Identity",
+    note: "In this series, I used collage and mixed media to explore how the images we see every day can shape the way we see ourselves.",
     layout: "sequence",
     works: [
       {
         id: "brainwashed",
         title: "Brainwashed by the media on ideal body type",
         materials: "Marshmallows, paper",
-        caption:
-          "The marshmallows show the fat we don’t want, and the wrinkled paper on the skinny body shows the insecurities — even though the body isn’t fat at all.",
+        caption: "I built the torso from marshmallows and wrinkled paper, so the “ideal” silhouette is covered in a soft, uneven, fragile surface.",
         image: { src: torso, alt: "White sculpture of a slim torso covered in wrinkled paper, against a dark blue wall" },
         more: [
           { src: torsoDetail, alt: "Black-and-white close-up of the torso covered in marshmallows", label: "Detail" },
@@ -117,22 +118,14 @@ export const art: ArtSection[] = [
         ],
       },
       {
-        id: "hidden-in-the-closet",
-        title: "Hidden in the closet",
-        materials: "Scratchboard",
-        caption: "I was hiding from people and eating in an isolated place, afraid they would judge me if I came out of the closet about my eating disorder.",
-        image: { src: hiddenInTheCloset, alt: "Scratchboard of a woman eating noodles, surrounded by dense patterns" },
-      },
-      {
-        id: "food-collage",
+        id: "photo-collage",
         materials: "Photo collage",
-        caption:
-          "A collage of the food I ate over 10 months, behind a woman I don’t know who also struggles — I wanted to show I’m not the only one insecure about my body.",
-        image: { src: foodCollage, alt: "A crouching woman drawn over a collage of food photographs" },
+        caption: "A photo collage fills the background, and the drawn figure in front sits on top of all those images.",
+        image: { src: foodCollage, alt: "A crouching woman drawn over a dense photo collage" },
       },
       {
-        id: "food-figures",
-        image: { src: foodFigures, alt: "Five life-size human silhouettes filled with images of food, with a person standing beside the first" },
+        id: "figures",
+        image: { src: foodFigures, alt: "Five life-size human silhouettes filled with collaged images, with a person standing beside the first" },
       },
     ],
   },
