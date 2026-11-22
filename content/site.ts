@@ -29,7 +29,7 @@ export const site = {
 export const hero = {
   name: "Chloe Yun",
   disciplines: ["Design", "Technology", "Creative Exploration"],
-  intro: "Former performer, now exploring the intersection of design and technology.",
+  intro: "Designer and student exploring where design, technology, and people meet.",
   // Small metadata around the name
   detail: "University of Michigan School of Information · Designer with Atlas Digital",
   status: "", // e.g. "Open to internships · Summer 2027" — "" hides it
