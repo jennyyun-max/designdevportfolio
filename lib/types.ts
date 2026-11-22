@@ -96,7 +96,7 @@ export interface DeskPrint {
   /** Image in /public — "" leaves the photo well empty */
   src: string;
   alt: string;
-  /** Small monospace caption on the print’s bottom border */
+  /** Short mono caption on the print’s bottom border */
   caption: string;
   /** CSS object-position for the square crop, e.g. "50% 30%" */
   focus?: string;
@@ -108,10 +108,6 @@ export interface DeskPrint {
   size?: "large" | "focal" | "hero";
   /** This print hides the Brookfield detail and is the first to drop */
   cover?: boolean;
-  /** Show a drawing instead of a photo: "michigan" = the last frame of the hand-drawn intro */
-  art?: "michigan";
-  /** A strip of washi tape across the top, in this color (e.g. "var(--butter)") */
-  tape?: string;
   /** A short true story shown when the photo is opened */
   story?: string;
   /** Omit a layout to hide the print there */

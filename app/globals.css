@@ -1,90 +1,53 @@
 @import "tailwindcss";
 
 /* ==================================================================
-   CHLOE’S WORLD — DESIGN TOKENS
-   Typography recovered from the original pink-and-beige version
-   (commit d6497c0): Fraunces display headings with Instrument Serif
-   italic accents, Figtree body, Caveat handwriting — plus DM Mono for
-   small labels. Palette: Chloe’s dreamy blush / warm cream / dusty
-   rose / plum brown / butter / champagne, with the original espresso
-   kept for body text (13.5:1 on cream).
-   No dark-mode overrides on purpose: the world is always warm.
+   CHLOE YUN — EDITORIAL DESIGN SYSTEM
+
+   Type: Instrument Serif (kept from the original portfolio, where it was the
+   italic accent — now the display face), DM Sans for text, IBM Plex Mono
+   for metadata. No handwriting.
+
+   Color: warm paper, charcoal, stone; oxblood used sparingly; steel blue as
+   a quiet second accent. Contrast on paper: ink 13.5:1, muted 4.8:1
+   (small text), oxblood 5.7:1. #77756F (muted-soft, 4.0:1) is for large
+   text and rules only.
    ================================================================== */
 :root {
-  /* Neutrals */
-  --cream: #fff8f0; /* warm cream page */
-  --ivory: #fffcf7; /* raised surfaces */
-  --paper: #fffdf9; /* Polaroid & stationery paper */
-  --espresso: #3a2620; /* type — 13.5:1 on cream */
-  --espresso-soft: #694958; /* muted plum brown: secondary type — 7.4:1 on cream */
-  --line: #ecdcd6; /* hairlines */
-
-  /* Signature pinks */
-  --sky-blush: #f4e1e3; /* dreamy blush: the welcome sky */
-  --blush: #f2c4c0;
-  --pink: #f4e1e3;
-  --rose: #b67d91; /* dusty rose — decorative marks only (3.2:1) */
-  --rose-deep: #8e5469; /* dusty rose for small text — 5.5:1 on cream */
-
-  /* Pastel accents */
-  --champagne: #e8d6bd;
-  --butter: #f6e8b1;
-  --lavender: #ddd4ef;
-  --sage: #d3dfca;
-  --sky: #cadded;
-  --peach: #f4cdb6;
-
-  /* Legacy aliases (older components) */
-  --bg: var(--cream);
-  --surface: var(--ivory);
-  --surface-2: var(--pink);
-  --fg: var(--espresso);
-  --muted: var(--espresso-soft);
-  --silver: var(--espresso-soft);
-  --accent: var(--rose-deep);
+  --paper: #f3f0e9; /* warm paper — page */
+  --stone: #e8e5dd; /* surfaces */
+  --print: #fbfaf6; /* photo-print border */
+  --ink: #252522; /* charcoal — text */
+  --night: #1c1c1a; /* the welcome + dark sections */
+  --muted: #6b6964; /* secondary text (AA on paper) */
+  --muted-soft: #77756f; /* large secondary text, rules */
+  --line: #d6d2c8; /* hairlines */
+  --oxblood: #9d4036; /* accent — sparingly */
+  --steel: #7a8291; /* alternative accent */
 }
 
 @theme inline {
-  --color-cream: var(--cream);
-  --color-ivory: var(--ivory);
   --color-paper: var(--paper);
-  --color-espresso: var(--espresso);
-  --color-espresso-soft: var(--espresso-soft);
-  --color-line: var(--line);
-  --color-blush: var(--blush);
-  --color-pink: var(--pink);
-  --color-rose: var(--rose);
-  --color-rose-deep: var(--rose-deep);
-  --color-butter: var(--butter);
-  --color-champagne: var(--champagne);
-  --color-sky-blush: var(--sky-blush);
-  --color-lavender: var(--lavender);
-  --color-sage: var(--sage);
-  --color-sky: var(--sky);
-  --color-peach: var(--peach);
-  --color-bg: var(--bg);
-  --color-surface: var(--surface);
-  --color-surface-2: var(--surface-2);
-  --color-fg: var(--fg);
+  --color-stone: var(--stone);
+  --color-print: var(--print);
+  --color-ink: var(--ink);
+  --color-night: var(--night);
   --color-muted: var(--muted);
-  --color-silver: var(--silver);
-  --color-accent: var(--accent);
+  --color-muted-soft: var(--muted-soft);
+  --color-line: var(--line);
+  --color-oxblood: var(--oxblood);
+  --color-steel: var(--steel);
 
-  --font-display: var(--font-fraunces), Georgia, serif;
-  --font-sans: var(--font-figtree), system-ui, sans-serif;
-  --font-accent: var(--font-instrument), Georgia, serif;
-  --font-serif: var(--font-instrument), Georgia, serif;
-  --font-hand: var(--font-caveat), "Comic Sans MS", cursive;
-  --font-mono: var(--font-dm-mono), ui-monospace, monospace;
+  --font-display: var(--font-instrument), "Times New Roman", serif;
+  --font-sans: var(--font-dm-sans), system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
 
-  --radius-card: 20px;
-  --radius-button: 10px;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @layer base {
   html {
-    background: var(--cream);
-    color: var(--espresso);
+    background: var(--paper);
+    color: var(--ink);
     color-scheme: light;
     -webkit-text-size-adjust: 100%;
   }
@@ -95,134 +58,111 @@
   }
   body {
     font-family: var(--font-sans);
-    font-size: 1.0625rem;
-    line-height: 1.65;
+    font-size: 1rem;
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
-    background: var(--cream);
+    background: var(--paper);
+    overflow-x: clip;
   }
-  section[id] {
-    scroll-margin-top: 5.5rem;
+  section[id],
+  footer[id] {
+    scroll-margin-top: 4.5rem;
   }
   :focus-visible {
-    outline: 2px solid var(--espresso);
+    outline: 1.5px solid var(--oxblood);
     outline-offset: 3px;
-    border-radius: 6px;
   }
   ::selection {
-    background: var(--blush);
-    color: var(--espresso);
+    background: var(--ink);
+    color: var(--paper);
   }
 }
 
 @layer components {
   /* ---- Type ---- */
-  /* Editorial display type: soft serif headings, italic accent via <em> */
+  /* Display: Instrument Serif, tight and large. <em> = its italic. */
   .display {
     font-family: var(--font-display);
-    font-weight: 560;
-    font-variation-settings: "SOFT" 100, "opsz" 144;
-    letter-spacing: -0.03em;
-    line-height: 0.98;
-  }
-  .display em,
-  .accent {
-    font-family: var(--font-accent);
-    font-style: italic;
     font-weight: 400;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.025em;
+    line-height: 0.92;
+    text-wrap: balance;
   }
-  /* small monospace labels */
-  .eyebrow {
+  .display em {
+    font-style: italic;
+    letter-spacing: -0.035em;
+  }
+  /* Metadata: compact uppercase mono */
+  .meta {
     font-family: var(--font-mono);
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.14em;
+    font-size: 0.6875rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    line-height: 1.5;
     text-transform: uppercase;
-    color: var(--espresso-soft);
-  }
-  .hand {
-    font-family: var(--font-hand);
-    font-weight: 600;
-    letter-spacing: 0;
   }
   .mono {
     font-family: var(--font-mono);
   }
 
-  /* Nav links: underline slides in from the left */
-  .nav-link {
-    background-image: linear-gradient(var(--espresso), var(--espresso));
-    background-size: 0% 1px;
-    background-position: 0 100%;
-    background-repeat: no-repeat;
-    transition: background-size 300ms ease;
-  }
-  .nav-link:hover {
-    background-size: 100% 1px;
-  }
-  /* Links: rose underline that grows on hover */
+  /* Links: a hairline that wipes in on hover */
   .link {
-    background-image: linear-gradient(var(--rose), var(--rose));
+    background-image: linear-gradient(currentColor, currentColor);
     background-size: 100% 1px;
     background-position: 0 100%;
     background-repeat: no-repeat;
     padding-bottom: 1px;
-    transition: background-size 250ms ease;
+    transition: background-size 0.45s var(--ease-out-expo);
   }
   .link:hover {
-    background-size: 100% 2px;
+    background-size: 0% 1px;
+    background-position: 100% 100%;
+  }
+  .wipe {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 100% 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.45s var(--ease-out-expo);
+  }
+  .wipe:hover,
+  .group:hover .wipe,
+  .wipe[aria-current="page"],
+  .wipe[aria-pressed="true"] {
+    background-size: 100% 1px;
+    background-position: 0 100%;
   }
 
-  /* ---- Scrapbook materials ---- */
-  /* Washi tape: a translucent, slightly ragged strip */
-  .tape {
-    position: absolute;
-    width: 5.5rem;
-    height: 1.6rem;
-    background: color-mix(in srgb, var(--tape, var(--butter)) 78%, transparent);
-    clip-path: polygon(3% 0, 97% 4%, 100% 50%, 96% 100%, 2% 96%, 0 52%);
-    box-shadow: 0 1px 2px rgb(58 38 32 / 0.08);
-    pointer-events: none;
-  }
-  .tape::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(90deg, transparent 0 7px, rgb(255 255 255 / 0.22) 7px 9px);
-  }
-  /* Lined stationery */
-  .ruled {
-    background-color: var(--paper);
-    background-image: linear-gradient(transparent calc(1.9rem - 1px), rgb(201 115 107 / 0.18) 0);
-    background-size: 100% 1.9rem;
-  }
-  /* Dot-grid sketchbook paper */
-  .dotgrid {
-    background-color: var(--ivory);
-    background-image: radial-gradient(circle, rgb(109 88 80 / 0.16) 1px, transparent 1.2px);
-    background-size: 22px 22px;
-  }
-  .sticker-shadow {
-    filter: drop-shadow(0 2px 0 rgb(255 255 255)) drop-shadow(0 -2px 0 rgb(255 255 255)) drop-shadow(2px 0 0 rgb(255 255 255))
-      drop-shadow(-2px 0 0 rgb(255 255 255)) drop-shadow(0 6px 8px rgb(58 38 32 / 0.18));
-  }
-  /* Paper grain over drawings */
-  .paper-grain::after {
+  /* Film grain, as an overlay (position the parent) */
+  .grain::after {
     content: "";
     position: absolute;
     inset: 0;
     pointer-events: none;
-    mix-blend-mode: multiply;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.3 0 0 0 0 0.23 0 0 0 0 0.2 0 0 0 0.16 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity: 0.5;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+
+  /* Prints: monochrome until you look closer */
+  .mono-photo {
+    filter: grayscale(1) contrast(1.05);
+    transition: filter 0.8s var(--ease-out-expo);
+  }
+  .group\/print:hover .mono-photo,
+  .group\/print:focus-within .mono-photo,
+  .group:hover .mono-photo,
+  .group:focus-visible .mono-photo {
+    filter: grayscale(0) contrast(1);
   }
 
   /* Photo preview dialog */
   .photo-dialog::backdrop {
-    background: rgb(58 38 32 / 0.55);
+    background: rgb(28 28 26 / 0.82);
   }
 
   /* ---- The welcome (components/intro/Welcome.tsx) ----
-     While it's up: no page scroll, the homepage Polaroids wait (the welcome's stars become
+     While it's up: no page scroll, the homepage prints wait (the welcome's stars become
      them), and the header + hero text wait to be revealed at the end. */
   .intro {
     display: none;
@@ -233,61 +173,39 @@
   html[data-intro="play"] .intro {
     display: block;
   }
-  html[data-intro="play"] .hero-prints,
-  html[data-intro="play"] [data-intro-print] {
+  html[data-intro="play"] .hero-prints {
     visibility: hidden;
   }
   .intro-reveal {
     transition:
-      opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0s),
-      transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0s);
+      opacity 1s var(--ease-out-expo) var(--d, 0s),
+      transform 1s var(--ease-out-expo) var(--d, 0s);
   }
   html[data-intro="play"] .intro-reveal {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(24px);
   }
-  html[data-intro="play"] body > div > header,
   html[data-intro="play"] header.site-header {
     opacity: 0;
-    transform: translateY(-14px);
+    transform: translateY(-10px);
   }
   header.site-header {
     transition:
-      opacity 0.7s ease 0.35s,
-      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.35s,
+      opacity 0.8s ease 0.4s,
+      transform 0.8s var(--ease-out-expo) 0.4s,
       background-color 0.3s,
       box-shadow 0.3s;
   }
 }
 
-/* An instant print developing: dark and murky to clear */
+/* An instant print developing: dark to clear */
 @keyframes develop {
   from {
-    filter: brightness(0.25) sepia(0.9) saturate(0.3) blur(5px);
-    opacity: 0.7;
+    filter: grayscale(1) brightness(0.15) blur(4px);
   }
   to {
-    filter: none;
-    opacity: 1;
+    filter: grayscale(1) contrast(1.05);
   }
-}
-
-/* The welcome's Explore button: a soft cream pill with a glow */
-.welcome-explore {
-  box-shadow:
-    0 0 0 1px rgb(105 73 88 / 0.14),
-    0 0 28px 6px rgb(255 253 249 / 0.85),
-    0 10px 30px -12px rgb(182 125 145 / 0.6);
-}
-.shooting-star {
-  position: absolute;
-  width: 110px;
-  height: 1.5px;
-  border-radius: 2px;
-  background: linear-gradient(90deg, rgb(255 255 255 / 0), rgb(255 255 255 / 0.95));
-  opacity: 0;
-  pointer-events: none;
-  transform: rotate(24deg);
 }
 
 /* ---------- Motion (CSS) — off for reduced-motion users ---------- */
@@ -297,113 +215,59 @@
   }
   @keyframes star-twinkle {
     50% {
-      opacity: 0.25;
-      transform: scale(0.65);
+      opacity: 0.2;
     }
   }
   .shooting-star {
-    animation: shoot var(--dur, 10s) linear var(--delay, 0s) infinite;
+    animation: shoot var(--dur, 12s) linear var(--delay, 0s) infinite;
   }
   @keyframes shoot {
     0% {
       opacity: 0;
-      transform: rotate(24deg) translateX(0);
+      transform: rotate(18deg) translateX(0);
     }
-    2% {
-      opacity: 1;
+    1.5% {
+      opacity: 0.8;
     }
-    9% {
+    7% {
       opacity: 0;
-      transform: rotate(24deg) translateX(46vw);
+      transform: rotate(18deg) translateX(38vw);
     }
     100% {
       opacity: 0;
-      transform: rotate(24deg) translateX(46vw);
+      transform: rotate(18deg) translateX(38vw);
     }
   }
+  .marquee {
+    animation: marquee var(--dur, 40s) linear infinite;
+  }
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+}
+.shooting-star {
+  position: absolute;
+  width: 90px;
+  height: 1px;
+  background: linear-gradient(90deg, rgb(243 240 233 / 0), rgb(243 240 233 / 0.9));
+  opacity: 0;
+  pointer-events: none;
+  transform: rotate(18deg);
+}
+
+/* The welcome's Explore button: a restrained glow that breathes */
+.welcome-explore {
+  box-shadow: 0 0 24px 0 rgb(243 240 233 / 0.06);
+}
+@media (prefers-reduced-motion: no-preference) {
   .welcome-explore {
-    animation: explore-glow 3.2s ease-in-out infinite;
+    animation: explore-glow 4s ease-in-out infinite;
   }
   @keyframes explore-glow {
     50% {
-      box-shadow:
-        0 0 0 1px rgb(105 73 88 / 0.14),
-        0 0 40px 12px rgb(255 253 249 / 0.95),
-        0 10px 30px -12px rgb(182 125 145 / 0.6);
-    }
-  }
-  .float {
-    animation: float 5s ease-in-out infinite;
-  }
-  .float-slow {
-    animation: float 7s ease-in-out infinite;
-  }
-  @keyframes float {
-    50% {
-      transform: translateY(-8px) rotate(3deg);
-    }
-  }
-  .twinkle {
-    animation: twinkle 3.6s ease-in-out infinite;
-  }
-  @keyframes twinkle {
-    50% {
-      transform: scale(0.7) rotate(25deg);
-      opacity: 0.6;
-    }
-  }
-  .wiggle-on-hover:hover,
-  .group:hover .wiggle-on-hover,
-  .group:focus-visible .wiggle-on-hover {
-    animation: wiggle 600ms ease-in-out;
-  }
-  @keyframes wiggle {
-    25% {
-      transform: rotate(-12deg) scale(1.08);
-    }
-    50% {
-      transform: rotate(9deg) scale(1.08);
-    }
-    75% {
-      transform: rotate(-5deg);
-    }
-  }
-  .potato-idle {
-    animation: potato-bob 3.2s ease-in-out infinite;
-  }
-  @keyframes potato-bob {
-    50% {
-      transform: translateY(-4px) rotate(-2deg);
-    }
-  }
-  .potato-bounce {
-    transform-origin: 50% 90%;
-    animation: potato-bounce 700ms cubic-bezier(0.28, 0.84, 0.42, 1);
-  }
-  @keyframes potato-bounce {
-    15% {
-      transform: scale(1.18, 0.82);
-    }
-    40% {
-      transform: translateY(-34%) scale(0.9, 1.1) rotate(-6deg);
-    }
-    60% {
-      transform: translateY(0) scale(1.12, 0.88);
-    }
-    78% {
-      transform: translateY(-6%) scale(0.97, 1.03) rotate(3deg);
-    }
-  }
-  /* Handwritten underline / circle that draws itself (pathLength="1") */
-  .draw-on {
-    stroke-dasharray: 1;
-    stroke-dashoffset: 1;
-    animation: draw-on 900ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    animation-delay: var(--delay, 0s);
-  }
-  @keyframes draw-on {
-    to {
-      stroke-dashoffset: 0;
+      box-shadow: 0 0 36px 4px rgb(243 240 233 / 0.14);
     }
   }
 }

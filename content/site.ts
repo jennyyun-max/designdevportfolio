@@ -23,28 +23,25 @@ export const site = {
   resume: "https://drive.google.com/file/d/1TuOWojUzS8913IjWCzmtRsSBz-P08I8j/view?usp=sharing", // or "/resume.pdf" in /public
 };
 
-/* Wrap a word in *asterisks* to set it in the italic accent font. */
+/* HOMEPAGE */
 export const hero = {
-  eyebrow: "UX & product design · University of Michigan",
-  headline: "hi, i’m *chloe*!",
-  text: "i’m a designer and student exploring the intersection of creativity, technology, and everything in between.",
-  // A second, smaller line with the specifics
-  detail: "Studying information at the University of Michigan · designing with Atlas Digital.",
-  status: "", // e.g. "open to internships · summer 2027" — "" hides it
-  // The falling Polaroids → content/polaroids.ts
+  name: "Chloe Yun",
+  disciplines: ["Design", "Technology", "Creative Exploration"],
+  intro: "Former performer, now exploring the intersection of design and technology.",
+  // Small metadata around the name
+  detail: "University of Michigan School of Information · Designer with Atlas Digital",
+  status: "", // e.g. "Open to internships · Summer 2027" — "" hides it
+  // The Polaroids that the welcome's stars become → content/polaroids.ts
 };
 
-/* THE ROOMS — the five places in Chloe’s world. Used by the header, the mobile menu,
-   the homepage “doors” and the footer. `doodle` is a name from components/doodles. */
-export const rooms = [
-  { key: "work", label: "my work", href: "/work", doodle: "sketchbook", tone: "var(--lavender)", blurb: "case studies, from research to the final screens" },
-  { key: "about", label: "about me", href: "/about", doodle: "polaroid", tone: "var(--blush)", blurb: "a scrapbook of who I am and what I’m building" },
-  { key: "journey", label: "my journey", href: "/journey", doodle: "plane", tone: "var(--sky)", blurb: "california → seoul → ann arbor" },
-  { key: "playground", label: "playground", href: "/playground", doodle: "star", tone: "var(--butter)", blurb: "a camera, stickers and a doodle pad" },
-  { key: "guestbook", label: "guestbook", href: "/guestbook", doodle: "envelope", tone: "var(--sage)", blurb: "leave a little note in my scrapbook" },
+/* NAVIGATION — Contact jumps to the footer, which is on every page */
+export const nav = [
+  { label: "Work", href: "/work" },
+  { label: "About", href: "/about" },
+  { label: "Playground", href: "/playground" },
+  { label: "Visitors", href: "/visitors" },
+  { label: "Contact", href: "#contact" },
 ] as const;
-
-export type RoomKey = (typeof rooms)[number]["key"];
 
 export const marquee = [
   "user research",
@@ -124,45 +121,56 @@ export const story = {
   ],
 };
 
-/* MY JOURNEY — the three chapters, used by the About timeline and the Journey room.
-   California details are limited to what Chloe has shared (she grew up there). */
+/* THE JOURNEY — the editorial timeline on the About page (/about#journey).
+   Only what Chloe has shared; California has no archive photo yet (add one to `photos`). */
 export const journey = [
   {
     key: "california",
+    n: "01",
     place: "California",
-    when: "growing up",
-    doodle: "palm",
-    tone: "var(--butter)",
+    when: "Growing up",
     title: "Where it started",
-    text: [
-      "I grew up in California.",
-      "Then my path took me all the way across the Pacific — to Korea, and a stage.",
-    ],
+    text: ["I grew up in California.", "Then my path took me across the Pacific — to Korea, and a stage."],
+    photos: [] as { src: string; alt: string; caption: string; focus?: string }[],
   },
   {
     key: "seoul",
+    n: "02",
     place: "Seoul, South Korea",
-    when: "five years on stage",
-    doodle: "mic",
-    tone: "var(--blush)",
+    when: "Five years on stage",
     title: "Five years with cignature",
     text: [
       "Before returning to school, I spent five years pursuing a professional career as a K-pop artist, including as a member of cignature.",
       "Working in entertainment taught me how much success depends on understanding people — audiences, teammates, feedback, timing, and communication.",
     ],
-    carried: ["Audience", "Feedback", "Collaboration", "Adaptability"],
+    photos: [
+      { src: "/images/polaroids/aurora-portrait.jpg", alt: "Chloe in a pastel stage photoshoot", caption: "The stage years" },
+      { src: "/images/polaroids/cignature-apple.jpg", alt: "Chloe in a photoshoot, holding an apple on a picnic blanket", caption: "Photoshoot", focus: "50% 40%" },
+    ],
   },
   {
     key: "ann-arbor",
+    n: "03",
     place: "Ann Arbor, Michigan",
-    when: "now",
-    doodle: "laptop",
-    tone: "var(--lavender)",
-    title: "Back to school — and designing",
+    when: "Back to school",
+    title: "Studying information",
     text: [
-      "I came back to the United States and to school: I study at the University of Michigan School of Information — Information Analysis, with a minor in Data Science.",
-      "UX interests me because it sits between two worlds — analytical problem-solving and understanding people. With Atlas Digital, I’m the designer on a team building a Financial Model Knowledge Hub for Brookfield Renewable.",
+      "I came back to the United States and to school: the University of Michigan School of Information — Information Analysis, with a minor in Data Science.",
+      "Data Science gave me a new way to understand the questions entertainment made me curious about — through patterns, evidence, systems, and structured problem solving.",
     ],
+    photos: [{ src: "/images/projects/lumen/07-sketches.png", alt: "Early hand sketches of the LUMEN app", caption: "LUMEN — sketches", focus: "50% 60%" }],
+  },
+  {
+    key: "now",
+    n: "04",
+    place: "Design & technology",
+    when: "Now",
+    title: "Designing with Atlas Digital",
+    text: [
+      "UX interests me because it sits between two worlds — analytical problem-solving and understanding people.",
+      "With Atlas Digital, I’m the designer on a team building a Financial Model Knowledge Hub for Brookfield Renewable.",
+    ],
+    photos: [{ src: "/images/polaroids/chloe-portrait.jpg", alt: "Portrait of Chloe Yun", caption: "Today", focus: "50% 25%" }],
     link: { label: "Read the Brookfield case study", href: "/work/brookfield" },
   },
-] as const;
+];

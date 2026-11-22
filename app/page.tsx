@@ -1,8 +1,7 @@
 import Welcome from "@/components/intro/Welcome";
 import Hero from "@/components/home/Hero";
 import SelectedWork from "@/components/home/SelectedWork";
-import Doors from "@/components/home/Doors";
-import ContactSection from "@/components/home/ContactSection";
+import ProfileTeaser from "@/components/home/ProfileTeaser";
 
 export default function HomePage() {
   return (
@@ -10,8 +9,7 @@ export default function HomePage() {
       <Welcome />
       <Hero />
       <SelectedWork />
-      <Doors />
-      <ContactSection />
+      <ProfileTeaser />
     </>
   );
 }

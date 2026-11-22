@@ -4,22 +4,30 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
-import { rooms, site, type RoomKey } from "@/content/site";
-import { Doodle, type DoodleName } from "./doodles/Doodles";
-import Potato from "./ui/Potato";
+import { nav, site } from "@/content/site";
 
-function activeRoom(pathname: string): RoomKey | null {
-  if (pathname.startsWith("/work")) return "work";
-  const hit = rooms.find((r) => pathname.startsWith(r.href));
-  return hit ? hit.key : null;
+const ease = [0.16, 1, 0.3, 1] as const;
+
+function isActive(pathname: string, href: string) {
+  return href.startsWith("/") && href !== "/" && pathname.startsWith(href);
 }
 
-/* The way around Chloe’s world: five rooms, each with its own doodle and color.
-   Desktop: sticker-like tabs (the doodle wiggles on hover, the room you’re in is colored in).
-   Mobile: a “map” sheet of room cards. */
+/* Local time in Ann Arbor, as small metadata */
+function LocalTime() {
+  const [t, setT] = useState("");
+  useEffect(() => {
+    const fmt = () => new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", timeZone: "America/Detroit" });
+    setT(fmt());
+    const id = window.setInterval(() => setT(fmt()), 15000);
+    return () => window.clearInterval(id);
+  }, []);
+  return <span suppressHydrationWarning>Ann Arbor, MI {t && `— ${t}`}</span>;
+}
+
+/* Minimal header: name on the left, five destinations on the right (each with a small index
+   number). Phones: “Menu” opens a full-screen index set in the display serif. */
 export default function SiteHeader() {
   const pathname = usePathname();
-  const active = activeRoom(pathname);
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const menuButton = useRef<HTMLButtonElement>(null);
@@ -32,7 +40,6 @@ export default function SiteHeader() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close the menu on navigation / Escape; lock page scroll while it's open
   useEffect(() => setOpen(false), [pathname]);
   useEffect(() => {
     if (!open) return;
@@ -52,51 +59,30 @@ export default function SiteHeader() {
   }, [open]);
 
   return (
-    <header
-      className={`site-header sticky top-0 z-50 ${
-        scrolled || open ? "bg-cream/90 shadow-[0_1px_0_var(--line)] backdrop-blur-md" : "bg-cream/0"
-      }`}
-    >
-      <div className="mx-auto flex h-[4.5rem] max-w-[1320px] items-center justify-between gap-4 px-5 sm:px-8">
-        <Link href="/" className="group flex items-center gap-2" aria-label="Chloe’s world — home">
-          <span className="block w-9 transition-transform duration-300 group-hover:-rotate-12 group-hover:scale-110 motion-reduce:transition-none">
-            <Potato className="block w-full" />
-          </span>
-          <span className="hand text-[1.65rem] leading-none">chloe’s world</span>
+    <header className={`site-header sticky top-0 z-50 ${scrolled && !open ? "bg-paper/85 shadow-[0_1px_0_var(--line)] backdrop-blur-md" : ""}`}>
+      <div className="mx-auto grid h-16 max-w-[1600px] grid-cols-[1fr_auto] items-center gap-6 px-5 sm:px-8 lg:grid-cols-[1fr_auto_1fr]">
+        <Link href="/" className={`group relative z-[60] flex items-baseline gap-3 ${open ? "text-paper" : ""}`} aria-label={`${site.name} — home`}>
+          <span className="text-[1.05rem] font-medium tracking-[-0.02em]">{site.name}</span>
+          <span className="meta hidden text-muted sm:inline">Design / Technology</span>
         </Link>
 
-        {/* Desktop rooms */}
-        <nav aria-label="Rooms" className="hidden lg:block">
-          <ul className="flex items-center gap-1.5">
-            <li>
-              <Link
-                href="/"
-                aria-current={pathname === "/" ? "page" : undefined}
-                className="group relative flex items-center gap-1.5 rounded-full py-1.5 pl-2 pr-3.5 text-[0.92rem] font-medium transition-[background-color,transform] duration-200 hover:-translate-y-0.5 motion-reduce:hover:translate-y-0"
-                style={{ backgroundColor: pathname === "/" ? "var(--peach)" : undefined }}
-              >
-                <span className="absolute inset-0 -z-10 rounded-full bg-peach opacity-0 transition-opacity duration-200 group-hover:opacity-60" aria-hidden="true" />
-                <Doodle name="flower" className="wiggle-on-hover h-7 w-7 shrink-0" />
-                home
-              </Link>
-            </li>
-            {rooms.map((room) => {
-              const here = active === room.key;
+        <p className="meta hidden text-muted lg:block" aria-hidden="true">
+          <LocalTime />
+        </p>
+
+        <nav aria-label="Main" className="hidden justify-self-end md:block">
+          <ul className="flex items-center gap-7">
+            {nav.map((item, i) => {
+              const here = isActive(pathname, item.href);
               return (
-                <li key={room.key}>
-                  <Link
-                    href={room.href}
-                    aria-current={here ? "page" : undefined}
-                    className="group relative flex items-center gap-1.5 rounded-full py-1.5 pl-2 pr-3.5 text-[0.92rem] font-medium transition-[background-color,transform] duration-200 hover:-translate-y-0.5 motion-reduce:hover:translate-y-0"
-                    style={{ backgroundColor: here ? room.tone : undefined }}
-                  >
-                    <span
-                      className="absolute inset-0 -z-10 rounded-full opacity-0 transition-opacity duration-200 group-hover:opacity-60"
-                      style={{ backgroundColor: room.tone }}
-                      aria-hidden="true"
-                    />
-                    <Doodle name={room.doodle as DoodleName} className="wiggle-on-hover h-7 w-7 shrink-0" />
-                    {room.label}
+                <li key={item.href}>
+                  <Link href={item.href} aria-current={here ? "page" : undefined} className="group flex items-start gap-1 text-[0.92rem]">
+                    <span className="wipe" aria-current={here ? "page" : undefined}>
+                      {item.label}
+                    </span>
+                    <span className={`mono text-[0.56rem] leading-none ${here ? "text-oxblood" : "text-muted"}`} aria-hidden="true">
+                      0{i + 1}
+                    </span>
                   </Link>
                 </li>
               );
@@ -104,46 +90,44 @@ export default function SiteHeader() {
           </ul>
         </nav>
 
-        {/* Mobile / tablet: open the map */}
         <button
           ref={menuButton}
           type="button"
-          className="flex h-11 items-center gap-2 rounded-full border border-espresso/20 bg-ivory px-4 text-sm font-semibold lg:hidden"
+          className={`meta relative z-[60] h-11 justify-self-end md:hidden ${open ? "text-paper" : ""}`}
           aria-expanded={open}
-          aria-controls="room-map"
+          aria-controls="site-menu"
           onClick={() => setOpen((v) => !v)}
         >
-          <Doodle name={open ? "heart" : "pin"} className="h-5 w-5" />
-          {open ? "close" : "explore"}
+          {open ? "Close" : "Menu"}
         </button>
       </div>
 
       <AnimatePresence>
         {open && (
           <motion.nav
-            id="room-map"
-            aria-label="Rooms"
-            className="dotgrid fixed inset-x-0 bottom-0 top-[4.5rem] z-40 overflow-y-auto lg:hidden"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            id="site-menu"
+            aria-label="Main"
+            className="grain fixed inset-0 z-50 flex flex-col justify-between overflow-y-auto bg-night px-5 pb-8 pt-24 text-paper md:hidden"
+            initial={{ clipPath: "inset(0 0 100% 0)" }}
+            animate={{ clipPath: "inset(0 0 0% 0)" }}
+            exit={{ clipPath: "inset(0 0 100% 0)" }}
+            transition={{ duration: 0.6, ease }}
           >
-            <div className="mx-auto max-w-[34rem] px-5 pb-10 pt-6">
-              <p className="hand text-2xl text-espresso-soft">where to next?</p>
-              <ul className="mt-4 grid gap-3">
-                <li>
-                  <MenuCard href="/" label="home" blurb="back to the front door" doodle="flower" tone="var(--peach)" i={0} linkRef={firstLink} here={pathname === "/"} />
+            <ul>
+              <li className="overflow-hidden border-b border-paper/15">
+                <MenuLink href="/" label="Index" n={0} linkRef={firstLink} here={pathname === "/"} />
+              </li>
+              {nav.map((item, i) => (
+                <li key={item.href} className="overflow-hidden border-b border-paper/15">
+                  <MenuLink href={item.href} label={item.label} n={i + 1} here={isActive(pathname, item.href)} onClick={() => setOpen(false)} />
                 </li>
-                {rooms.map((room, i) => (
-                  <li key={room.key}>
-                    <MenuCard href={room.href} label={room.label} blurb={room.blurb} doodle={room.doodle as DoodleName} tone={room.tone} i={i + 1} here={active === room.key} />
-                  </li>
-                ))}
-              </ul>
+              ))}
+            </ul>
+            <div className="meta mt-10 flex justify-between text-paper/60">
+              <LocalTime />
               {site.resume && (
-                <a href={site.resume} target="_blank" rel="noreferrer" className="link mt-6 inline-block font-semibold">
-                  résumé ↗
+                <a href={site.resume} target="_blank" rel="noreferrer" className="link text-paper">
+                  Résumé ↗
                 </a>
               )}
             </div>
@@ -154,41 +138,12 @@ export default function SiteHeader() {
   );
 }
 
-function MenuCard({
-  href,
-  label,
-  blurb,
-  doodle,
-  tone,
-  i,
-  here,
-  linkRef,
-}: {
-  href: string;
-  label: string;
-  blurb: string;
-  doodle: DoodleName;
-  tone: string;
-  i: number;
-  here: boolean;
-  linkRef?: React.Ref<HTMLAnchorElement>;
-}) {
+function MenuLink({ href, label, n, here, linkRef, onClick }: { href: string; label: string; n: number; here: boolean; linkRef?: React.Ref<HTMLAnchorElement>; onClick?: () => void }) {
   return (
-    <motion.div initial={{ opacity: 0, y: 14, rotate: i % 2 ? 1.5 : -1.5 }} animate={{ opacity: 1, y: 0, rotate: i % 2 ? 0.6 : -0.6 }} transition={{ delay: 0.04 * i, type: "spring", stiffness: 300, damping: 24 }}>
-      <Link
-        ref={linkRef}
-        href={href}
-        aria-current={here ? "page" : undefined}
-        className="group flex items-center gap-4 rounded-[18px] border border-espresso/10 p-3.5 shadow-[0_8px_18px_-14px_rgba(58,38,32,0.5)]"
-        style={{ backgroundColor: tone }}
-      >
-        <span className="grid h-14 w-14 shrink-0 place-items-center rounded-[14px] bg-paper">
-          <Doodle name={doodle} className="wiggle-on-hover h-10 w-10" />
-        </span>
-        <span>
-          <span className="display block text-[1.6rem] leading-none">{label}</span>
-          <span className="mt-1 block text-sm text-espresso-soft">{blurb}</span>
-        </span>
+    <motion.div initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 0.7, delay: 0.15 + n * 0.05, ease }}>
+      <Link ref={linkRef} href={href} onClick={onClick} aria-current={here ? "page" : undefined} className="flex items-baseline justify-between py-3">
+        <span className="display text-[3.2rem]">{here ? <em>{label}</em> : label}</span>
+        <span className="mono text-[0.7rem] text-paper/50">0{n}</span>
       </Link>
     </motion.div>
   );

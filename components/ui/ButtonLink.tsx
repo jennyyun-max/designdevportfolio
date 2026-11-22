@@ -4,37 +4,34 @@ import type { ReactNode } from "react";
 type Variant = "primary" | "secondary";
 
 const styles: Record<Variant, string> = {
-  primary: "bg-espresso text-ivory shadow-[0_3px_0_#1f130f] hover:-translate-y-0.5 hover:bg-[#523830] active:translate-y-0.5 active:shadow-[0_1px_0_#1f130f]",
-  secondary: "border-[1.5px] border-espresso bg-ivory text-espresso shadow-[0_3px_0_var(--espresso)] hover:-translate-y-0.5 hover:bg-pink active:translate-y-0.5 active:shadow-[0_1px_0_var(--espresso)]",
+  primary: "bg-ink text-paper hover:bg-oxblood",
+  secondary: "border border-ink/25 text-ink hover:border-ink",
 };
 
-/* Button-styled link with a small press + icon-nudge microinteraction.
+/* A square-cornered button link; the arrow slides on hover.
    No href → a clearly labelled unavailable item (never a dead button). */
 export default function ButtonLink({
   href,
   variant = "secondary",
   external = false,
-  icon,
   children,
   className = "",
 }: {
   href?: string;
   variant?: Variant;
   external?: boolean;
-  icon?: ReactNode;
   children: ReactNode;
   className?: string;
 }) {
-  const base = `group inline-flex items-center gap-2 rounded-[var(--radius-button)] px-5 py-3.5 text-[0.98rem] font-semibold leading-none transition-[background-color,transform,box-shadow] duration-200 motion-reduce:transition-none ${className}`;
-  const iconEl = icon && (
-    <span className="inline-flex transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 motion-reduce:transition-none">
-      {icon}
+  const base = `group meta inline-flex items-center gap-3 px-5 py-3.5 transition-colors duration-300 ${className}`;
+  const arrow = (
+    <span className="inline-block transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:translate-x-1" aria-hidden="true">
+      →
     </span>
   );
-
   if (!href) {
     return (
-      <span className={`${base} cursor-default border border-dashed border-muted text-muted active:scale-100`} aria-disabled="true">
+      <span className={`${base} cursor-default border border-dashed border-muted-soft text-muted`} aria-disabled="true">
         {children}
       </span>
     );
@@ -43,14 +40,14 @@ export default function ButtonLink({
     return (
       <a href={href} className={`${base} ${styles[variant]}`} {...(external ? { target: "_blank", rel: "noreferrer" } : {})}>
         {children}
-        {iconEl}
+        {arrow}
       </a>
     );
   }
   return (
     <Link href={href} className={`${base} ${styles[variant]}`}>
       {children}
-      {iconEl}
+      {arrow}
     </Link>
   );
 }

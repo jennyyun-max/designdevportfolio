@@ -1,29 +1,23 @@
 import type { Metadata } from "next";
 import PolaroidCamera from "@/components/playground/PolaroidCamera";
-import StickerBoard from "@/components/playground/StickerBoard";
 import DoodlePad from "@/components/playground/DoodlePad";
-import InteractivePotato from "@/components/ui/InteractivePotato";
-import { Camera, Pencil, Star } from "@/components/doodles/Doodles";
+import TypeTester from "@/components/playground/TypeTester";
+import SplitHeading from "@/components/ui/SplitHeading";
 
 export const metadata: Metadata = {
   title: "Playground",
-  description: "A few toys from Chloe’s world: an instant camera full of real photos, a sticker scrapbook page and a doodle pad.",
+  description: "Three small experiments by Chloe Yun: an instant camera full of archive photos, a type tester and a drawing board.",
 };
 
-function Room({ n, title, note, icon, children, tone }: { n: string; title: React.ReactNode; note: string; icon: React.ReactNode; children: React.ReactNode; tone?: string }) {
+function Exhibit({ n, title, note, children }: { n: string; title: React.ReactNode; note: string; children: React.ReactNode }) {
   return (
-    <section className={`py-16 sm:py-20 ${tone ?? ""}`}>
-      <div className="mx-auto max-w-[1180px] px-5 sm:px-8">
-        <div className="mb-10 flex flex-wrap items-end gap-x-6 gap-y-2">
-          <span className="grid h-16 w-16 place-items-center rounded-[16px] bg-paper shadow-[0_2px_0_rgba(58,38,32,0.12)]">{icon}</span>
-          <div>
-            <p className="hand text-[1.5rem] leading-none text-rose-deep">toy no. {n}</p>
-            <h2 className="display mt-1 text-[clamp(2.2rem,4.6vw,3.6rem)]">{title}</h2>
-          </div>
-          <p className="max-w-[26rem] pb-1 text-espresso-soft sm:ml-auto">{note}</p>
-        </div>
-        {children}
+    <section className="mx-auto max-w-[1600px] px-5 pt-24 sm:px-8 md:pt-32">
+      <div className="mb-12 grid gap-6 border-t border-ink pt-5 md:grid-cols-12">
+        <p className="meta text-muted md:col-span-3">({n})</p>
+        <h2 className="display text-[clamp(2.6rem,5.6vw,5.6rem)] md:col-span-6">{title}</h2>
+        <p className="max-w-[30ch] text-muted md:col-span-3 md:self-end">{note}</p>
       </div>
+      {children}
     </section>
   );
 }
@@ -31,35 +25,27 @@ function Room({ n, title, note, icon, children, tone }: { n: string; title: Reac
 export default function PlaygroundPage() {
   return (
     <>
-      <header className="relative mx-auto max-w-[1180px] px-5 pt-8 sm:px-8 sm:pt-14">
-        <p className="eyebrow flex items-center gap-2">
-          <Star className="h-6 w-6" /> room 04 · playground
-        </p>
-        <h1 className="display mt-4 text-[clamp(3rem,9vw,6.6rem)]">
-          come <em>play</em>
-        </h1>
-        <p className="mt-5 max-w-[36rem] text-[1.1rem] leading-relaxed text-espresso-soft">
-          A few toys I made for you. Nothing here is graded — take a photo, make a mess of stickers, doodle something silly. (There may also be a potato hiding somewhere.)
-        </p>
+      <header className="mx-auto grid max-w-[1600px] gap-6 px-5 pt-8 sm:px-8 sm:pt-12 md:grid-cols-12">
+        <p className="meta text-muted md:col-span-3">(Playground)</p>
+        <div className="md:col-span-9">
+          <SplitHeading as="h1" inView={false} label="Playground" className="display text-[clamp(4rem,14vw,14rem)] leading-[0.82] tracking-[-0.045em]" lines={["Play", <em key="g">ground</em>]} />
+          <p className="mt-8 max-w-[46ch] text-[1.1rem] leading-relaxed text-muted">Three small experiments, kept apart from the case studies. Nothing here is graded.</p>
+        </div>
       </header>
 
-      <Room n="1" title={<>the instant <em>camera</em></>} note="Every print is a real photo from my camera roll — and each comes with a tiny true story." icon={<Camera className="h-11 w-11" />}>
+      <Exhibit n="01" title={<>The instant <em>camera</em></>} note="Every print is a real photo from my archive, and each comes with a short true story.">
         <PolaroidCamera />
-      </Room>
+      </Exhibit>
 
-      <Room n="2" title={<>a scrapbook <em>page</em></>} note="Decorate it however you like. It stays in your browser, so it’ll be here when you come back." icon={<Star className="h-11 w-11" />} tone="bg-pink/50">
-        <StickerBoard />
-      </Room>
+      <Exhibit n="02" title={<>Type <em>tester</em></>} note="The three typefaces this site is set in. Type anything.">
+        <TypeTester />
+      </Exhibit>
 
-      <Room n="3" title={<>the doodle <em>pad</em></>} note="Grab a pencil. If you make something you love, save it — or leave it in my guestbook." icon={<Pencil className="h-11 w-11" />}>
-        <div className="mx-auto max-w-[52rem]">
-          <DoodlePad label="Doodle pad drawing" allowSave />
+      <Exhibit n="03" title={<>Drawing <em>board</em></>} note="Four inks, three line weights. Save what you make.">
+        <div className="max-w-[60rem]">
+          <DoodlePad label="Drawing board" allowSave />
         </div>
-        {/* the potato hides at the bottom of the playground */}
-        <div className="mt-16 flex justify-end">
-          <InteractivePotato className="w-14" bubbleClassName="right-0" />
-        </div>
-      </Room>
+      </Exhibit>
     </>
   );
 }

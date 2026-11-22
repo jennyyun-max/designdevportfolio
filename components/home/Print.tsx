@@ -5,14 +5,13 @@ import Link from "next/link";
 import { animate, motion, useDragControls, useMotionValue, type TargetAndTransition, type Transition } from "motion/react";
 import { useRef, type KeyboardEvent, type PointerEvent, type RefObject } from "react";
 import type { DeskPrint, PrintLayout } from "@/lib/types";
-import { MichiganSketch } from "../intro/Sketch";
 
 export type PrintPhase = "hanging" | "falling" | "landed";
 
 const SHADOW = {
-  // soft, warm shadows — like real prints lying on paper
-  rest: "0 1px 2px rgba(58,38,32,0.14), 0 8px 18px -8px rgba(58,38,32,0.28)",
-  air: "0 2px 4px rgba(58,38,32,0.1), 0 24px 40px -16px rgba(58,38,32,0.32)",
+  // neutral, close shadows — prints lying on paper
+  rest: "0 1px 1px rgba(37,37,34,0.12), 0 10px 22px -12px rgba(37,37,34,0.35)",
+  air: "0 2px 3px rgba(37,37,34,0.08), 0 30px 50px -18px rgba(37,37,34,0.4)",
 };
 
 const pct = (n: number) => `${n}%`;
@@ -22,7 +21,7 @@ export const PRINT_WIDTH = {
   regular: "w-[min(31vw,17svh)] md:w-[min(13vw,25svh)]",
   large: "w-[min(36vw,20svh)] md:w-[min(15.5vw,29svh)]",
   focal: "w-[min(40vw,22svh)] md:w-[min(18vw,34svh)]",
-  hero: "w-[min(44vw,24svh)] md:w-[min(19vw,36svh)]", // the Michigan drawing from the welcome
+  hero: "w-[min(44vw,24svh)] md:w-[min(19vw,36svh)]",
 } as const;
 
 /* One physical photo print, pinned by one top corner.
@@ -151,33 +150,19 @@ export default function Print({
     y.set(y.get() + Math.max(bounds.top - me.top, Math.min(delta[1], bounds.bottom - me.bottom)));
   };
 
-  const well = print.art ? (
-    <span className="paper-grain relative block aspect-square overflow-hidden bg-[#efe6d6]">
-      <MichiganSketch />
-    </span>
-  ) : (
-    <span className="relative block aspect-square overflow-hidden bg-pink">
-      {print.src ? (
+  const well = (
+    <span className="relative block aspect-[4/5] overflow-hidden bg-stone">
+      {print.src && (
         <Image
           src={print.src}
           alt=""
           fill
-          sizes={
-            print.size === "focal" || print.size === "hero"
-              ? "(min-width: 768px) 440px, 170px"
-              : print.size === "large"
-                ? "(min-width: 768px) 360px, 140px"
-                : "(min-width: 768px) 260px, 120px"
-          }
+          sizes={print.size === "focal" || print.size === "hero" ? "(min-width: 768px) 440px, 170px" : print.size === "large" ? "(min-width: 768px) 360px, 150px" : "(min-width: 768px) 260px, 130px"}
           draggable={false}
-          className="pointer-events-none select-none object-cover"
+          className="mono-photo pointer-events-none select-none object-cover transition-transform duration-[1.2s] ease-[var(--ease-out-expo)] group-hover/print:scale-[1.04]"
           style={{ objectPosition: print.focus ?? "50% 50%" }}
         />
-      ) : (
-        <span className="absolute inset-0 shadow-[inset_0_1px_5px_rgba(58,38,32,0.18)]" aria-hidden="true" />
       )}
-      {/* faint print sheen */}
-      <span className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.22),transparent_45%)]" aria-hidden="true" />
     </span>
   );
 
@@ -220,26 +205,9 @@ export default function Print({
       onFocus={onFront}
       onKeyDown={onKeyDown}
     >
-      {/* thin thread it hangs from — gone once it lets go (prints raining in from above have none) */}
-      {hang && hang.y < 100 && (
-        <span
-          className={`silver-thread pointer-events-none absolute bottom-full h-[12svh] w-px md:h-[120svh] transition-opacity duration-150 ${side === 1 ? "left-[6%]" : "right-[6%]"} ${
-            phase === "hanging" ? "opacity-100" : "opacity-0"
-          }`}
-          aria-hidden="true"
-        />
-      )}
-      <motion.div data-paper className="relative rounded-[3px] bg-paper [container-type:inline-size]" style={{ rotate: tilt, boxShadow: shadow }}>
-        {/* a strip of washi tape on some prints */}
-        {print.tape && (
-          <span
-            className="tape -top-[5%] left-1/2 z-10 !h-[13%] !w-[46%] -translate-x-1/2"
-            style={{ ["--tape" as string]: print.tape, rotate: `${side * -4}deg` }}
-            aria-hidden="true"
-          />
-        )}
+      <motion.div data-paper className="relative bg-print [container-type:inline-size]" style={{ rotate: tilt, boxShadow: shadow }}>
         {/* % padding resolves against this print’s width (not the hero’s) inside this wrapper */}
-        <div className="p-[7%] pb-0">
+        <div className="p-[5%] pb-0">
           {print.project || print.href ? (
             <Link
               href={print.project ? `/work/${print.project}` : print.href!}
@@ -251,24 +219,23 @@ export default function Print({
             >
               {well}
             </Link>
-          ) : print.src && !print.art ? (
+          ) : (
             <button type="button" data-well data-cursor="open" aria-label={`${label}${print.alt}. Open the story`} className={`${wellClass} w-full`} onClick={onOpenPhoto}>
               {well}
             </button>
-          ) : (
-            <span role="img" aria-label={print.art ? print.alt : `${label}empty photo well`} className="block">
-              {well}
-            </span>
           )}
-          {/* handwritten caption: always shown on touch screens, revealed on hover/focus elsewhere */}
-          <span className="hand flex aspect-[100/24] items-center justify-center gap-1 px-1 text-center text-[max(0.95rem,10cqw)] leading-none text-espresso transition-[opacity,transform] duration-300 [@media(hover:hover)]:translate-y-1 [@media(hover:hover)]:opacity-0 group-hover/print:translate-y-0 group-hover/print:opacity-100 group-focus-within/print:translate-y-0 group-focus-within/print:opacity-100">
-            <span className="truncate">{print.caption}</span>
-            {(print.project || print.href) && <span aria-hidden="true">↗</span>}
+          {/* caption: index number + title, in mono */}
+          <span className="mono flex h-[max(1.6rem,13cqw)] items-center justify-between gap-2 text-[max(0.56rem,5.2cqw)] uppercase tracking-[0.04em] text-ink">
+            <span className="shrink-0 text-muted">{String(index + 1).padStart(2, "0")}</span>
+            <span className="min-w-0 truncate">
+              {print.caption}
+              {(print.project || print.href) && <span aria-hidden="true"> ↗</span>}
+            </span>
           </span>
         </div>
-        {/* selected print: rose hairline */}
+        {/* focused print: oxblood hairline */}
         <span
-          className="pointer-events-none absolute inset-0 outline outline-1 outline-transparent transition-[outline-color] group-focus-within/print:outline-rose"
+          className="pointer-events-none absolute inset-0 outline outline-1 outline-transparent transition-[outline-color] group-focus-within/print:outline-oxblood"
           aria-hidden="true"
         />
       </motion.div>

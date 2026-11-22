@@ -3,10 +3,10 @@
 import { motion, useMotionValue, useSpring } from "motion/react";
 import { useEffect, useState } from "react";
 
-const LABELS: Record<string, string> = { view: "view ♡", open: "open", poke: "poke!" };
+const LABELS: Record<string, string> = { view: "View", open: "Open" };
 
-/* A small rose ring that trails the pointer on desktop. It swells into a blush dot over links
-   and becomes a little label sticker over projects (“view ♡”), photos (“open”) and the potato.
+/* A small ink dot that trails the pointer on desktop. It opens into a hairline ring over links
+   and a dark disc with a mono label over projects (“View”) and photos (“Open”).
    The normal cursor stays visible. Off on touch screens and for reduced-motion visitors. */
 export default function CustomCursor() {
   const [enabled, setEnabled] = useState(false);
@@ -40,7 +40,7 @@ export default function CustomCursor() {
 
   if (!enabled) return null;
   const label = LABELS[mode];
-  const size = label ? 74 : mode === "link" ? 40 : 20;
+  const size = label ? 68 : mode === "link" ? 36 : 8;
 
   return (
     <motion.div
@@ -51,15 +51,14 @@ export default function CustomCursor() {
         width: size,
         height: size,
         opacity: visible ? 1 : 0,
-        rotate: label ? -8 : 0,
-        backgroundColor: label ? "rgba(58,38,32,0.94)" : mode === "link" ? "rgba(242,196,192,0.55)" : "rgba(242,196,192,0)",
-        borderColor: label ? "rgba(58,38,32,0)" : "rgba(201,115,107,0.75)",
+        backgroundColor: label ? "rgba(28,28,26,0.92)" : mode === "link" ? "rgba(37,37,34,0)" : "rgba(37,37,34,0.9)",
+        borderColor: label ? "rgba(28,28,26,0)" : mode === "link" ? "rgba(37,37,34,0.6)" : "rgba(37,37,34,0)",
       }}
       transition={{ type: "spring", stiffness: 380, damping: 28 }}
       initial={false}
     >
-      <span className="absolute inset-0 rounded-full border-[1.5px]" style={{ borderColor: "inherit" }} />
-      {label && <span className="hand text-[1.15rem] leading-none text-ivory">{label}</span>}
+      <span className="absolute inset-0 rounded-full border" style={{ borderColor: "inherit" }} />
+      {label && <span className="meta text-paper">{label}</span>}
     </motion.div>
   );
 }

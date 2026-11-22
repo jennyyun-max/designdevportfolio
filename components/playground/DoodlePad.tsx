@@ -3,13 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 
 const COLORS = [
-  { name: "espresso", value: "#3a2620" },
-  { name: "rose", value: "#c9736b" },
-  { name: "pink", value: "#ee98a1" },
-  { name: "butter", value: "#e9c44f" },
-  { name: "sage", value: "#7f9a6c" },
-  { name: "sky", value: "#6f8fb3" },
-  { name: "lavender", value: "#9d8cc9" },
+  { name: "charcoal", value: "#252522" },
+  { name: "oxblood", value: "#9d4036" },
+  { name: "steel", value: "#7a8291" },
+  { name: "gray", value: "#b4b0a7" },
 ];
 const SIZES = [
   { name: "fine", value: 2.5 },
@@ -17,7 +14,7 @@ const SIZES = [
   { name: "bold", value: 10 },
 ];
 
-/* A little sketchpad: colored pencils, three sizes, an eraser, undo and clear.
+/* A drawing board: four inks, three sizes, an eraser, undo and clear.
    `onChange` receives a PNG data URL of the drawing (or null when empty). */
 export default function DoodlePad({
   label,
@@ -134,13 +131,13 @@ export default function DoodlePad({
   const save = () => {
     const a = document.createElement("a");
     a.href = canvas.current!.toDataURL("image/png");
-    a.download = "my-doodle-from-chloes-world.png";
+    a.download = "drawing-from-chloes-world.png";
     a.click();
   };
 
   return (
     <div className={className}>
-      <div className={`dotgrid relative overflow-hidden rounded-[14px] border border-espresso/15 ${aspect}`}>
+      <div className={`relative overflow-hidden border border-ink/20 bg-print [background-image:radial-gradient(circle,var(--line)_1px,transparent_1.2px)] [background-size:24px_24px] ${aspect}`}>
         <canvas
           ref={canvas}
           role="img"
@@ -151,9 +148,9 @@ export default function DoodlePad({
           onPointerUp={up}
           onPointerCancel={up}
         />
-        {empty && <p className="hand pointer-events-none absolute inset-0 grid place-items-center text-[1.5rem] text-espresso-soft/70">draw something here ✎</p>}
+        {empty && <p className="meta pointer-events-none absolute inset-0 grid place-items-center text-muted">Draw here</p>}
       </div>
-      <div className="mt-3 flex flex-wrap items-center gap-2" role="toolbar" aria-label="Drawing tools">
+      <div className="meta mt-3 flex flex-wrap items-center gap-3" role="toolbar" aria-label="Drawing tools">
         <div className="flex gap-1.5" role="radiogroup" aria-label="Pencil color">
           {COLORS.map((c) => (
             <button
@@ -166,8 +163,8 @@ export default function DoodlePad({
                 setColor(c.value);
                 setEraser(false);
               }}
-              className={`h-7 w-7 rounded-full border-2 transition-transform ${!eraser && color === c.value ? "scale-110 border-espresso" : "border-paper"}`}
-              style={{ backgroundColor: c.value, boxShadow: "0 0 0 1px rgba(58,38,32,0.2)" }}
+              className={`h-7 w-7 border-2 transition-transform ${!eraser && color === c.value ? "border-paper outline outline-1 outline-ink" : "border-paper"}`}
+              style={{ backgroundColor: c.value }}
             />
           ))}
         </div>
@@ -180,24 +177,24 @@ export default function DoodlePad({
               aria-checked={size === s.value}
               aria-label={s.name}
               onClick={() => setSize(s.value)}
-              className={`grid h-8 w-8 place-items-center rounded-full ${size === s.value ? "bg-pink" : "bg-ivory"}`}
+              className={`grid h-8 w-8 place-items-center border ${size === s.value ? "border-ink" : "border-transparent"}`}
             >
-              <span className="block rounded-full bg-espresso" style={{ width: s.value + 2, height: s.value + 2 }} />
+              <span className="block rounded-full bg-ink" style={{ width: s.value + 2, height: s.value + 2 }} />
             </button>
           ))}
         </div>
-        <button type="button" aria-pressed={eraser} onClick={() => setEraser((v) => !v)} className={`rounded-full px-3 py-1 text-sm font-semibold ${eraser ? "bg-pink" : "bg-ivory"}`}>
-          eraser
+        <button type="button" aria-pressed={eraser} onClick={() => setEraser((v) => !v)} className={`border px-3 py-1.5 ${eraser ? "border-ink bg-ink text-paper" : "border-ink/25"}`}>
+          Eraser
         </button>
-        <button type="button" onClick={undo} className="rounded-full bg-ivory px-3 py-1 text-sm font-semibold">
-          undo
+        <button type="button" onClick={undo} className="border border-ink/25 px-3 py-1.5 hover:border-ink">
+          Undo
         </button>
-        <button type="button" onClick={() => clear()} className="rounded-full bg-ivory px-3 py-1 text-sm font-semibold">
-          clear
+        <button type="button" onClick={() => clear()} className="border border-ink/25 px-3 py-1.5 hover:border-ink">
+          Clear
         </button>
         {allowSave && (
-          <button type="button" onClick={save} disabled={empty} className="rounded-full bg-espresso px-3 py-1 text-sm font-semibold text-ivory disabled:opacity-40">
-            save ↓
+          <button type="button" onClick={save} disabled={empty} className="bg-ink px-3 py-1.5 text-paper disabled:opacity-40">
+            Save ↓
           </button>
         )}
       </div>

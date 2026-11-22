@@ -31,27 +31,26 @@ export default function PhotoPreview({ photo, onClose }: { photo: (DeskPrint & {
       {photo && (
         <motion.figure
           key={photo.src}
-          className="relative max-w-[min(88vw,40rem)] rounded-[4px] bg-paper p-4 pb-3 shadow-[0_30px_60px_-20px_rgba(58,38,32,0.45)] sm:p-5 sm:pb-4"
+          className="relative max-w-[min(88vw,40rem)] bg-print p-4 pb-3 shadow-[0_40px_80px_-30px_rgba(0,0,0,0.6)] sm:p-5 sm:pb-4"
           initial={{ opacity: 0, scale: 0.9, rotate: photo.rotate * 0.6 }}
           animate={{ opacity: 1, scale: 1, rotate: photo.rotate * 0.15 }}
           transition={{ type: "spring", stiffness: 260, damping: 22 }}
         >
-          <span className="tape -top-3 left-1/2 -translate-x-1/2 -rotate-3" style={{ ["--tape" as string]: "var(--butter)" }} aria-hidden="true" />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={photo.src}
             alt={photo.alt}
-            className="mx-auto block max-h-[58vh] w-auto max-w-full bg-pink object-contain"
+            className="mx-auto block max-h-[58vh] w-auto max-w-full bg-stone object-contain"
           />
           <figcaption className="px-1 pt-3 text-center">
-            <span className="hand block text-[1.7rem] leading-none">{photo.caption}</span>
-            {photo.story && <span className="mx-auto mt-2 block max-w-[30rem] text-[0.95rem] leading-relaxed text-espresso-soft">{photo.story}</span>}
+            <span className="meta block">{photo.caption}</span>
+            {photo.story && <span className="mx-auto mt-2 block max-w-[30rem] text-[0.95rem] leading-relaxed text-muted">{photo.story}</span>}
           </figcaption>
           <button
             type="button"
             onClick={onClose}
             aria-label="Close photo"
-            className="absolute -right-3 -top-3 grid h-11 w-11 place-items-center rounded-full bg-espresso text-ivory transition-transform hover:scale-105 active:scale-95"
+            className="absolute -right-3 -top-3 grid h-11 w-11 place-items-center bg-ink text-paper transition-colors hover:bg-oxblood"
           >
             <X size={20} aria-hidden="true" />
           </button>

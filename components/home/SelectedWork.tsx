@@ -1,36 +1,51 @@
 import Link from "next/link";
 import { projects } from "@/content/projects";
-import ProjectCard from "../work/ProjectCard";
-import Reveal from "../ui/Reveal";
-import { Sketchbook } from "../doodles/Doodles";
+import ProjectTile from "../work/ProjectTile";
+import ProjectIndex from "../work/ProjectIndex";
+import SplitHeading from "../ui/SplitHeading";
 
-/* Homepage: the lead project (Atlas Digital / Brookfield) and two more, then the way to the work room */
+/* Homepage: the work, right after the introduction. Three projects as large plates in an
+   asymmetrical arrangement, then the full index. */
 export default function SelectedWork() {
   const [lead, second, third] = projects;
   return (
-    <section id="work" aria-labelledby="work-heading" className="relative mx-auto max-w-[1320px] px-5 py-20 sm:px-8 sm:py-28">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <p className="eyebrow flex items-center gap-2">
-            <Sketchbook className="h-6 w-6" /> selected work
-          </p>
-          <h2 id="work-heading" className="display mt-3 text-[clamp(2.6rem,6vw,5rem)]">
-            a few things I’ve <em>made</em>
-          </h2>
-        </div>
-        <Link href="/work" className="link pb-2 text-[1.05rem] font-semibold">
-          see all my work →
-        </Link>
+    <section id="work" aria-labelledby="work-heading" className="mx-auto max-w-[1600px] px-5 pt-24 sm:px-8 md:pt-36">
+      <div className="grid gap-6 border-t border-ink pt-5 md:grid-cols-12">
+        <p className="meta text-muted md:col-span-3">(01) Selected work</p>
+        <SplitHeading
+          id="work-heading"
+          className="display text-[clamp(3rem,7.4vw,7.4rem)] md:col-span-9"
+          label="Projects, from research to the final screens"
+          lines={[
+            "Projects, from",
+            <span key="b">
+              research to the <em>final screens</em>
+            </span>,
+          ]}
+        />
       </div>
-      <Reveal className="mt-12">
-        <ProjectCard project={lead} index={0} size="feature" />
-      </Reveal>
-      <div className="mt-10 grid gap-x-8 gap-y-12 md:grid-cols-2">
-        {[second, third].map((p, i) => (
-          <Reveal key={p.slug} delay={i * 0.08}>
-            <ProjectCard project={p} index={i + 1} />
-          </Reveal>
-        ))}
+
+      <div className="mt-16 md:mt-24">
+        <ProjectTile project={lead} n={1} shape="full" />
+      </div>
+      <div className="mt-20 grid gap-20 md:grid-cols-12 md:gap-8">
+        <div className="md:col-span-7">
+          <ProjectTile project={second} n={2} shape="wide" />
+        </div>
+        <div className="md:col-span-4 md:col-start-9 md:mt-[22%]">
+          <ProjectTile project={third} n={3} shape="tall" />
+        </div>
+      </div>
+
+      <div className="mt-28 grid gap-6 md:grid-cols-12">
+        <p className="meta text-muted md:col-span-3">(02) Index — all projects</p>
+        {/* not wrapped in a transform: the preview inside is position: fixed */}
+        <div className="md:col-span-9">
+          <ProjectIndex projects={projects} />
+          <Link href="/work" className="wipe mt-6 inline-block text-[0.95rem]">
+            View the work page →
+          </Link>
+        </div>
       </div>
     </section>
   );

@@ -1,60 +1,67 @@
 import type { DeskPrint } from "@/lib/types";
 
 /* ==================================================================
-   POLAROIDS
+   PRINTS (POLAROIDS)
 
    Swap a photo: put the file in /public/images/… and change `src`
    (and `alt`). `project: "<slug>"` opens that case study; `href`
    opens any page; `story` is shown when a photo print is opened.
-   `size`: "large", "focal" or "hero"; default regular. `tape` adds a
-   strip of washi tape in that color.
+   `size`: "large", "focal" or "hero"; default regular. Prints show in
+   black & white until hovered.
 
    Image rules (from Chloe): no images showing the words “title” or
    “cignature”, and none of the group photos she asked to remove.
    That’s why the stage photo is a text-free crop (aurora-portrait.jpg).
    ================================================================== */
 
-/* How the homepage Polaroids fall in on page load */
+/* How the homepage prints fall in (when the welcome isn’t playing) */
 export const dropSettings = {
-  /** Seconds before the first Polaroid starts falling */
-  startDelay: 0.15,
-  /** Seconds between one Polaroid and the next */
-  every: 0.14,
-  /** Seconds for a fall the full height of the hero (bigger = slower, floatier) */
-  fallSeconds: 1.15,
+  /** Seconds before the first print starts falling */
+  startDelay: 0.2,
+  /** Seconds between one print and the next */
+  every: 0.12,
+  /** Seconds for a fall the full height of the hero (bigger = slower) */
+  fallSeconds: 1.1,
 };
 
 /* ------------------------------------------------------------------
-   HOMEPAGE — a collage beside “hi, i’m chloe!”. Positions are % of the
-   collage area (the whole hero on desktop; the area under the text on
-   phones): x = left edge, y = height of the print’s bottom edge above the
-   bottom of the hero. `hang` is where it starts (above the screen, so
-   y > 100); `rest` is where it lands. Omit `desktop` or `mobile` to
-   hide a print there. Prints fall in the order listed.
+   HOMEPAGE — a loose stack of prints laid over the name. Positions are
+   % of the collage area (the whole hero on desktop; the strip under the
+   text on phones): x = left edge, y = height of the print’s bottom edge
+   above the bottom. `hang` is where it starts (above the screen, y > 100);
+   `rest` is where it lands. Omit `desktop` or `mobile` to hide a print
+   there. The welcome’s stars turn into exactly these prints.
    ------------------------------------------------------------------ */
 export const prints: DeskPrint[] = [
   {
     src: "/images/polaroids/chloe-portrait.jpg",
     alt: "Portrait of Chloe Yun",
-    caption: "hi, that’s me!",
+    caption: "Portrait",
     focus: "50% 25%",
     size: "large",
-    tape: "var(--butter)",
     story:
-      "Hi! I’m Chloe. I grew up in California, spent five years performing in Korea, and now I study information at the University of Michigan — exploring where creativity, design, and technology meet.",
-    desktop: { hang: { x: 46, y: 150, rotate: -20 }, rest: { x: 46.5, y: 47, rotate: -7 } },
-    mobile: { hang: { x: 2, y: 260, rotate: -20 }, rest: { x: 1, y: 48, rotate: -8 } },
+      "I grew up in California, spent five years performing in Korea, and now study information at the University of Michigan — exploring where design and technology meet.",
+    desktop: { hang: { x: 60, y: 150, rotate: -14 }, rest: { x: 55, y: 31, rotate: -4 } },
+    mobile: { hang: { x: 4, y: 260, rotate: -14 }, rest: { x: 4, y: 30, rotate: -5 } },
   },
   {
-    // The last frame of the hand-drawn welcome (components/intro/Sketch.tsx)
-    src: "",
-    art: "michigan",
-    href: "/journey",
-    alt: "Pencil drawing of Chloe at a University of Michigan library desk, tapping a button she designed on her laptop",
-    caption: "ann arbor ♡",
-    size: "hero",
-    desktop: { hang: { x: 58, y: 160, rotate: 14 }, rest: { x: 57.5, y: 31, rotate: 3 } },
-    mobile: { hang: { x: 30, y: 280, rotate: 14 }, rest: { x: 29, y: 24, rotate: 3 } },
+    src: "/images/polaroids/aurora-portrait.jpg",
+    alt: "Chloe in a pastel stage photoshoot",
+    caption: "Stage years",
+    story:
+      "Five years in K-pop, including with cignature. Music, choreography, styling, production — everything was teamwork toward one shared outcome, and it taught me to notice how people react to what we make.",
+    desktop: { hang: { x: 73, y: 160, rotate: 12 }, rest: { x: 69, y: 47, rotate: 5 } },
+    mobile: { hang: { x: 36, y: 270, rotate: 12 }, rest: { x: 36, y: 46, rotate: 4 } },
+  },
+  {
+    src: "/images/polaroids/cignature-apple.jpg",
+    alt: "Photoshoot with an apple on a picnic blanket",
+    caption: "Photoshoot",
+    focus: "50% 40%",
+    story:
+      "Photoshoots, rehearsals, live stages: performing taught me to pay attention to how people react, what resonates, and how small changes can shape an experience. I still design that way.",
+    desktop: { hang: { x: 85, y: 150, rotate: -10 }, rest: { x: 82, y: 26, rotate: -3 } },
+    mobile: { hang: { x: 66, y: 250, rotate: -10 }, rest: { x: 66, y: 22, rotate: -4 } },
   },
   {
     src: "/images/projects/lumen/01-cover.png",
@@ -62,46 +69,16 @@ export const prints: DeskPrint[] = [
     caption: "LUMEN",
     focus: "70% 45%",
     project: "lumen",
-    tape: "var(--blush)",
-    desktop: { hang: { x: 74, y: 170, rotate: 18 }, rest: { x: 74.5, y: 58, rotate: 8 } },
-    mobile: { hang: { x: 66, y: 260, rotate: 18 }, rest: { x: 67, y: 52, rotate: 8 } },
+    desktop: { hang: { x: 66, y: 170, rotate: 10 }, rest: { x: 63, y: 5, rotate: 2.5 } },
+    mobile: { hang: { x: 28, y: 240, rotate: 10 }, rest: { x: 30, y: 2, rotate: 2 } },
   },
   {
     src: "/images/projects/brookfield/project-page.webp",
     alt: "Brookfield Knowledge Hub project page",
-    caption: "atlas digital",
+    caption: "Atlas Digital",
     focus: "70% 30%",
     project: "brookfield",
-    size: "large",
-    desktop: { hang: { x: 80, y: 160, rotate: -16 }, rest: { x: 79.5, y: 24, rotate: -5 } },
-    mobile: { hang: { x: 60, y: 250, rotate: -16 }, rest: { x: 62, y: 3, rotate: -5 } },
-  },
-  {
-    src: "/images/polaroids/aurora-portrait.jpg",
-    alt: "Chloe in a pastel stage photoshoot",
-    caption: "the stage years",
-    tape: "var(--lavender)",
-    story:
-      "Five years in K-pop, including with cignature. Music, choreography, styling, production — everything was teamwork toward one shared outcome, and it taught me to notice how people react to what we make.",
-    desktop: { hang: { x: 66, y: 150, rotate: -12 }, rest: { x: 66, y: 4, rotate: -7 } },
-    mobile: { hang: { x: 3, y: 240, rotate: -12 }, rest: { x: 2, y: 2, rotate: 6 } },
-  },
-  {
-    src: "/images/polaroids/cignature-apple.jpg",
-    alt: "Photoshoot with an apple on a picnic blanket",
-    caption: "photoshoot days",
-    focus: "50% 40%",
-    story:
-      "Photoshoots, rehearsals, live stages: performing taught me to pay attention to how people react, what resonates, and how small changes can shape an experience. I still design that way.",
-    desktop: { hang: { x: 47, y: 150, rotate: 16 }, rest: { x: 47.5, y: 5, rotate: 6 } },
-  },
-  {
-    src: "/images/projects/costco/cover.webp",
-    alt: "Costco app redesign screens",
-    caption: "costco redesign",
-    focus: "78% 50%",
-    project: "costco-redesign",
-    desktop: { hang: { x: 86, y: 150, rotate: 14 }, rest: { x: 86, y: 3, rotate: 9 } },
+    desktop: { hang: { x: 80, y: 160, rotate: -12 }, rest: { x: 76.5, y: 3, rotate: -2 } },
   },
   {
     src: "/images/projects/data-analysis/unesco-map.webp",
@@ -109,8 +86,7 @@ export const prints: DeskPrint[] = [
     caption: "1,121 sites",
     focus: "45% 50%",
     project: "data-analysis",
-    tape: "var(--sky)",
-    desktop: { hang: { x: 88, y: 170, rotate: -14 }, rest: { x: 87.5, y: 60, rotate: -6 } },
+    desktop: { hang: { x: 89, y: 170, rotate: 10 }, rest: { x: 87.5, y: 55, rotate: 4 } },
   },
 ];
 

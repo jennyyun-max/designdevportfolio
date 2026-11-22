@@ -1,74 +1,50 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import Link from "next/link";
+import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { hero } from "@/content/site";
 import { dropSettings, prints } from "@/content/polaroids";
 import PhotoPreview from "../polaroids/PhotoPreview";
-import ButtonLink from "../ui/ButtonLink";
-import { Heart, Sparkle, Star } from "../doodles/Doodles";
 import Print, { type PrintPhase } from "./Print";
 
-const ease = [0.22, 1, 0.36, 1] as const;
+const ease = [0.16, 1, 0.3, 1] as const;
 
-/* “hi, i’m *chloe*!” — the original headline: Fraunces, words rise in one by one,
-   *chloe* in Instrument Serif italic with a rose squiggle drawn under it. */
-function AnimatedHeadline({ text }: { text: string }) {
-  const words = text.split(" ");
+/* The name, set very large, each line rising out of a mask */
+function Name({ replay }: { replay: number }) {
+  const [first, last] = hero.name.split(" ");
   return (
-    <h1 id="hero-heading" className="display text-[clamp(3.5rem,15.5vw,5.4rem)] leading-[0.9] md:text-[clamp(4rem,7.6vw,8.4rem)]">
-      <span className="sr-only">{text.replace(/\*/g, "")}</span>
-      <span aria-hidden="true">
-        {words.map((word, i) => {
-          const accent = /\*(.+)\*/.exec(word);
-          return (
-            <span key={i} className={`inline-block overflow-hidden pb-[0.14em] align-bottom ${i < words.length - 1 ? "mr-[0.24em]" : ""}`}>
-              <motion.span className="relative inline-block" initial={{ y: "105%" }} animate={{ y: 0 }} transition={{ duration: 0.9, delay: 0.1 + i * 0.12, ease }}>
-                {accent ? (
-                  <>
-                    {word.slice(0, accent.index)}
-                    <em className="relative">
-                      {accent[1]}
-                      <svg viewBox="0 0 300 24" className="absolute -bottom-[0.02em] left-0 w-full overflow-visible" aria-hidden="true" focusable="false">
-                        <motion.path
-                          d="M4 16 C 60 6, 120 22, 180 12 S 270 6, 296 14"
-                          fill="none"
-                          stroke="var(--rose)"
-                          strokeWidth="6"
-                          strokeLinecap="round"
-                          initial={{ pathLength: 0 }}
-                          animate={{ pathLength: 1 }}
-                          transition={{ duration: 1, delay: 0.9, ease }}
-                        />
-                      </svg>
-                    </em>
-                    {word.slice(accent.index + accent[0].length)}
-                  </>
-                ) : (
-                  word
-                )}
-              </motion.span>
-            </span>
-          );
-        })}
+    <h1 id="hero-heading" key={replay} className="display relative uppercase leading-[0.8] tracking-[-0.045em]">
+      <span className="sr-only">{hero.name}</span>
+      <span aria-hidden="true" className="block">
+        {[first, last].map((word, i) => (
+          <span key={word} className={`block overflow-hidden pb-[0.04em] ${i === 1 ? "pl-[14%] md:pl-[17%]" : ""}`}>
+            <motion.span className="block" initial={{ y: "102%" }} animate={{ y: 0 }} transition={{ duration: 1.3, delay: 0.1 + i * 0.12, ease }}>
+              {i === 1 ? <em className="normal-case">{word}</em> : word}
+            </motion.span>
+          </span>
+        ))}
       </span>
     </h1>
   );
 }
 
-/* The homepage hero: the greeting on the left, a collage of Polaroids on the right.
-   On page load (after the welcome, if it’s playing) the Polaroids fall in from above the
-   screen one by one, tilt, land at different angles and overlap. Then they can be picked up
-   by their white border and rearranged; a click on the photo opens its story or project. */
+/* The homepage hero: the name as the image, a loose stack of prints laid over it (draggable,
+   black & white until hovered), the disciplines and a one-line introduction. Then the work.
+   The welcome's stars turn into these exact prints; without the welcome they fall in on load. */
 export default function Hero() {
+  const section = useRef<HTMLElement>(null);
   const boundsRef = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
   const [isDesktop, setIsDesktop] = useState<boolean | null>(null);
   const [phases, setPhases] = useState<PrintPhase[]>([]);
   const [stack, setStack] = useState<number[]>([]);
   const [open, setOpen] = useState<number | null>(null);
-  const [settled, setSettled] = useState(false);
-  const [revealKey, setRevealKey] = useState(0); // bumps when the welcome hands over, replaying the greeting
+  const [revealKey, setRevealKey] = useState(0); // bumps when the welcome hands over, replaying the type
+
+  // the name drifts up a touch slower than the page
+  const { scrollYProgress } = useScroll({ target: section, offset: ["start start", "end start"] });
+  const nameY = useTransform(scrollYProgress, [0, 1], ["0%", "18%"]);
 
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 768px)");
@@ -83,9 +59,8 @@ export default function Hero() {
     [isDesktop],
   );
 
-  // Start positions. During the welcome every print waits, hidden, at its resting spot: the
-  // welcome's stars turn into Polaroids that fly exactly onto them. Otherwise they wait above
-  // the screen and rain in on page load.
+  // During the welcome every print waits, hidden, at its resting spot (the welcome's stars fly
+  // exactly onto them). Otherwise they wait above the screen and fall in on page load.
   useEffect(() => {
     if (isDesktop === null) return;
     const intro = document.documentElement.dataset.intro === "play";
@@ -93,20 +68,19 @@ export default function Hero() {
     setStack(prints.map((_, i) => i));
   }, [isDesktop, reduced]);
 
-  // Rain: once the welcome is out of the way, drop the prints one after another
   useEffect(() => {
-    if (isDesktop === null || reduced) {
-      if (reduced) setSettled(true);
-      return;
-    }
+    if (isDesktop === null || reduced) return;
     const html = document.documentElement;
     const timers: number[] = [];
     const start = () => {
-      const order = visible.map((v) => v.i);
-      order.forEach((i, n) =>
-        timers.push(window.setTimeout(() => setPhases((ph) => (ph[i] === "hanging" ? ph.map((p, k) => (k === i ? "falling" : p)) : ph)), (dropSettings.startDelay + n * dropSettings.every) * 1000)),
+      visible.forEach(({ i }, n) =>
+        timers.push(
+          window.setTimeout(
+            () => setPhases((ph) => (ph[i] === "hanging" ? ph.map((p, k) => (k === i ? "falling" : p)) : ph)),
+            (dropSettings.startDelay + n * dropSettings.every) * 1000,
+          ),
+        ),
       );
-      timers.push(window.setTimeout(() => setSettled(true), (dropSettings.startDelay + order.length * dropSettings.every + dropSettings.fallSeconds) * 1000 + 300));
     };
     if (html.dataset.intro !== "play") {
       start();
@@ -136,83 +110,61 @@ export default function Hero() {
   const openPrint = open === null ? null : { ...prints[open], rotate: 0 };
 
   return (
-    <section
-      aria-labelledby="hero-heading"
-      className="relative min-h-[calc(100svh-4.5rem)] overflow-hidden pb-4 md:h-[max(38rem,calc(100svh-4.5rem))] md:pb-0"
-    >
-      {/* gentle floating doodles */}
-      <span className="intro-reveal pointer-events-none absolute right-[6%] top-[12%] w-8 md:left-[42%] md:right-auto md:top-[9%] md:w-11" style={{ ["--d" as string]: "0.9s" }}>
-        <Sparkle className="float w-full" />
-      </span>
-      <span className="intro-reveal pointer-events-none absolute right-[5%] top-[2%] hidden w-9 md:block" style={{ ["--d" as string]: "1.1s" }}>
-        <Heart className="float-slow w-full" style={{ animationDelay: "-2s" }} />
-      </span>
-      <span className="intro-reveal pointer-events-none absolute bottom-[7%] left-[38%] hidden w-9 md:block" style={{ ["--d" as string]: "1.3s" }}>
-        <Star className="float w-full" style={{ animationDelay: "-1s" }} />
-      </span>
-
-      {/* The greeting (re-mounted when the welcome hands over, so it rises in as the last beat) */}
-      <div key={revealKey} className="intro-reveal relative z-20 px-5 pt-6 sm:px-8 md:absolute md:left-[6%] md:top-[15%] md:w-[38%] md:p-0">
-        <motion.p className="eyebrow flex items-center gap-2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }}>
-          <Sparkle className="twinkle h-4 w-4" />
-          {hero.eyebrow}
-        </motion.p>
-        <div className="mt-4 md:mt-6">
-          <AnimatedHeadline text={hero.headline} />
+    <section ref={section} aria-labelledby="hero-heading" className="relative overflow-hidden md:h-[max(44rem,calc(100svh-4rem))]">
+      <div className="relative z-20 mx-auto flex h-full max-w-[1600px] flex-col px-5 pt-6 sm:px-8 md:pointer-events-none md:pb-8">
+        {/* metadata row */}
+        <div key={`m${revealKey}`} className="intro-reveal meta grid grid-cols-2 gap-4 text-muted md:grid-cols-12" style={{ ["--d" as string]: "0.1s" }}>
+          <p className="md:col-span-3">(Portfolio)</p>
+          <p className="text-ink md:col-span-5">{hero.disciplines.join(" / ")}</p>
+          <p className="col-span-2 max-w-[28rem] md:col-span-4 md:text-right">{hero.detail}</p>
         </div>
-        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.6, ease }}>
-          <p className="mt-4 max-w-[30rem] text-[clamp(1.08rem,1.5vw,1.32rem)] leading-relaxed md:mt-7">{hero.text}</p>
-          <p className="eyebrow mt-3 max-w-[30rem] !normal-case !tracking-[0.02em]">{hero.detail}</p>
-          <div className="mt-6 flex flex-wrap gap-3 md:mt-8">
-            <ButtonLink href="/work" variant="primary">
-              see my work ↓
-            </ButtonLink>
-            <ButtonLink href="/about">get to know me</ButtonLink>
+
+        {/* the name */}
+        <div className="intro-reveal mt-[8svh] text-[clamp(5.4rem,25vw,9rem)] md:mt-auto md:text-[min(19.5vw,36svh)]">
+          <motion.div style={{ y: reduced ? 0 : nameY }}>
+            <Name replay={revealKey} />
+          </motion.div>
+        </div>
+
+        {/* introduction */}
+        <div key={`i${revealKey}`} className="intro-reveal mt-8 md:mt-auto md:max-w-[46%]" style={{ ["--d" as string]: "0.35s" }}>
+          <p className="display max-w-[20ch] text-[clamp(1.7rem,3vw,2.6rem)] leading-[1.02]">{hero.intro}</p>
+          {hero.status && <p className="meta mt-4 text-oxblood">{hero.status}</p>}
+          <div className="mt-6 flex flex-wrap gap-x-7 gap-y-2 text-[0.95rem] md:pointer-events-auto">
+            <a href="#work" className="wipe">
+              Selected work ↓
+            </a>
+            <Link href="/about" className="wipe">
+              About Chloe →
+            </Link>
+            <span className="meta hidden self-center text-muted lg:inline">· Drag the prints</span>
           </div>
-          <p className="hand mt-3 text-[1.3rem] leading-none text-rose-deep md:hidden" aria-hidden="true">
-            tap a photo to open it ♡
-          </p>
-        </motion.div>
-        {/* handwritten note pointing at the Polaroids */}
-        <motion.p
-          className="hand mt-7 hidden items-center gap-2 text-[1.6rem] leading-none text-rose-deep md:flex"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: settled ? 1 : 0 }}
-          transition={{ duration: 0.6 }}
-          aria-hidden="true"
-        >
-          psst — pick them up & move them around!
-          <svg viewBox="0 0 80 40" className="w-16 overflow-visible" fill="none">
-            {settled && (
-              <path className="draw-on" pathLength={1} d="M4 30 C 26 34, 50 26, 70 10 M58 10 L71 9 L68 22" stroke="var(--rose)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-            )}
-          </svg>
-        </motion.p>
+        </div>
       </div>
 
-      {/* The collage — its own area under the text on phones, the whole hero on wider screens */}
-      <div className="relative mt-4 h-[24rem] md:absolute md:inset-0 md:mt-0 md:h-auto">
-      <div ref={boundsRef} className="absolute inset-0" aria-hidden="true" />
-      <div role="group" aria-label="Polaroids — drag them by the white border, or open one" className="hero-prints pointer-events-none absolute inset-0">
-        {phases.length > 0 &&
-          visible.map(({ print, i, layout }) => (
-            <Print
-              key={`${isDesktop ? "d" : "m"}-${i}`}
-              print={print}
-              layout={layout!}
-              index={i}
-              phase={phases[i]}
-              zIndex={10 + stack.indexOf(i)}
-              fallSeconds={dropSettings.fallSeconds}
-              tipSeconds={0}
-              gravity={false}
-              boundsRef={boundsRef}
-              onLanded={() => land(i)}
-              onFront={() => bringToFront(i)}
-              onOpenPhoto={() => setOpen(i)}
-            />
-          ))}
-      </div>
+      {/* The prints — a strip under the text on phones, over the whole hero on wider screens */}
+      <div className="relative mt-10 h-[21rem] md:absolute md:inset-0 md:mt-0 md:h-auto">
+        <div ref={boundsRef} className="absolute inset-0" aria-hidden="true" />
+        <div role="group" aria-label="Photo prints — drag them by the white border, or open one" className="hero-prints pointer-events-none absolute inset-0 z-30">
+          {phases.length > 0 &&
+            visible.map(({ print, i, layout }) => (
+              <Print
+                key={`${isDesktop ? "d" : "m"}-${i}`}
+                print={print}
+                layout={layout!}
+                index={i}
+                phase={phases[i]}
+                zIndex={10 + stack.indexOf(i)}
+                fallSeconds={dropSettings.fallSeconds}
+                tipSeconds={0}
+                gravity={false}
+                boundsRef={boundsRef}
+                onLanded={() => land(i)}
+                onFront={() => bringToFront(i)}
+                onOpenPhoto={() => setOpen(i)}
+              />
+            ))}
+        </div>
       </div>
       <PhotoPreview photo={openPrint} onClose={() => setOpen(null)} />
     </section>

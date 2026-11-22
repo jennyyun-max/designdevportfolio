@@ -8,8 +8,8 @@ import { archive } from "@/content/polaroids";
 
 type Shot = { id: number; photo: (typeof archive)[number]; rotate: number };
 
-/* An instant camera. Press the shutter: a flash, a whirr, and a print slides out of the
-   slot and slowly develops — each one a real photo with a little true story. Earlier
+/* An instant camera. Press the shutter: a flash, and a print slides out of the
+   slot and slowly develops (in black & white) — each one a real photo with a little true story. Earlier
    shots pile up beside the camera; projects link to their case study. */
 export default function PolaroidCamera() {
   const reduced = useReducedMotion();
@@ -40,39 +40,26 @@ export default function PolaroidCamera() {
       <div className="relative mx-auto w-full max-w-[24rem]">
         {/* the camera */}
         <div className="relative z-10">
-          <svg viewBox="0 0 320 240" className="w-full overflow-visible drop-shadow-[0_18px_24px_rgba(58,38,32,0.22)]" aria-hidden="true">
-            <path d="M24 46 Q24 26 44 26 L276 26 Q296 26 296 46 L298 214 Q298 230 280 230 L40 230 Q22 230 22 214 Z" fill="#f8dedb" stroke="#3a2620" strokeWidth="3" strokeLinejoin="round" />
-            <path d="M24 150 L296 150" stroke="#3a2620" strokeWidth="2" opacity="0.25" />
-            <path d="M30 156 Q160 164 290 156 L292 212 Q292 224 278 224 L42 224 Q28 224 28 212 Z" fill="#f2c4c0" opacity="0.8" />
-            {/* rainbow stripe */}
-            {["#f6e4a8", "#d3dfca", "#cadded", "#ddd4ef"].map((c, i) => (
-              <rect key={c} x={140 + i * 9} y="26" width="9" height="124" fill={c} />
-            ))}
-            <rect x="44" y="40" width="58" height="34" rx="8" fill="#fffdf8" stroke="#3a2620" strokeWidth="2.6" />
-            <rect x="52" y="47" width="42" height="20" rx="5" fill="#cadded" />
-            <rect x="226" y="40" width="44" height="26" rx="6" fill="#fffdf8" stroke="#3a2620" strokeWidth="2.6" />
-            <circle cx="160" cy="118" r="62" fill="#fffdf8" stroke="#3a2620" strokeWidth="3" />
-            <circle cx="160" cy="118" r="44" fill="#3a2620" />
-            <circle cx="160" cy="118" r="28" fill="#6d5850" />
-            <circle cx="146" cy="104" r="9" fill="#fff" opacity="0.7" />
-            <circle cx="172" cy="128" r="4" fill="#fff" opacity="0.4" />
-            {/* print slot */}
-            <rect x="70" y="202" width="180" height="10" rx="5" fill="#3a2620" />
-            <path d="M262 92 q 8 -6 16 0" stroke="#3a2620" strokeWidth="2.4" fill="none" strokeLinecap="round" />
+          <svg viewBox="0 0 320 240" className="w-full overflow-visible" aria-hidden="true">
+            <rect x="22" y="30" width="276" height="196" fill="#252522" />
+            <rect x="22" y="150" width="276" height="76" fill="#1c1c1a" />
+            <rect x="40" y="46" width="52" height="28" fill="none" stroke="#f3f0e9" strokeWidth="1" opacity="0.6" />
+            <text x="232" y="60" fill="#f3f0e9" opacity="0.55" fontFamily="var(--font-mono)" fontSize="8" letterSpacing="1">INSTANT · 01</text>
+            <circle cx="160" cy="118" r="62" fill="#1c1c1a" stroke="#f3f0e9" strokeOpacity="0.35" strokeWidth="1" />
+            <circle cx="160" cy="118" r="48" fill="none" stroke="#f3f0e9" strokeOpacity="0.2" strokeWidth="1" />
+            <circle cx="160" cy="118" r="30" fill="#0e0e0d" />
+            <circle cx="148" cy="106" r="7" fill="#f3f0e9" opacity="0.25" />
+            <rect x="70" y="204" width="180" height="6" fill="#0e0e0d" />
           </svg>
           {/* the shutter */}
           <button
             type="button"
             onClick={shoot}
             disabled={busy}
-            className="absolute right-[20%] top-[11%] grid aspect-square w-[15%] -translate-y-1/2 place-items-center rounded-full border-[3px] border-espresso bg-rose shadow-[0_4px_0_var(--espresso)] transition-transform hover:-translate-y-[55%] active:-translate-y-[45%] active:shadow-[0_1px_0_var(--espresso)] disabled:opacity-80 motion-reduce:transition-none"
-            aria-label="Take a photo"
+            className="absolute right-[14%] top-[12.5%] -translate-y-1/2 bg-oxblood px-3 py-2 font-mono text-[0.62rem] uppercase tracking-[0.1em] text-paper transition-transform hover:-translate-y-[60%] active:-translate-y-[45%] disabled:opacity-70 motion-reduce:transition-none"
           >
-            <span className="sr-only">Take a photo</span>
+            Shutter
           </button>
-          <p className="hand absolute right-[38%] top-[-4%] -rotate-6 text-[1.3rem] leading-none text-rose-deep" aria-hidden="true">
-            press me! →
-          </p>
           {/* flash */}
           <AnimatePresence>
             {flash > 0 && !reduced && (
@@ -94,43 +81,46 @@ export default function PolaroidCamera() {
             {latest && (
               <motion.figure
                 key={latest.id}
-                className="relative rounded-[3px] bg-paper p-[7%] pb-0 shadow-[0_20px_30px_-20px_rgba(58,38,32,0.6)]"
+                className="relative bg-print p-[5%] pb-0 shadow-[0_24px_40px_-24px_rgba(37,37,34,0.6)]"
                 initial={reduced ? { opacity: 0 } : { y: "-70%", rotate: 0, opacity: 1 }}
                 animate={{ y: 0, rotate: latest.rotate / 3, opacity: 1 }}
                 exit={{ opacity: 0, x: 120, rotate: 12, transition: { duration: 0.3 } }}
                 transition={{ duration: reduced ? 0.2 : 0.9, ease: [0.22, 1, 0.36, 1] }}
               >
-                <span className="relative block aspect-square overflow-hidden bg-[#2d211d]">
+                <span className="relative block aspect-square overflow-hidden bg-night">
                   <Image
                     src={latest.photo.src}
                     alt={latest.photo.alt}
                     fill
                     sizes="320px"
-                    className="object-cover [animation:develop_2.6s_ease-out_0.5s_both] motion-reduce:animate-none"
+                    className="object-cover grayscale [animation:develop_2.6s_ease-out_0.5s_both] motion-reduce:animate-none"
                     style={{ objectPosition: latest.photo.focus ?? "50% 50%" }}
                   />
                 </span>
-                <figcaption className="pb-3 pt-2 text-center" aria-live="polite">
-                  <span className="hand block text-[1.6rem] leading-none">{latest.photo.caption}</span>
-                  <span className="mt-1 block text-[0.88rem] leading-snug text-espresso-soft">{latest.photo.story}</span>
+                <figcaption className="pb-4 pt-3" aria-live="polite">
+                  <span className="meta flex justify-between">
+                    <span className="text-muted">No. {String(latest.id).padStart(2, "0")}</span>
+                    <span>{latest.photo.caption}</span>
+                  </span>
+                  <span className="mt-2 block text-[0.9rem] leading-snug text-muted">{latest.photo.story}</span>
                   {latest.photo.href && (
-                    <Link href={latest.photo.href} className="link mt-1 inline-block text-[0.88rem] font-semibold">
-                      see the project →
+                    <Link href={latest.photo.href} className="wipe mt-2 inline-block text-[0.88rem]">
+                      See the project →
                     </Link>
                   )}
                 </figcaption>
               </motion.figure>
             )}
           </AnimatePresence>
-          {!latest && <p className="hand pt-14 text-center text-[1.5rem] text-espresso-soft">press the pink button to take a photo</p>}
+          {!latest && <p className="meta pt-14 text-center text-muted">Press the shutter to take a photo</p>}
         </div>
       </div>
 
       {/* the pile */}
       <div>
-        <p className="eyebrow">your prints {shots.length > 1 && `· ${shots.length - 1}`}</p>
+        <p className="meta text-muted">Your prints {shots.length > 1 && `— ${shots.length - 1}`}</p>
         {pile.length === 0 ? (
-          <p className="mt-3 max-w-[22rem] text-espresso-soft">Every photo comes from my camera roll and comes with a little story. Older prints land here.</p>
+          <p className="mt-3 max-w-[22rem] text-muted">Every photo comes from my archive, with a short true story. Older prints land here.</p>
         ) : (
           <ul className="mt-5 grid grid-cols-3 gap-4 sm:grid-cols-4 lg:grid-cols-3">
             <AnimatePresence initial={false}>
@@ -142,12 +132,12 @@ export default function PolaroidCamera() {
                   animate={{ opacity: 1, scale: 1, y: 0, rotate: s.rotate }}
                   exit={{ opacity: 0, scale: 0.6 }}
                   transition={{ type: "spring", stiffness: 260, damping: 22 }}
-                  className="rounded-[2px] bg-paper p-[7%] pb-0 shadow-[0_10px_18px_-12px_rgba(58,38,32,0.6)]"
+                  className="bg-print p-[5%] pb-0 shadow-[0_12px_22px_-14px_rgba(37,37,34,0.6)]"
                 >
-                  <span className="relative block aspect-square overflow-hidden bg-pink">
-                    <Image src={s.photo.src} alt={s.photo.alt} fill sizes="140px" className="object-cover" style={{ objectPosition: s.photo.focus ?? "50% 50%" }} />
+                  <span className="relative block aspect-square overflow-hidden bg-stone">
+                    <Image src={s.photo.src} alt={s.photo.alt} fill sizes="140px" className="object-cover grayscale" style={{ objectPosition: s.photo.focus ?? "50% 50%" }} />
                   </span>
-                  <span className="hand block truncate py-1 text-center text-[1.1rem] leading-tight">{s.photo.caption}</span>
+                  <span className="meta block truncate py-2">{s.photo.caption}</span>
                 </motion.li>
               ))}
             </AnimatePresence>
