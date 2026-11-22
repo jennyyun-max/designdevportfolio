@@ -12,6 +12,15 @@ import costumeBloodWall from "@/public/images/personal/costume-blood-wall.jpg";
 import costumeNight1 from "@/public/images/personal/costume-night-1.jpg";
 import costumeNight2 from "@/public/images/personal/costume-night-2.jpg";
 import costumeNight3 from "@/public/images/personal/costume-night-3.jpg";
+import nightSwim from "@/public/images/personal/night-swim.jpg";
+import sanJuanStreet from "@/public/images/personal/san-juan-street.jpg";
+import cherries from "@/public/images/personal/cherries.jpg";
+import photoBooth from "@/public/images/personal/photo-booth.jpg";
+import tacos from "@/public/images/personal/tacos.jpg";
+import corner from "@/public/images/personal/corner.jpg";
+import streetMural from "@/public/images/personal/street-mural.jpg";
+import candlelight from "@/public/images/personal/candlelight.jpg";
+import pilates from "@/public/images/personal/pilates.jpg";
 
 /* ==================================================================
    PERSONAL PHOTOS — the only images that go inside Polaroid frames.
@@ -142,6 +151,52 @@ export const photos = {
     caption: "Costume night III",
     size: "m",
   },
+  nightSwim: {
+    src: nightSwim,
+    alt: "Chloe in a pool at night, looking back over her shoulder, lit trees behind",
+    caption: "Night swim",
+  },
+  sanJuanStreet: {
+    src: sanJuanStreet,
+    alt: "Chloe from behind on a blue cobblestone street lined with pastel buildings",
+    caption: "San Juan",
+    place: "Puerto Rico",
+  },
+  cherries: {
+    src: cherries,
+    alt: "Chloe at a café table with a plate of cherries and a mint drink",
+    caption: "Cherries",
+  },
+  photoBooth: {
+    src: photoBooth,
+    alt: "A black-and-white photo-booth sheet of nine poses of Chloe",
+    caption: "Photo booth",
+  },
+  tacos: {
+    src: tacos,
+    alt: "Two crispy tacos topped with fried greens, next to a bottle and a glass",
+    caption: "Tacos",
+  },
+  corner: {
+    src: corner,
+    alt: "Chloe in black, sitting against a white wall with her head tilted",
+    caption: "Quiet corner",
+  },
+  streetMural: {
+    src: streetMural,
+    alt: "Chloe sitting on a bench in front of a large painted rabbit mural",
+    caption: "Street mural",
+  },
+  candlelight: {
+    src: candlelight,
+    alt: "A lit candle on a shelf with perfume bottles and a plush toy",
+    caption: "Candlelight",
+  },
+  pilates: {
+    src: pilates,
+    alt: "Mirror selfie of Chloe on a reformer in a Pilates studio",
+    caption: "Pilates",
+  },
 } satisfies Record<string, PersonalPhoto>;
 
 export type PhotoId = keyof typeof photos;
@@ -150,6 +205,7 @@ export type PhotoId = keyof typeof photos;
 export const collection: PhotoId[] = [
   "portrait", "campusLawn", "stageYears", "studySession", "stadiumNight", "photoshoot", "dinnerWithFriends",
   "stoneWall", "mirrorGameDay", "costumeBloodWall", "costumeNight2", "costumeNight3", "costumeNight1",
+  "nightSwim", "sanJuanStreet", "cherries", "photoBooth", "tacos", "corner", "streetMural", "candlelight", "pilates",
 ];
 
 /* The photo wall on /about, in this order (the layout is stable: position follows order).
@@ -157,5 +213,6 @@ export const collection: PhotoId[] = [
 export const wall: PhotoId[] = [
   "portrait", "campusLawn", "costumeNight2", "stadiumNight", "studySession",
   "stageYears", "dinnerWithFriends", "stoneWall", "costumeBloodWall", "mirrorGameDay",
-  "photoshoot", "costumeNight3", "costumeNight1",
+  "photoshoot", "costumeNight3", "costumeNight1", "nightSwim", "sanJuanStreet",
+  "pilates", "cherries", "photoBooth", "streetMural", "tacos", "corner", "candlelight",
 ];
