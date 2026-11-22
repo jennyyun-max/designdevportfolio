@@ -10,7 +10,7 @@ import { Sparkle } from "../doodles/Doodles";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
-type Chapter = { id: string; label: string; heading?: string; body: ReactNode };
+type Chapter = { id: string; label: string; heading?: string; body?: ReactNode };
 
 function Figure({ image, tone, visual, sizes = "(min-width: 1024px) 900px, 100vw" }: { image: ImageAsset; tone: Project["tone"]; visual: Project["visual"]; sizes?: string }) {
   return (
@@ -21,8 +21,8 @@ function Figure({ image, tone, visual, sizes = "(min-width: 1024px) 900px, 100vw
   );
 }
 
-/* The case-study template — the same six chapters for every project, so recruiters can scan:
-   Problem → Research → Process → Design decisions → Final outcome → Reflection.
+/* The case-study template — the same chapters for every project, so recruiters can scan:
+   Problem → Context → Research → Process → Design decisions → Final design → Outcomes → Reflection.
    Everything comes from content/projects.ts; a chapter without content is skipped and the
    numbering closes up. Nothing is generated or embellished here. */
 export default function CaseStudy({ project, next }: { project: Project; index: number; next: Project }) {
@@ -40,11 +40,13 @@ export default function CaseStudy({ project, next }: { project: Project; index: 
   const chapters: Chapter[] = [];
 
   // 1 — Problem
-  if (cs.problem || cs.overview) {
+  if (cs.problem) chapters.push({ id: "problem", label: label.problem ?? "the problem", heading: cs.problem });
+
+  // 2 — Context
+  if (cs.overview) {
     chapters.push({
-      id: "problem",
-      label: label.problem ?? "the problem",
-      heading: cs.problem,
+      id: "context",
+      label: "context",
       body: (
         <div className="grid gap-10 lg:grid-cols-[1.3fr_1fr]">
           <p className="text-[1.15rem] leading-relaxed">{cs.overview}</p>
@@ -67,7 +69,7 @@ export default function CaseStudy({ project, next }: { project: Project; index: 
     });
   }
 
-  // 2 — Research
+  // 3 — Research
   if (cs.research || cs.insights?.length) {
     const r = cs.research;
     chapters.push({
@@ -125,7 +127,7 @@ export default function CaseStudy({ project, next }: { project: Project; index: 
     });
   }
 
-  // 3 — Process
+  // 4 — Process
   if (cs.timeline?.phases?.length || cs.process?.length || cs.wireframes?.length) {
     chapters.push({
       id: "process",
@@ -171,7 +173,7 @@ export default function CaseStudy({ project, next }: { project: Project; index: 
     });
   }
 
-  // 4 — Design decisions
+  // 5 — Design decisions
   if (cs.decisions?.length) {
     const notes = ["var(--butter)", "var(--blush)", "var(--lavender)", "var(--sage)"];
     chapters.push({
@@ -199,15 +201,15 @@ export default function CaseStudy({ project, next }: { project: Project; index: 
     });
   }
 
-  // 5 — Final outcome
-  if (cs.finalDesigns?.length || cs.outcomes?.length) {
+  // 6 — Final design
+  if (cs.finalDesigns?.length) {
     chapters.push({
-      id: "outcome",
-      label: "final outcome",
+      id: "final",
+      label: "final design",
       heading: label.final && label.final !== "the screens" ? label.final : undefined,
       body: (
         <>
-          {!!cs.finalDesigns?.length && (
+          {(
             <div className={cs.finalLayout === "phones" ? "grid grid-cols-2 gap-6 md:grid-cols-4" : "grid gap-12"}>
               {cs.finalDesigns.map((img, i) => (
                 <Reveal key={img.src} delay={cs.finalLayout === "phones" ? (i % 4) * 0.06 : 0}>
@@ -216,8 +218,20 @@ export default function CaseStudy({ project, next }: { project: Project; index: 
               ))}
             </div>
           )}
-          {!!cs.outcomes?.length && (
-            <ul className={`grid gap-3 ${cs.finalDesigns?.length ? "mt-12" : ""} ${cs.outcomes.length > 1 ? "md:grid-cols-3" : ""}`}>
+        </>
+      ),
+    });
+  }
+
+  // 7 — Outcomes
+  if (cs.outcomes?.length) {
+    chapters.push({
+      id: "outcomes",
+      label: label.outcomes ?? "outcomes",
+      body: (
+        <>
+          {(
+            <ul className={`grid gap-3 ${cs.outcomes.length > 1 ? "md:grid-cols-3" : ""}`}>
               {cs.outcomes.map((o) => (
                 <li key={o} className="flex gap-3 rounded-[16px] bg-pink/70 p-5 font-semibold">
                   <Sparkle className="h-6 w-6 shrink-0" />
@@ -231,7 +245,7 @@ export default function CaseStudy({ project, next }: { project: Project; index: 
     });
   }
 
-  // 6 — Reflection
+  // 8 — Reflection
   if (cs.reflection) {
     chapters.push({
       id: "reflection",
@@ -339,7 +353,7 @@ export default function CaseStudy({ project, next }: { project: Project; index: 
                 </p>
                 {c.heading && <h2 className="display mt-4 max-w-[24ch] text-balance text-[clamp(2rem,4.2vw,3.4rem)]">{c.heading}</h2>}
               </Reveal>
-              <div className="mt-10">{c.body}</div>
+              {c.body && <div className="mt-10">{c.body}</div>}
             </section>
           ))}
         </div>

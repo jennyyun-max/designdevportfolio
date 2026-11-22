@@ -2,28 +2,33 @@
 
 /* ==================================================================
    CHLOE’S WORLD — DESIGN TOKENS
-   Typography and palette recovered from the original pink-and-beige
-   version (commit d6497c0): Fraunces display headings with Instrument
-   Serif italic accents, Figtree body, Caveat handwriting.
+   Typography recovered from the original pink-and-beige version
+   (commit d6497c0): Fraunces display headings with Instrument Serif
+   italic accents, Figtree body, Caveat handwriting — plus DM Mono for
+   small labels. Palette: Chloe’s dreamy blush / warm cream / dusty
+   rose / plum brown / butter / champagne, with the original espresso
+   kept for body text (13.5:1 on cream).
    No dark-mode overrides on purpose: the world is always warm.
    ================================================================== */
 :root {
   /* Neutrals */
-  --cream: #fbf6ef; /* page */
-  --ivory: #fffbf6; /* raised surfaces */
-  --paper: #fffdf8; /* Polaroid & stationery paper */
-  --espresso: #3a2620; /* type — 13:1 on cream */
-  --espresso-soft: #6d5850; /* secondary type — 6.2:1 on cream */
-  --line: #ecdcd2; /* hairlines */
+  --cream: #fff8f0; /* warm cream page */
+  --ivory: #fffcf7; /* raised surfaces */
+  --paper: #fffdf9; /* Polaroid & stationery paper */
+  --espresso: #3a2620; /* type — 13.5:1 on cream */
+  --espresso-soft: #694958; /* muted plum brown: secondary type — 7.4:1 on cream */
+  --line: #ecdcd6; /* hairlines */
 
   /* Signature pinks */
+  --sky-blush: #f4e1e3; /* dreamy blush: the welcome sky */
   --blush: #f2c4c0;
-  --pink: #f8dedb;
-  --rose: #c9736b; /* decorative marks only (not body text) */
-  --rose-deep: #a4524a; /* rose that passes 4.5:1 for small text */
+  --pink: #f4e1e3;
+  --rose: #b67d91; /* dusty rose — decorative marks only (3.2:1) */
+  --rose-deep: #8e5469; /* dusty rose for small text — 5.5:1 on cream */
 
   /* Pastel accents */
-  --butter: #f6e4a8;
+  --champagne: #e8d6bd;
+  --butter: #f6e8b1;
   --lavender: #ddd4ef;
   --sage: #d3dfca;
   --sky: #cadded;
@@ -51,6 +56,8 @@
   --color-rose: var(--rose);
   --color-rose-deep: var(--rose-deep);
   --color-butter: var(--butter);
+  --color-champagne: var(--champagne);
+  --color-sky-blush: var(--sky-blush);
   --color-lavender: var(--lavender);
   --color-sage: var(--sage);
   --color-sky: var(--sky);
@@ -68,7 +75,7 @@
   --font-accent: var(--font-instrument), Georgia, serif;
   --font-serif: var(--font-instrument), Georgia, serif;
   --font-hand: var(--font-caveat), "Comic Sans MS", cursive;
-  --font-mono: var(--font-figtree), system-ui, sans-serif;
+  --font-mono: var(--font-dm-mono), ui-monospace, monospace;
 
   --radius-card: 20px;
   --radius-button: 10px;
@@ -124,10 +131,12 @@
     font-weight: 400;
     letter-spacing: -0.01em;
   }
+  /* small monospace labels */
   .eyebrow {
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.16em;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--espresso-soft);
   }
@@ -137,7 +146,7 @@
     letter-spacing: 0;
   }
   .mono {
-    font-family: var(--font-sans);
+    font-family: var(--font-mono);
   }
 
   /* Nav links: underline slides in from the left */
@@ -212,15 +221,11 @@
     background: rgb(58 38 32 / 0.55);
   }
 
-  /* ---- The hand-drawn welcome (components/intro) ---- */
+  /* ---- The welcome (components/intro/Welcome.tsx) ----
+     While it's up: no page scroll, the homepage Polaroids wait (the welcome's stars become
+     them), and the header + hero text wait to be revealed at the end. */
   .intro {
     display: none;
-    --pw: min(62vw, 40svh); /* Polaroid width it pulls back into */
-  }
-  @media (min-width: 768px) {
-    .intro {
-      --pw: min(28vw, 40svh);
-    }
   }
   html[data-intro="play"] {
     overflow: hidden;
@@ -228,13 +233,30 @@
   html[data-intro="play"] .intro {
     display: block;
   }
+  html[data-intro="play"] .hero-prints,
   html[data-intro="play"] [data-intro-print] {
     visibility: hidden;
   }
-  [class^="ik-"],
-  [class*=" ik-"] {
-    transform-box: view-box;
-    transform-origin: 0 0;
+  .intro-reveal {
+    transition:
+      opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0s),
+      transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0s);
+  }
+  html[data-intro="play"] .intro-reveal {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  html[data-intro="play"] body > div > header,
+  html[data-intro="play"] header.site-header {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+  header.site-header {
+    transition:
+      opacity 0.7s ease 0.35s,
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.35s,
+      background-color 0.3s,
+      box-shadow 0.3s;
   }
 }
 
@@ -250,8 +272,66 @@
   }
 }
 
+/* The welcome's Explore button: a soft cream pill with a glow */
+.welcome-explore {
+  box-shadow:
+    0 0 0 1px rgb(105 73 88 / 0.14),
+    0 0 28px 6px rgb(255 253 249 / 0.85),
+    0 10px 30px -12px rgb(182 125 145 / 0.6);
+}
+.shooting-star {
+  position: absolute;
+  width: 110px;
+  height: 1.5px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, rgb(255 255 255 / 0), rgb(255 255 255 / 0.95));
+  opacity: 0;
+  pointer-events: none;
+  transform: rotate(24deg);
+}
+
 /* ---------- Motion (CSS) — off for reduced-motion users ---------- */
 @media (prefers-reduced-motion: no-preference) {
+  .star-twinkle {
+    animation: star-twinkle var(--dur, 4s) ease-in-out var(--delay, 0s) infinite;
+  }
+  @keyframes star-twinkle {
+    50% {
+      opacity: 0.25;
+      transform: scale(0.65);
+    }
+  }
+  .shooting-star {
+    animation: shoot var(--dur, 10s) linear var(--delay, 0s) infinite;
+  }
+  @keyframes shoot {
+    0% {
+      opacity: 0;
+      transform: rotate(24deg) translateX(0);
+    }
+    2% {
+      opacity: 1;
+    }
+    9% {
+      opacity: 0;
+      transform: rotate(24deg) translateX(46vw);
+    }
+    100% {
+      opacity: 0;
+      transform: rotate(24deg) translateX(46vw);
+    }
+  }
+  .welcome-explore {
+    animation: explore-glow 3.2s ease-in-out infinite;
+  }
+  @keyframes explore-glow {
+    50% {
+      box-shadow:
+        0 0 0 1px rgb(105 73 88 / 0.14),
+        0 0 40px 12px rgb(255 253 249 / 0.95),
+        0 10px 30px -12px rgb(182 125 145 / 0.6);
+    }
+  }
   .float {
     animation: float 5s ease-in-out infinite;
   }

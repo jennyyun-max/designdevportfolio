@@ -26,7 +26,8 @@ export const dropSettings = {
 
 /* ------------------------------------------------------------------
    HOMEPAGE — a collage beside “hi, i’m chloe!”. Positions are % of the
-   hero: x = left edge, y = height of the print’s bottom edge above the
+   collage area (the whole hero on desktop; the area under the text on
+   phones): x = left edge, y = height of the print’s bottom edge above the
    bottom of the hero. `hang` is where it starts (above the screen, so
    y > 100); `rest` is where it lands. Omit `desktop` or `mobile` to
    hide a print there. Prints fall in the order listed.
@@ -42,7 +43,7 @@ export const prints: DeskPrint[] = [
     story:
       "Hi! I’m Chloe. I grew up in California, spent five years performing in Korea, and now I study information at the University of Michigan — exploring where creativity, design, and technology meet.",
     desktop: { hang: { x: 46, y: 150, rotate: -20 }, rest: { x: 46.5, y: 47, rotate: -7 } },
-    mobile: { hang: { x: 2, y: 170, rotate: -20 }, rest: { x: 1, y: 25, rotate: -8 } },
+    mobile: { hang: { x: 2, y: 260, rotate: -20 }, rest: { x: 1, y: 48, rotate: -8 } },
   },
   {
     // The last frame of the hand-drawn welcome (components/intro/Sketch.tsx)
@@ -53,7 +54,7 @@ export const prints: DeskPrint[] = [
     caption: "ann arbor ♡",
     size: "hero",
     desktop: { hang: { x: 58, y: 160, rotate: 14 }, rest: { x: 57.5, y: 31, rotate: 3 } },
-    mobile: { hang: { x: 30, y: 180, rotate: 14 }, rest: { x: 29, y: 13, rotate: 3 } },
+    mobile: { hang: { x: 30, y: 280, rotate: 14 }, rest: { x: 29, y: 24, rotate: 3 } },
   },
   {
     src: "/images/projects/lumen/01-cover.png",
@@ -63,7 +64,7 @@ export const prints: DeskPrint[] = [
     project: "lumen",
     tape: "var(--blush)",
     desktop: { hang: { x: 74, y: 170, rotate: 18 }, rest: { x: 74.5, y: 58, rotate: 8 } },
-    mobile: { hang: { x: 66, y: 170, rotate: 18 }, rest: { x: 67, y: 27, rotate: 8 } },
+    mobile: { hang: { x: 66, y: 260, rotate: 18 }, rest: { x: 67, y: 52, rotate: 8 } },
   },
   {
     src: "/images/projects/brookfield/project-page.webp",
@@ -73,7 +74,7 @@ export const prints: DeskPrint[] = [
     project: "brookfield",
     size: "large",
     desktop: { hang: { x: 80, y: 160, rotate: -16 }, rest: { x: 79.5, y: 24, rotate: -5 } },
-    mobile: { hang: { x: 60, y: 160, rotate: -16 }, rest: { x: 62, y: 2, rotate: -5 } },
+    mobile: { hang: { x: 60, y: 250, rotate: -16 }, rest: { x: 62, y: 3, rotate: -5 } },
   },
   {
     src: "/images/polaroids/aurora-portrait.jpg",
@@ -83,7 +84,7 @@ export const prints: DeskPrint[] = [
     story:
       "Five years in K-pop, including with cignature. Music, choreography, styling, production — everything was teamwork toward one shared outcome, and it taught me to notice how people react to what we make.",
     desktop: { hang: { x: 66, y: 150, rotate: -12 }, rest: { x: 66, y: 4, rotate: -7 } },
-    mobile: { hang: { x: 3, y: 150, rotate: -12 }, rest: { x: 2, y: 1, rotate: 6 } },
+    mobile: { hang: { x: 3, y: 240, rotate: -12 }, rest: { x: 2, y: 2, rotate: 6 } },
   },
   {
     src: "/images/polaroids/cignature-apple.jpg",

@@ -1,14 +1,12 @@
-import type { CSSProperties } from "react";
-
 /* ==================================================================
    THE HAND-DRAWN STRIP — three memories on one long strip of paper:
    California (x 0–1000), Korea (1000–2000), Michigan (2000–3000).
    Pencil outlines + colored-pencil hatching; a displacement filter
    makes every line slightly uneven.
 
-   `a` (animated) adds the intro's CSS animation classes (see
-   timeline.ts). Without it, every part shows its drawn state — for the
-   Michigan scene that is the last frame, so the homepage print matches.
+   Used as still drawings (the Journey storybook and the homepage’s Ann
+   Arbor Polaroid). `a` would add per-part animation class names; the
+   stills render every part in its drawn state.
    ================================================================== */
 
 const INK = "#4a3934";
@@ -614,15 +612,6 @@ function Strip({ id, a, region }: A & { region: "all" | "michigan" | "california
       {(region === "all" || region === "seoul") && <Korea id={id} a={a} />}
       {(region === "all" || region === "michigan") && <Michigan id={id} a={a} />}
     </>
-  );
-}
-
-/** The whole animated strip (the camera moves it; see IntroStory) */
-export function IntroStrip({ className, style }: { className?: string; style?: CSSProperties }) {
-  return (
-    <svg viewBox="-200 0 3400 1000" className={className} style={style} aria-hidden="true" focusable="false">
-      <Strip id="intro" a region="all" />
-    </svg>
   );
 }
 

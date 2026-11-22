@@ -53,7 +53,7 @@ export default function SiteHeader() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-[background-color,box-shadow] duration-300 ${
+      className={`site-header sticky top-0 z-50 ${
         scrolled || open ? "bg-cream/90 shadow-[0_1px_0_var(--line)] backdrop-blur-md" : "bg-cream/0"
       }`}
     >
@@ -68,6 +68,18 @@ export default function SiteHeader() {
         {/* Desktop rooms */}
         <nav aria-label="Rooms" className="hidden lg:block">
           <ul className="flex items-center gap-1.5">
+            <li>
+              <Link
+                href="/"
+                aria-current={pathname === "/" ? "page" : undefined}
+                className="group relative flex items-center gap-1.5 rounded-full py-1.5 pl-2 pr-3.5 text-[0.92rem] font-medium transition-[background-color,transform] duration-200 hover:-translate-y-0.5 motion-reduce:hover:translate-y-0"
+                style={{ backgroundColor: pathname === "/" ? "var(--peach)" : undefined }}
+              >
+                <span className="absolute inset-0 -z-10 rounded-full bg-peach opacity-0 transition-opacity duration-200 group-hover:opacity-60" aria-hidden="true" />
+                <Doodle name="flower" className="wiggle-on-hover h-7 w-7 shrink-0" />
+                home
+              </Link>
+            </li>
             {rooms.map((room) => {
               const here = active === room.key;
               return (

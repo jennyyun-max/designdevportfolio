@@ -68,6 +68,7 @@ export default function Hero() {
   const [stack, setStack] = useState<number[]>([]);
   const [open, setOpen] = useState<number | null>(null);
   const [settled, setSettled] = useState(false);
+  const [revealKey, setRevealKey] = useState(0); // bumps when the welcome hands over, replaying the greeting
 
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 768px)");
@@ -82,12 +83,13 @@ export default function Hero() {
     [isDesktop],
   );
 
-  // Start positions. During the welcome, the Michigan print waits at its resting spot (hidden)
-  // so the welcome's last Polaroid can slide onto it; everything else waits above the screen.
+  // Start positions. During the welcome every print waits, hidden, at its resting spot: the
+  // welcome's stars turn into Polaroids that fly exactly onto them. Otherwise they wait above
+  // the screen and rain in on page load.
   useEffect(() => {
     if (isDesktop === null) return;
     const intro = document.documentElement.dataset.intro === "play";
-    setPhases(prints.map((p) => (reduced || (intro && p.art) ? "landed" : "hanging")));
+    setPhases(prints.map(() => (reduced || intro ? "landed" : "hanging")));
     setStack(prints.map((_, i) => i));
   }, [isDesktop, reduced]);
 
@@ -113,6 +115,7 @@ export default function Hero() {
     const watch = new MutationObserver(() => {
       if (html.dataset.intro === "play") return;
       watch.disconnect();
+      setRevealKey((k) => k + 1);
       start();
     });
     watch.observe(html, { attributes: true, attributeFilter: ["data-intro"] });
@@ -135,15 +138,21 @@ export default function Hero() {
   return (
     <section
       aria-labelledby="hero-heading"
-      className="relative h-[max(46rem,calc(100svh-4.5rem))] overflow-hidden md:h-[max(38rem,calc(100svh-4.5rem))]"
+      className="relative min-h-[calc(100svh-4.5rem)] overflow-hidden pb-4 md:h-[max(38rem,calc(100svh-4.5rem))] md:pb-0"
     >
       {/* gentle floating doodles */}
-      <Sparkle className="float pointer-events-none absolute right-[6%] top-[12%] w-8 md:left-[42%] md:right-auto md:top-[9%] md:w-11" />
-      <Heart className="float-slow pointer-events-none absolute right-[5%] top-[2%] hidden w-9 md:block" style={{ animationDelay: "-2s" }} />
-      <Star className="float pointer-events-none absolute bottom-[7%] left-[38%] hidden w-9 md:block" style={{ animationDelay: "-1s" }} />
+      <span className="intro-reveal pointer-events-none absolute right-[6%] top-[12%] w-8 md:left-[42%] md:right-auto md:top-[9%] md:w-11" style={{ ["--d" as string]: "0.9s" }}>
+        <Sparkle className="float w-full" />
+      </span>
+      <span className="intro-reveal pointer-events-none absolute right-[5%] top-[2%] hidden w-9 md:block" style={{ ["--d" as string]: "1.1s" }}>
+        <Heart className="float-slow w-full" style={{ animationDelay: "-2s" }} />
+      </span>
+      <span className="intro-reveal pointer-events-none absolute bottom-[7%] left-[38%] hidden w-9 md:block" style={{ ["--d" as string]: "1.3s" }}>
+        <Star className="float w-full" style={{ animationDelay: "-1s" }} />
+      </span>
 
-      {/* The greeting */}
-      <div className="relative z-20 px-5 pt-6 sm:px-8 md:absolute md:left-[6%] md:top-[15%] md:w-[38%] md:p-0">
+      {/* The greeting (re-mounted when the welcome hands over, so it rises in as the last beat) */}
+      <div key={revealKey} className="intro-reveal relative z-20 px-5 pt-6 sm:px-8 md:absolute md:left-[6%] md:top-[15%] md:w-[38%] md:p-0">
         <motion.p className="eyebrow flex items-center gap-2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }}>
           <Sparkle className="twinkle h-4 w-4" />
           {hero.eyebrow}
@@ -152,7 +161,8 @@ export default function Hero() {
           <AnimatedHeadline text={hero.headline} />
         </div>
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.6, ease }}>
-          <p className="mt-4 max-w-[30rem] text-[clamp(1.05rem,1.5vw,1.3rem)] leading-relaxed text-espresso-soft md:mt-7">{hero.text}</p>
+          <p className="mt-4 max-w-[30rem] text-[clamp(1.08rem,1.5vw,1.32rem)] leading-relaxed md:mt-7">{hero.text}</p>
+          <p className="eyebrow mt-3 max-w-[30rem] !normal-case !tracking-[0.02em]">{hero.detail}</p>
           <div className="mt-6 flex flex-wrap gap-3 md:mt-8">
             <ButtonLink href="/work" variant="primary">
               see my work ↓
@@ -180,9 +190,10 @@ export default function Hero() {
         </motion.p>
       </div>
 
-      {/* The collage */}
+      {/* The collage — its own area under the text on phones, the whole hero on wider screens */}
+      <div className="relative mt-4 h-[24rem] md:absolute md:inset-0 md:mt-0 md:h-auto">
       <div ref={boundsRef} className="absolute inset-0" aria-hidden="true" />
-      <div role="group" aria-label="Polaroids — drag them by the white border, or open one" className="pointer-events-none absolute inset-0">
+      <div role="group" aria-label="Polaroids — drag them by the white border, or open one" className="hero-prints pointer-events-none absolute inset-0">
         {phases.length > 0 &&
           visible.map(({ print, i, layout }) => (
             <Print
@@ -201,6 +212,7 @@ export default function Hero() {
               onOpenPhoto={() => setOpen(i)}
             />
           ))}
+      </div>
       </div>
       <PhotoPreview photo={openPrint} onClose={() => setOpen(null)} />
     </section>

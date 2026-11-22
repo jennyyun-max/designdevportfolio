@@ -190,9 +190,9 @@ export default function Print({
       className={`group/print pointer-events-auto absolute select-none ${PRINT_WIDTH[print.size ?? "regular"]} ${phase === "landed" ? "cursor-grab active:cursor-grabbing" : ""}`}
       // pinned by one top corner: rotation (hanging, tipping, settling) pivots there
       style={{ x, y, zIndex, touchAction: "pan-y", originX: side === 1 ? 0 : 1, originY: 0 }}
-      // the intro’s last frame slides onto this print
-      data-intro-print={print.art ? "" : undefined}
-      data-rotate={print.art ? (phase === "landed" || !hang ? rest : hang).rotate : undefined}
+      // the welcome's star-born Polaroids fly onto these (components/intro/Welcome.tsx)
+      data-print=""
+      data-rotate={(phase === "landed" || !hang ? rest : hang).rotate}
       initial={
         phase === "hanging" && hang ? at(hang) : deal !== undefined ? { ...at(rest), opacity: 0, scale: 1.12, rotate: rest.rotate + side * 10 } : at(rest)
       }
@@ -229,7 +229,7 @@ export default function Print({
           aria-hidden="true"
         />
       )}
-      <motion.div className="relative rounded-[3px] bg-paper [container-type:inline-size]" style={{ rotate: tilt, boxShadow: shadow }}>
+      <motion.div data-paper className="relative rounded-[3px] bg-paper [container-type:inline-size]" style={{ rotate: tilt, boxShadow: shadow }}>
         {/* a strip of washi tape on some prints */}
         {print.tape && (
           <span

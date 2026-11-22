@@ -22,7 +22,9 @@ export const site = {
 export const hero = {
   eyebrow: "UX & product design · University of Michigan",
   headline: "hi, i’m *chloe*!",
-  text: "I’m exploring the intersection of creativity, design, and technology — studying information at the University of Michigan and designing with Atlas Digital.",
+  text: "i’m a designer and student exploring the intersection of creativity, technology, and everything in between.",
+  // A second, smaller line with the specifics
+  detail: "Studying information at the University of Michigan · designing with Atlas Digital.",
   status: "", // e.g. "open to internships · summer 2027" — "" hides it
   // The falling Polaroids → content/polaroids.ts
 };
