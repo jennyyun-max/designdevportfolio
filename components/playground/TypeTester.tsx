@@ -11,7 +11,7 @@ const FACES = [
 /* A type tester for the three faces this site is set in: type anything, then change the face,
    size, tracking and slant. */
 export default function TypeTester() {
-  const [text, setText] = useState("From stage to screen");
+  const [text, setText] = useState("Data, technology & people");
   const [face, setFace] = useState<(typeof FACES)[number]["key"]>("serif");
   const [size, setSize] = useState(120);
   const [tracking, setTracking] = useState(-3);

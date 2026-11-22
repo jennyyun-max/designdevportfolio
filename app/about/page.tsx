@@ -9,7 +9,7 @@ import JourneyTimeline from "@/components/about/JourneyTimeline";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "Chloe Yun — from California to five years on stage in Korea to studying information at the University of Michigan and designing with Atlas Digital.",
+  description: "Chloe Yun — designing at the intersection of data, technology, and people. University of Michigan School of Information; designer with Atlas Digital.",
 };
 
 const carried = story.chapters.find((c) => "points" in c && c.points)?.points ?? [];
@@ -24,9 +24,9 @@ export default function AboutPage() {
           <SplitHeading
             as="h1"
             inView={false}
-            label="From stage to screen."
+            label="Data, technology, & people."
             className="display text-[clamp(4rem,12.5vw,13rem)] leading-[0.82] tracking-[-0.045em] md:col-span-9"
-            lines={["From stage", <span key="b">to <em>screen.</em></span>]}
+            lines={["Data, technology,", <span key="b"><em>& people.</em></span>]}
           />
         </div>
         <div className="mt-12 grid gap-6 border-t border-ink pt-5 md:grid-cols-12">

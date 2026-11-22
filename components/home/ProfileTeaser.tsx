@@ -15,8 +15,8 @@ export default function ProfileTeaser() {
           <SplitHeading
             id="profile-heading"
             className="display text-[clamp(2.6rem,6vw,6rem)]"
-            label="From the stage to designing for people."
-            lines={["From the stage", <span key="b">to designing for <em>people.</em></span>]}
+            label="Where data meets people."
+            lines={["Where data", <span key="b">meets <em>people.</em></span>]}
           />
         </div>
       </div>

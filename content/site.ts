@@ -29,7 +29,7 @@ export const site = {
 export const hero = {
   name: "Chloe Yun",
   disciplines: ["Design", "Technology", "Creative Exploration"],
-  intro: "Designer and student exploring where design, technology, and people meet.",
+  intro: "Designing at the intersection of data, technology, and people.",
   // Small metadata around the name
   detail: "University of Michigan School of Information · Designer with Atlas Digital",
   status: "", // e.g. "Open to internships · Summer 2027" — "" hides it
@@ -76,7 +76,7 @@ export const about = {
 
 /* ABOUT PAGE (/about) — the fuller story, in chapters. */
 export const story = {
-  heading: "From stage to *screen*",
+  heading: "Data, technology, *& people*",
   lead: "My path into technology has been a little unconventional. Before returning to school, I spent five years in the K-pop industry as a member of the girl group cignature. Now I study information at the University of Michigan and design with Atlas Digital.",
   chapters: [
     {
