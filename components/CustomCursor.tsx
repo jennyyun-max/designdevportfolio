@@ -3,7 +3,7 @@
 import { motion, useMotionValue, useSpring } from "motion/react";
 import { useEffect, useState } from "react";
 
-const LABELS: Record<string, string> = { view: "View", open: "Open" };
+const LABELS: Record<string, string> = { view: "View", open: "Open", zoom: "Zoom" };
 
 /* A small ink dot that trails the pointer on desktop. It opens into a hairline ring over links
    and a dark disc with a mono label over projects (“View”) and photos (“Open”).

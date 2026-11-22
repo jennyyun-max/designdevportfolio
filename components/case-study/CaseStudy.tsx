@@ -7,19 +7,22 @@ import MediaFrame from "../ui/MediaFrame";
 import RevealImage from "../ui/RevealImage";
 import SplitHeading from "../ui/SplitHeading";
 import ReadingProgress from "./ReadingProgress";
+import { Lightbox, ZoomButton } from "./Lightbox";
 import { previewOf, toolsOf } from "../work/ProjectTile";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
 type Chapter = { id: string; label: string; heading?: string; body?: ReactNode };
 
-function Figure({ image, n, visual, sizes = "(min-width: 1024px) 1100px, 100vw" }: { image: ImageAsset; n?: string; visual: Project["visual"]; sizes?: string }) {
+function Figure({ image, n, index, visual, sizes = "(min-width: 1024px) 1100px, 100vw" }: { image: ImageAsset; n?: string; index: number; visual: Project["visual"]; sizes?: string }) {
   return (
     <figure>
-      <MediaFrame image={image} visual={visual} aspect={image.aspect ?? "aspect-video"} sizes={sizes} />
+      <ZoomButton index={index} label={image.caption ?? image.alt}>
+        <MediaFrame image={image} visual={visual} aspect={image.aspect ?? "aspect-video"} sizes={sizes} />
+      </ZoomButton>
       {image.caption && (
         <figcaption className="meta mt-3 flex gap-3 text-muted">
-          {n && <span className="text-ink">Fig. {n}</span>}
+          {n && <span className="shrink-0 text-ink">Fig. {n}</span>}
           <span>{image.caption}</span>
         </figcaption>
       )}
@@ -36,8 +39,13 @@ export default function CaseStudy({ project, index, prev, next }: { project: Pro
   const label = cs.labels ?? {};
   const tools = toolsOf(project);
   const links = (cs.links ?? []).filter((l) => l.href);
-  let fig = 0;
-  const nextFig = () => pad(++fig);
+  // every figure on the page, in order — numbered, and openable in the lightbox
+  const figures: (ImageAsset & { n: string })[] = [];
+  const figure = (image: ImageAsset, sizes?: string) => {
+    const n = pad(figures.length + 1);
+    figures.push({ ...image, n });
+    return <Figure image={image} n={n} index={figures.length - 1} visual={visual} sizes={sizes} />;
+  };
 
   const facts = [
     { term: "Role", value: cs.role?.summary },
@@ -108,7 +116,7 @@ export default function CaseStudy({ project, index, prev, next }: { project: Pro
           {!!r?.images?.length && (
             <div className={`mt-14 grid gap-10 ${r.images.length > 1 ? "md:grid-cols-2" : ""}`}>
               {r.images.map((img) => (
-                <Figure key={img.src} image={img} visual={visual} n={nextFig()} />
+                <div key={img.src}>{figure(img)}</div>
               ))}
             </div>
           )}
@@ -160,10 +168,10 @@ export default function CaseStudy({ project, index, prev, next }: { project: Pro
             </ol>
           )}
           {!!cs.wireframes?.length && (
-            <div className={`mt-16 grid gap-x-8 gap-y-12 ${cs.wireframes.length >= 3 ? "md:grid-cols-3" : "md:grid-cols-2"}`}>
+            <div className="mt-16 grid gap-x-8 gap-y-12 md:grid-cols-2">
               {cs.wireframes.map((img, i) => (
                 <Reveal key={img.src} delay={(i % 3) * 0.06} className={i % 2 ? "md:mt-16" : ""}>
-                  <Figure image={img} visual={visual} n={nextFig()} sizes="(min-width: 768px) 520px, 100vw" />
+                  {figure(img, "(min-width: 768px) 50vw, 100vw")}
                 </Reveal>
               ))}
             </div>
@@ -203,7 +211,7 @@ export default function CaseStudy({ project, index, prev, next }: { project: Pro
         <div className={cs.finalLayout === "phones" ? "grid grid-cols-2 gap-6 md:grid-cols-4" : "grid gap-16"}>
           {cs.finalDesigns.map((img, i) => (
             <Reveal key={img.src} delay={cs.finalLayout === "phones" ? (i % 4) * 0.06 : 0}>
-              <Figure image={img} visual={visual} n={nextFig()} sizes={cs.finalLayout === "phones" ? "(min-width: 768px) 300px, 45vw" : undefined} />
+              {figure(img, cs.finalLayout === "phones" ? "(min-width: 768px) 300px, 45vw" : undefined)}
             </Reveal>
           ))}
         </div>
@@ -258,6 +266,7 @@ export default function CaseStudy({ project, index, prev, next }: { project: Pro
   }
 
   return (
+    <Lightbox figures={figures}>
     <article>
       <ReadingProgress />
 
@@ -378,5 +387,6 @@ export default function CaseStudy({ project, index, prev, next }: { project: Pro
         </Link>
       </aside>
     </article>
+    </Lightbox>
   );
 }

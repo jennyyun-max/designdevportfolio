@@ -321,3 +321,8 @@
   display: block;
   height: max(1.6rem, 21cqw);
 }
+
+/* Case-study figure viewer (components/case-study/Lightbox.tsx) */
+.lightbox::backdrop {
+  background: rgb(28 28 26 / 0.94);
+}
