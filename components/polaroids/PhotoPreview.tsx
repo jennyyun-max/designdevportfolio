@@ -43,7 +43,6 @@ export default function PhotoPreview({ photo, onClose }: { photo: (DeskPrint & {
             className="mx-auto block max-h-[58vh] w-auto max-w-full bg-stone object-contain"
           />
           <figcaption className="px-1 pt-3 text-center">
-            <span className="meta block">{photo.caption}</span>
             {photo.story && <span className="mx-auto mt-2 block max-w-[30rem] text-[0.95rem] leading-relaxed text-muted">{photo.story}</span>}
           </figcaption>
           <button

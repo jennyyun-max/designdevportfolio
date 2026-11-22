@@ -37,14 +37,11 @@ Old URLs redirect: `/guestbook` → `/visitors`, `/journey` → `/about#journey`
 - **Case studies:** every chapter is optional — leave a field out and the chapter disappears. Only put in
   what really happened; nothing is generated. LUMEN’s length is still unknown — add it to `timeline.duration`.
 - **Personal photos (Polaroids):** only personal photos go in Polaroid frames — project work lives on `/work`.
-  They live in `public/images/personal/` and are listed in `content/personal.ts`. To add one: drop the file
-  in that folder, import it in `content/personal.ts`, add an entry (alt, caption, story, optional place /
-  year / size), then add its id to `wall` (the "Kept loosely" photo wall on the homepage, `/#photographs` — photos already in the top collage are skipped there), `collection`
-  (playground camera), a homepage print (`content/polaroids.ts`) or a journey chapter (`content/site.ts`).
-  The wall lays out 20–30 photos by itself — stable positions from their order, varied sizes, small
-  rotations, natural overlaps — and they fall in as the section scrolls into view (drag with mouse/pen;
-  touch scrolls; click to enlarge; “Scatter again” resets; phones show 8 with “show all”). Frames take each photo’s own aspect ratio, so nothing is cropped. Image rule: no
-  photos showing “title” or “cignature”, no group photos — the stage photo is a text-free crop.
+  They live in `public/images/personal/` (resized to ≤1600px, metadata incl. GPS stripped) and are listed in
+  `content/personal.ts`. To add one: drop the file in that folder, import it in `content/personal.ts`, add an
+  entry (alt text + a short name for screen readers), then add its id to `collection` (the playground camera
+  — every photo), a print in the homepage collage (`content/polaroids.ts`) or a journey chapter
+  (`content/site.ts`). Prints have no titles, and each keeps its photo’s own shape, so nothing is cropped.
 - **Homepage prints** (`content/polaroids.ts`): `desktop` / `mobile` positions (`hang` = start above the
   screen, `rest` = where it lands, in % of the hero). Black & white until hovered; click to open the story.
 - **The welcome** shows on entering the homepage until the visitor clicks Explore (or skip) once —

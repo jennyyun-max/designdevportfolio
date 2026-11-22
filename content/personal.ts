@@ -1,7 +1,4 @@
 import type { StaticImageData } from "next/image";
-import portrait from "@/public/images/personal/portrait.jpg";
-import stageYears from "@/public/images/personal/stage-years.jpg";
-import photoshoot from "@/public/images/personal/photoshoot.jpg";
 import campusLawn from "@/public/images/personal/campus-lawn.jpg";
 import studySession from "@/public/images/personal/study-session.jpg";
 import stadiumNight from "@/public/images/personal/stadium-night.jpg";
@@ -30,14 +27,13 @@ import pilates from "@/public/images/personal/pilates.jpg";
    1. Put the file in /public/images/personal/ (JPG or WebP, ~1200–1600px
       on the long side is plenty).
    2. Import it below, then add an entry to `photos`.
-   3. Use it: add its id to `wall` (the photo wall on the homepage — built for
-      20–30 photos, laid out automatically), `collection` (the playground
-      camera), a print on the homepage (content/polaroids.ts), or a
+   3. Use it: add its id to `collection` (the playground camera — every
+      photo), a print in the homepage collage (content/polaroids.ts), or a
       chapter of the journey (content/site.ts).
 
    Each photo keeps its own aspect ratio — the frame fits the photo, so
-   nothing is cropped. `focus` only matters where a photo is shown in a
-   fixed-shape frame (e.g. the large About portrait).
+   nothing is cropped. Prints show no titles — `caption` is only used as
+   the photo's accessible name.
 
    Image rules (from Chloe): no images showing the words “title” or
    “cignature”, and none of the cignature group photos. Photos with
@@ -50,7 +46,7 @@ import pilates from "@/public/images/personal/pilates.jpg";
 export type PersonalPhoto = {
   src: StaticImageData;
   alt: string;
-  /** Short mono caption on the print */
+  /** Short name for the photo — not printed on the Polaroid, used for screen readers */
   caption: string;
   /** A short true story, shown when the photo is opened */
   story?: string;
@@ -59,97 +55,61 @@ export type PersonalPhoto = {
   /** Small editorial metadata on the print, e.g. "Seoul" and "2022" — leave out if unknown */
   place?: string;
   year?: string;
-  /** Size on the photo wall: s / m / l (default: a varied rhythm) */
-  size?: "s" | "m" | "l";
 };
 
 export const photos = {
-  portrait: {
-    src: portrait,
-    alt: "Portrait of Chloe Yun",
-    caption: "Portrait",
-    size: "l",
-    focus: "50% 25%",
-    story:
-      "I grew up in California, spent five years performing in Korea, and now study information at the University of Michigan — exploring where design and technology meet.",
-  },
-  stageYears: {
-    src: stageYears,
-    alt: "Chloe in a pastel stage photoshoot",
-    caption: "Stage years",
-    story:
-      "Five years in K-pop, including with cignature. Music, choreography, styling, production — everything was teamwork toward one shared outcome, and it taught me to notice how people react to what we make.",
-  },
-  photoshoot: {
-    src: photoshoot,
-    alt: "Chloe in a photoshoot, holding an apple on a picnic blanket",
-    caption: "Photoshoot",
-    focus: "50% 40%",
-    story:
-      "Photoshoots, rehearsals, live stages: performing taught me to pay attention to how people react, what resonates, and how small changes can shape an experience. I still design that way.",
-  },
   campusLawn: {
     src: campusLawn,
     alt: "Chloe standing on a campus lawn under a large tree, stone buildings behind her",
     caption: "Campus lawn",
-    size: "l",
   },
   studySession: {
     src: studySession,
     alt: "Chloe working on a laptop by a sunny window, an iced matcha beside her",
     caption: "Study session",
-    size: "m",
   },
   stadiumNight: {
     src: stadiumNight,
     alt: "Chloe looking back over her shoulder in a packed stadium at night",
     caption: "Game night",
     place: "Ann Arbor",
-    size: "m",
   },
   stoneWall: {
     src: stoneWall,
     alt: "Chloe in a Michigan top standing against a sunlit stone wall",
     caption: "Maize & blue",
     place: "Ann Arbor",
-    size: "s",
   },
   mirrorGameDay: {
     src: mirrorGameDay,
     alt: "Mirror selfie of Chloe and three friends in Michigan tops",
     caption: "Game day",
     place: "Ann Arbor",
-    size: "m",
   },
   dinnerWithFriends: {
     src: dinnerWithFriends,
     alt: "A long table of friends sharing dinner in a kitchen",
     caption: "Dinner with friends",
-    size: "l",
   },
   costumeBloodWall: {
     src: costumeBloodWall,
     alt: "Chloe in a costume — school uniform and knee-high boots — in front of a fake-blood backdrop",
     caption: "Costume",
-    size: "s",
   },
   costumeNight1: {
     src: costumeNight1,
     alt: "Chloe and friends in costumes, stacked in a tower pose, laughing",
     caption: "Costume night",
-    size: "s",
   },
   costumeNight2: {
     src: costumeNight2,
     alt: "Chloe and friends in costumes, stacked in a tower pose",
     caption: "Costume night II",
-    size: "m",
   },
   costumeNight3: {
     src: costumeNight3,
     alt: "Close-up selfie of Chloe and three friends in costumes at a party",
     caption: "Costume night III",
-    size: "m",
   },
   nightSwim: {
     src: nightSwim,
@@ -201,18 +161,9 @@ export const photos = {
 
 export type PhotoId = keyof typeof photos;
 
-/* The whole collection, in order — used by the playground camera */
+/* The whole collection, in order — the playground camera develops every one of these */
 export const collection: PhotoId[] = [
-  "portrait", "campusLawn", "stageYears", "studySession", "stadiumNight", "photoshoot", "dinnerWithFriends",
+  "campusLawn", "studySession", "stadiumNight", "dinnerWithFriends",
   "stoneWall", "mirrorGameDay", "costumeBloodWall", "costumeNight2", "costumeNight3", "costumeNight1",
   "nightSwim", "sanJuanStreet", "cherries", "photoBooth", "tacos", "corner", "streetMural", "candlelight", "pilates",
-];
-
-/* The photo wall (“Kept loosely”, on the homepage), in this order (the layout is stable: position follows order).
-   Built for 20–30 photos — each id once, no repeats. */
-export const wall: PhotoId[] = [
-  "portrait", "campusLawn", "costumeNight2", "stadiumNight", "studySession",
-  "stageYears", "dinnerWithFriends", "stoneWall", "costumeBloodWall", "mirrorGameDay",
-  "photoshoot", "costumeNight3", "costumeNight1", "nightSwim", "sanJuanStreet",
-  "pilates", "cherries", "photoBooth", "streetMural", "tacos", "corner", "candlelight",
 ];

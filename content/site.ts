@@ -145,7 +145,7 @@ export const journey = [
       "Before returning to school, I spent five years pursuing a professional career as a K-pop artist, including as a member of cignature.",
       "Working in entertainment taught me how much success depends on understanding people — audiences, teammates, feedback, timing, and communication.",
     ],
-    photos: ["stageYears", "photoshoot"] as PhotoId[],
+    photos: [] as PhotoId[],
   },
   {
     key: "ann-arbor",
@@ -169,7 +169,7 @@ export const journey = [
       "UX interests me because it sits between two worlds — analytical problem-solving and understanding people.",
       "With Atlas Digital, I’m the designer on a team building a Financial Model Knowledge Hub for Brookfield Renewable.",
     ],
-    photos: ["portrait"] as PhotoId[],
+    photos: ["pilates"] as PhotoId[],
     link: { label: "Read the Brookfield case study", href: "/work/brookfield" },
   },
 ];

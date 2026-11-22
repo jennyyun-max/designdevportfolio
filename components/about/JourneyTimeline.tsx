@@ -29,12 +29,7 @@ function JourneyPrint({ photo, i, n }: { photo: PersonalPhoto; i: number; n: str
     >
       {/* the photo at its own aspect ratio */}
       <Image src={photo.src} alt={photo.alt} sizes="(min-width: 768px) 280px, 62vw" className="mono-photo block h-auto w-full bg-stone" />
-      <figcaption className="meta flex h-10 items-center justify-between gap-2">
-        <span className="text-muted">
-          {n}.{i + 1}
-        </span>
-        <span className="truncate">{photo.caption}</span>
-      </figcaption>
+      <span className="block h-10" aria-hidden="true" />
     </motion.figure>
   );
 }

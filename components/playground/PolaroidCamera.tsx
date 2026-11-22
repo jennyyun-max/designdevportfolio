@@ -96,10 +96,6 @@ export default function PolaroidCamera() {
                   />
                 </span>
                 <figcaption className="pb-4 pt-3" aria-live="polite">
-                  <span className="meta flex justify-between">
-                    <span className="text-muted">No. {String(latest.id).padStart(2, "0")}</span>
-                    <span>{latest.photo.caption}</span>
-                  </span>
                   {latest.photo.story && <span className="mt-2 block text-[0.9rem] leading-snug text-muted">{latest.photo.story}</span>}
                 </figcaption>
               </motion.figure>
@@ -128,7 +124,7 @@ export default function PolaroidCamera() {
                   className="bg-print p-[5%] pb-0 shadow-[0_12px_22px_-14px_rgba(37,37,34,0.6)]"
                 >
                   <Image src={s.photo.src} alt={s.photo.alt} sizes="140px" className="block h-auto w-full bg-stone grayscale" />
-                  <span className="meta block truncate py-2">{s.photo.caption}</span>
+                  <span className="block h-6" aria-hidden="true" />
                 </motion.li>
               ))}
             </AnimatePresence>

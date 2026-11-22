@@ -243,14 +243,8 @@ export default function Print({
               {well}
             </button>
           )}
-          {/* caption: index number + title, in mono */}
-          <span className="mono flex h-[max(1.6rem,13cqw)] items-center justify-between gap-2 text-[max(0.56rem,5.2cqw)] uppercase tracking-[0.04em] text-ink">
-            <span className="shrink-0 text-muted">{String(index + 1).padStart(2, "0")}</span>
-            <span className="min-w-0 truncate">
-              {print.caption}
-              {(print.project || print.href) && <span aria-hidden="true"> ↗</span>}
-            </span>
-          </span>
+          {/* the deeper bottom border of an instant print — no title */}
+          <span className="block h-[max(1.4rem,14cqw)]" aria-hidden="true" />
         </div>
         {/* focused print: oxblood hairline */}
         <span

@@ -41,8 +41,8 @@ export default function AboutPage() {
       <section aria-label="Portrait" className="mx-auto mt-20 grid max-w-[1600px] gap-12 px-5 sm:px-8 md:mt-28 md:grid-cols-12 md:gap-8">
         <div className="md:col-span-6 lg:col-span-5 lg:col-start-2">
           <FlipPolaroid
-            src={photos.portrait.src}
-            alt={photos.portrait.alt}
+            src={photos.corner.src}
+            alt={photos.corner.alt}
             caption="Fig. 01 — Portrait"
             priority
             rotate={-1.5}

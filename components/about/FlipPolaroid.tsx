@@ -41,9 +41,8 @@ export default function FlipPolaroid({
         <span className="block bg-print p-[4%] pb-0 shadow-[0_30px_60px_-30px_rgba(37,37,34,0.55)] [backface-visibility:hidden]">
           {/* the photo at its own aspect ratio */}
           <Image src={src} alt={alt} priority={priority} sizes="(min-width: 1024px) 40vw, 90vw" className="mono-photo block h-auto w-full bg-stone" />
-          <span className="meta flex h-12 items-center justify-between text-muted">
-            <span>{caption}</span>
-            <span className="text-ink">Turn over ↻</span>
+          <span className="meta flex h-12 items-center justify-end text-muted" aria-hidden="true">
+            ↻
           </span>
         </span>
         {/* back: an index card */}
