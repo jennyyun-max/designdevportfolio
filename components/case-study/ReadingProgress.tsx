@@ -9,7 +9,7 @@ export default function ReadingProgress() {
   return (
     <motion.div
       aria-hidden="true"
-      className="fixed inset-x-0 top-0 z-[60] h-0.5 origin-left bg-accent"
+      className="fixed inset-x-0 top-0 z-[60] h-1 origin-left bg-rose"
       style={{ scaleX }}
     />
   );

@@ -20,13 +20,24 @@ export const site = {
 
 /* Wrap a word in *asterisks* to set it in the italic accent font. */
 export const hero = {
-  // Headline in Instrument Serif; *chloe* is set in its italic, like the earlier potato version
-  headline: "hi, i’m *chloe*",
-  // Your original intro sentence from the potato version of the site
-  text: "an aspiring UX & product designer who loves turning complex problems into thoughtful, human-centered experiences.",
+  eyebrow: "UX & product design · University of Michigan",
+  headline: "hi, i’m *chloe*!",
+  text: "I’m exploring the intersection of creativity, design, and technology — studying information at the University of Michigan and designing with Atlas Digital.",
   status: "", // e.g. "open to internships · summer 2027" — "" hides it
-  // Hero photos are the falling polaroids → content/polaroids.ts
+  // The falling Polaroids → content/polaroids.ts
 };
+
+/* THE ROOMS — the five places in Chloe’s world. Used by the header, the mobile menu,
+   the homepage “doors” and the footer. `doodle` is a name from components/doodles. */
+export const rooms = [
+  { key: "work", label: "my work", href: "/work", doodle: "sketchbook", tone: "var(--lavender)", blurb: "case studies, from research to the final screens" },
+  { key: "about", label: "about me", href: "/about", doodle: "polaroid", tone: "var(--blush)", blurb: "a scrapbook of who I am and what I’m building" },
+  { key: "journey", label: "my journey", href: "/journey", doodle: "plane", tone: "var(--sky)", blurb: "california → seoul → ann arbor" },
+  { key: "playground", label: "playground", href: "/playground", doodle: "star", tone: "var(--butter)", blurb: "a camera, stickers and a doodle pad" },
+  { key: "guestbook", label: "guestbook", href: "/guestbook", doodle: "envelope", tone: "var(--sage)", blurb: "leave a little note in my scrapbook" },
+] as const;
+
+export type RoomKey = (typeof rooms)[number]["key"];
 
 export const marquee = [
   "user research",
@@ -105,3 +116,46 @@ export const story = {
     },
   ],
 };
+
+/* MY JOURNEY — the three chapters, used by the About timeline and the Journey room.
+   California details are limited to what Chloe has shared (she grew up there). */
+export const journey = [
+  {
+    key: "california",
+    place: "California",
+    when: "growing up",
+    doodle: "palm",
+    tone: "var(--butter)",
+    title: "Where it started",
+    text: [
+      "I grew up in California.",
+      "Then my path took me all the way across the Pacific — to Korea, and a stage.",
+    ],
+  },
+  {
+    key: "seoul",
+    place: "Seoul, South Korea",
+    when: "five years on stage",
+    doodle: "mic",
+    tone: "var(--blush)",
+    title: "Five years with cignature",
+    text: [
+      "Before returning to school, I spent five years pursuing a professional career as a K-pop artist, including as a member of cignature.",
+      "Working in entertainment taught me how much success depends on understanding people — audiences, teammates, feedback, timing, and communication.",
+    ],
+    carried: ["Audience", "Feedback", "Collaboration", "Adaptability"],
+  },
+  {
+    key: "ann-arbor",
+    place: "Ann Arbor, Michigan",
+    when: "now",
+    doodle: "laptop",
+    tone: "var(--lavender)",
+    title: "Back to school — and designing",
+    text: [
+      "I came back to the United States and to school: I study at the University of Michigan School of Information — Information Analysis, with a minor in Data Science.",
+      "UX interests me because it sits between two worlds — analytical problem-solving and understanding people. With Atlas Digital, I’m the designer on a team building a Financial Model Knowledge Hub for Brookfield Renewable.",
+    ],
+    link: { label: "Read the Brookfield case study", href: "/work/brookfield" },
+  },
+] as const;

@@ -1,32 +1,75 @@
+"use client";
+
 import Link from "next/link";
-import { site } from "@/content/site";
-import Container from "./ui/Container";
+import { rooms, site } from "@/content/site";
+import InteractivePotato from "./ui/InteractivePotato";
+import { Doodle, type DoodleName } from "./doodles/Doodles";
+
+/* Lets returning visitors watch the welcome again */
+function replayIntro() {
+  try {
+    localStorage.removeItem("intro-seen");
+  } catch {}
+  window.location.href = "/";
+}
 
 export default function SiteFooter() {
   return (
-    <footer className="border-t border-line bg-surface">
-      <Container className="flex flex-col gap-8 py-12 md:flex-row md:items-end md:justify-between">
+    <footer className="relative mt-10 overflow-hidden border-t border-line bg-ivory">
+      <div className="mx-auto grid max-w-[1320px] gap-10 px-5 pb-10 pt-14 sm:px-8 md:grid-cols-[1.2fr_1fr_auto] md:items-end">
         <div>
-          <Link href="/" className="display text-2xl">
-            Chloe Yun
-          </Link>
-          <p className="mt-3 max-w-[22rem] text-sm text-muted">
-            Exploring the space between data, technology, and people. Ann Arbor, MI.
+          <p className="hand text-[2rem] leading-none">thanks for visiting my world ♡</p>
+          <p className="mt-3 max-w-[24rem] text-[0.95rem] text-espresso-soft">
+            Designed and built by Chloe Yun in Ann Arbor, with a lot of pink and one very good potato.
           </p>
+          <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-[0.95rem] font-semibold">
+            {site.email && (
+              <a href={`mailto:${site.email}`} className="link">
+                {site.email}
+              </a>
+            )}
+            {site.linkedin && (
+              <a href={site.linkedin} target="_blank" rel="noreferrer" className="link">
+                linkedin ↗
+              </a>
+            )}
+            {site.resume && (
+              <a href={site.resume} target="_blank" rel="noreferrer" className="link">
+                résumé ↗
+              </a>
+            )}
+            {site.github && (
+              <a href={site.github} target="_blank" rel="noreferrer" className="link">
+                github ↗
+              </a>
+            )}
+          </div>
         </div>
         <nav aria-label="Footer">
-          <ul className="mono flex flex-wrap gap-x-6 gap-y-2 text-[0.75rem] uppercase tracking-[0.08em]">
-            <li><Link href="/" className="link">home</Link></li>
-            <li><Link href="/#work" className="link">work</Link></li>
-            <li><Link href="/play" className="link">play</Link></li>
-            <li><Link href="/about" className="link">about</Link></li>
-            <li><Link href="/#contact" className="link">contact</Link></li>
+          <ul className="grid grid-cols-2 gap-x-6 gap-y-2.5 text-[0.95rem]">
+            {rooms.map((room) => (
+              <li key={room.key}>
+                <Link href={room.href} className="group inline-flex items-center gap-2">
+                  <Doodle name={room.doodle as DoodleName} className="wiggle-on-hover h-6 w-6" />
+                  <span className="nav-link">{room.label}</span>
+                </Link>
+              </li>
+            ))}
+            <li>
+              <button type="button" onClick={replayIntro} className="group inline-flex items-center gap-2">
+                <Doodle name="sparkle" className="wiggle-on-hover h-6 w-6" />
+                <span className="nav-link">replay the intro</span>
+              </button>
+            </li>
           </ul>
         </nav>
-        <p className="text-sm text-muted">
-          © {new Date().getFullYear()} {site.name} · Ann Arbor, MI
-        </p>
-      </Container>
+        <div className="flex items-end gap-3 justify-self-start md:justify-self-end">
+          <p className="pb-2 text-xs text-espresso-soft">
+            © {new Date().getFullYear()} {site.name}
+          </p>
+          <InteractivePotato className="w-16" />
+        </div>
+      </div>
     </footer>
   );
 }

@@ -99,6 +99,16 @@ export const introCss = [
   ]),
 
   // ---- 1. California ----
+  kf("waves", [
+    [0, tf({ x: -14 }), "ease-in-out"],
+    [0.55, tf({ x: 12 }), "ease-in-out"],
+    [1.1, tf({ x: -10 }), "ease-in-out"],
+    [1.6, tf({ x: 8 })],
+  ]),
+  kf("gulls", [
+    [0, tf({ x: -60, y: 10 }), "ease-in-out"],
+    [1.5, tf({ x: 90, y: -16 })],
+  ]),
   kf("draw-ca", [
     [0, draw(1), OUT],
     [0.45, draw(0)],
@@ -162,7 +172,22 @@ export const introCss = [
   kf("swing-l", walk(1.06, 1.6, 6, 14, SHOULDER_L, -1)),
   kf("swing-r", walk(1.06, 1.6, 6, 14, SHOULDER_R, 1)),
 
-  // ---- 2. Korea ----
+  // ---- 2. Seoul ----
+  kf("spot-l", [
+    [1.5, tf({ px: 315, py: 196, r: 9 }), "ease-in-out"],
+    [1.95, tf({ px: 315, py: 196, r: -6 }), "ease-in-out"],
+    [2.4, tf({ px: 315, py: 196, r: 4 })],
+  ]),
+  kf("spot-r", [
+    [1.5, tf({ px: 685, py: 196, r: -9 }), "ease-in-out"],
+    [1.95, tf({ px: 685, py: 196, r: 6 }), "ease-in-out"],
+    [2.4, tf({ px: 685, py: 196, r: -4 })],
+  ]),
+  kf("notes", [
+    [1.62, `${op(0)};${tf({ y: 40 })}`, OUT],
+    [1.9, `${op(1)};${tf({ y: 0 })}`],
+    [2.6, `${op(1)};${tf({ y: -50 })}`],
+  ]),
   kf("draw-kr", [
     [1.1, draw(1), OUT],
     [1.55, draw(0)],

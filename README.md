@@ -1,118 +1,66 @@
-# Chloe Yun — UX & Product Design Portfolio
+# Chloe’s World — Chloe Yun’s portfolio
 
-A futuristic, editorial portfolio built with **Next.js (App Router), React, TypeScript,
-Tailwind CSS v4, Motion for React and Lucide icons**.
-
-## Run it locally
-
-Requires [Node.js](https://nodejs.org) 20 or newer.
+An interactive storybook × digital scrapbook × design portfolio. Next.js (App Router, every page
+prerendered), React, TypeScript, Tailwind v4 and Motion.
 
 ```bash
 npm install
-npm run dev
+npm run dev      # http://localhost:3000
+npm run build    # production build
 ```
 
-Open http://localhost:3000.
+## The rooms
 
-| Command | What it does |
-|---|---|
-| `npm run dev` | Development server with hot reload |
-| `npm run build` | Production build (all pages are pre-rendered as static HTML) |
-| `npm run start` | Serve the production build locally |
-| `npm run typecheck` | TypeScript check |
+| Room | URL | What’s there |
+| --- | --- | --- |
+| Home | `/` | Hand-drawn welcome (first visit), “hi, i’m chloe!”, falling Polaroids, selected work, doors, contact |
+| My work | `/work`, `/work/<slug>` | Project cards → case studies (Problem → Research → Process → Design decisions → Final outcome → Reflection) |
+| About me | `/about` | Scrapbook: flip-over Polaroid, sticky notes, interactive timeline, photo box |
+| My journey | `/journey` | Illustrated storybook: California → Seoul → Ann Arbor |
+| Playground | `/playground` | Instant camera, sticker scrapbook page, doodle pad (and a hidden potato) |
+| Guestbook | `/guestbook` | Leave a note — **local demo**, saved only in the visitor’s browser |
 
-## Edit the content
-
-You shouldn't need to touch components to update the site.
+## Where to edit things
 
 | What | File |
-|---|---|
-| Name, SEO description, site URL, **email / LinkedIn / GitHub / resume** | `content/site.ts` → `site` |
-| Hero text, status line | `content/site.ts` → `hero` |
-| **Hero prints, Play archive, drop timing** | `content/polaroids.ts` (`prints`, `playPrints`, `reveal`, `dropSettings`) |
-| About page story (`/about`) and homepage teaser | `content/site.ts` → `story`, `about` |
-| **Projects + case studies** (incl. each one-line `tagline`, and Brookfield’s `spotlight`) | `content/projects.ts` |
+| --- | --- |
+| Name, email, LinkedIn, résumé, hero text, the five rooms, journey chapters, about text | `content/site.ts` |
+| Projects and case studies (incl. `decisions`) | `content/projects.ts` |
+| Homepage Polaroids, fall timing, camera photo archive | `content/polaroids.ts` |
+| Colors, type, tape / paper textures | `app/globals.css` |
+| The doodle illustrations (nav, stickers, stamps…) | `components/doodles/Doodles.tsx` |
+| The welcome drawings / timings | `components/intro/Sketch.tsx`, `components/intro/timeline.ts` |
 
-- Anything in `[square brackets]` is a placeholder.
-- Wrap a word in `*asterisks*` to set it in the italic accent font (e.g. `"hi, i’m *chloe*!"`).
-- A link left as `""` shows “coming soon” instead of a broken link.
-- **Images:** put them in `public/images/...` and set `src: "/images/..."`. An empty `src`
-  shows placeholder art. Project images go in `public/images/projects/<slug>/`.
-- **Resume:** add `public/resume.pdf` and set `resume: "/resume.pdf"`.
-- **New project:** copy a project object in `content/projects.ts`, give it a unique `slug`.
-  Its page appears at `/work/<slug>` automatically.
-- **Hero prints:** `prints` in `content/polaroids.ts`. Each has `src` (`""` = empty photo well), `alt`, a
-  short `caption`, optional `focus` (square crop, e.g. `"50% 30%"`), `size` (`"large"` / `"focal"`) and
-  `project: "<slug>"` (the print then opens that case study). `desktop` / `mobile` set where it hangs
-  (`hang`, omit to start on the floor) and where it lands (`rest`), in % of the hero — `y` is the height of
-  the print’s bottom edge (the floor line is at 6 desktop / 5 mobile). A `hang.y` above 100 starts the print
-  off-screen, so it rains in. `art: "michigan"` shows the intro’s last frame instead of a photo.
-- **The reveal:** the print with `cover: true` (the Michigan drawing) hides `reveal` — a detail from the featured
-  project. Its matching spot in the project screen is `spotlight.detail` in `content/projects.ts`
-  (fractions of the screenshot). Change both together if you swap the featured project.
-- **Drop timing:** `dropSettings` — `firstDropAt` (scroll before the Michigan print drops), `rainDelay` /
-  `rainEvery` (when the other prints rain in), `tipSeconds` (how long it hangs by one corner) and
-  `fallSeconds` (how heavy the prints feel).
-- **The intro:** the hand-drawn story (California → Korea → Michigan) is drawn in
-  `components/intro/Sketch.tsx`; every timing is in seconds in `components/intro/timeline.ts`. It plays on
-  entering the homepage, once per browser session (the small script in `app/layout.tsx` decides), never for
-  direct links such as `/#work` or a case study, and not for reduced-motion visitors. To see it again, open
-  the site in a new tab or clear the `intro-seen` key in session storage.
-- **Play:** `playPrints` — just a list; the table lays them out automatically.
+- **Case studies:** every chapter is optional — leave a field out and the chapter disappears. Only put in
+  what really happened; nothing is generated. LUMEN’s length is still unknown — add it to `timeline.duration`.
+- **Polaroids:** `src`, `alt`, `caption`, `story` (shown when the photo is opened) or `project` / `href`
+  (opens that page), `tape` (washi tape color), and `desktop` / `mobile` positions (`hang` = start above
+  the screen, `rest` = where it lands, in % of the hero). Image rule: no photos showing “title” or
+  “cignature”, no group photos — the stage photo is a text-free crop (`aurora-portrait.jpg`).
+- **The welcome** plays on the first visit to the homepage only (remembered in `localStorage`), never for
+  direct links or reduced-motion visitors. “replay the intro” in the footer brings it back.
 
 ## Design system
 
-Colors live as CSS variables at the top of `app/globals.css`:
+Recovered from the original pink-and-beige version (commit `d6497c0`):
 
-Warm pink and beige (from the earlier potato version): `--bg` cream page · `--surface` ivory ·
-`--surface-2` pink chips · `--line` hairlines · `--fg` espresso type · `--muted` / `--silver` secondary
-type · `--paper` ivory print borders · `--blush` featured-project backdrop · `--rose` decorative marks ·
-`--accent` deepened rose for hover, active and focus. The photos supply the bright colors. There are no
-dark-mode overrides, so the site looks the same in light and dark system settings.
+- **Type:** Fraunces display headings (weight 560, SOFT 100, opsz 144, −0.03em, line-height 0.98) with
+  Instrument Serif italic accents (`*word*` / `<em>`), Figtree body (1.0625rem / 1.65), Caveat handwriting,
+  eyebrow labels in Figtree 600, 0.75rem, 0.16em uppercase.
+- **Color:** cream `#fbf6ef`, ivory `#fffbf6`, espresso `#3a2620` type, blush `#f2c4c0`, pink `#f8dedb`,
+  rose `#c9736b`, butter `#f6e4a8`, lavender `#ddd4ef`, sage `#d3dfca`, sky `#cadded`, peach `#f4cdb6`.
+  The same in light and dark system settings.
 
-Fonts (loaded with `next/font` in `app/layout.tsx`): **Instrument Serif** (the homepage “hi, i’m chloe”),
-**Inter Tight** (headings + body) and **JetBrains Mono** (captions, metadata, navigation).
+## Guestbook: making it shared
 
-## Project structure
-
-```
-app/
-  layout.tsx            fonts, metadata/SEO, header, footer, cursor
-  page.tsx              homepage
-  work/[slug]/page.tsx  case-study pages (statically generated)
-  play/, about/         photo archive and the full story
-  not-found.tsx, sitemap.ts, robots.ts, icon.svg
-components/
-  intro/                IntroStory (overlay, skip, hand-off to the hero print), Sketch (the drawings), timeline
-  home/                 DeskHero (scroll-released prints), Print (tip, fall, toss), DetailFlight (reveal →
-                        spread), SelectedWork (Brookfield spread + project rows), AboutSection, ContactSection
-  play/                 PlayTable (the photo archive at /play)
-  polaroids/            PhotoPreview (enlarged photo dialog)
-  case-study/           CaseStudy template, CaseSection, Figure, ReadingProgress
-  ui/                   ButtonLink, Reveal, MediaFrame, PlaceholderArt…
-  SiteHeader.tsx, SiteFooter.tsx, CustomCursor.tsx, MotionProvider.tsx
-content/                all editable text and links
-lib/types.ts            content types
-```
+There is no backend, so the guestbook is honest about being a local demo. To make a shared visitor
+gallery, add an API route + database (e.g. Vercel + Postgres/KV) with: server-side validation and length
+limits, rate limiting per IP, a profanity filter, storing notes as **pending** until approved (moderation),
+no emails or personal data collected, and doodles stored as size-limited PNGs.
 
 ## Accessibility & motion
 
-- Respects `prefers-reduced-motion`: no intro (the finished Michigan drawing hangs beside the greeting),
-  the other prints start settled on the floor, the detail flight is off, and reveals and the custom cursor
-  are reduced or off.
-- Prints: the photo well is a real button (opens the photo) or link (opens the case study), so every
-  project is reachable by keyboard — and every project is also in Selected Work right below the hero.
-  The white border picks a print up; arrow keys move a focused, landed print (Shift = bigger steps).
-- Touchscreens keep vertical scrolling everywhere (prints use `touch-action: pan-y`).
-- Skip link, visible rose focus outlines, labelled controls, keyboard-operable mobile menu, one `h1` per page.
-
-## Deploy with GitHub + Vercel
-
-1. Push this branch (or merge it into `main`) on GitHub.
-2. Go to [vercel.com/new](https://vercel.com/new), sign in with GitHub, and import
-   **designdevportfolio**.
-3. Vercel detects Next.js automatically — keep the defaults and click **Deploy**.
-4. After the first deploy, set `site.url` in `content/site.ts` to your Vercel URL
-   (or custom domain) so SEO metadata and the sitemap use the right address.
-
-Every push to the connected branch redeploys automatically, and pull requests get preview links.
+- `prefers-reduced-motion`: no welcome, Polaroids start settled, no custom cursor; CSS animations off.
+- Polaroids: the photo is a button/link (opens a story or project); the white border drags; arrow keys move
+  a focused print. Stickers: click/Enter adds one, arrow keys move it, Delete peels it off.
+- The About timeline is a keyboard tab list; skip link, labelled controls, one `h1` per page.

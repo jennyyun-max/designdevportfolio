@@ -72,7 +72,7 @@ function Place({ id, a, name, x, y, r, size = 64, cls }: A & { name: string; x: 
       <clipPath id={clip}>
         <rect className={k(a, cls)} x={x - 6} y={y - size} width={size * 4.2} height={size * 1.4} style={{ transformBox: "fill-box", transformOrigin: "0 50%" }} />
       </clipPath>
-      <text x={x} y={y} clipPath={`url(#${clip})`} fill={INK} fontSize={size} style={{ fontFamily: "var(--font-pen), cursive" }}>
+      <text x={x} y={y} clipPath={`url(#${clip})`} fill={INK} fontSize={size} fontWeight={600} style={{ fontFamily: "var(--font-caveat), cursive" }}>
         {name}
       </text>
     </g>
@@ -273,7 +273,7 @@ function StageGirl({ id, a }: A) {
         <Shape id={id} color={SKIRT} d="M -36 -174 L 40 -174 L 52 -136 L -48 -136 Z" wash={0.7} />
         <Pencil d="M -18 -172 L -24 -138 M 2 -172 L 2 -138 M 22 -172 L 28 -138" w={1.8} o={0.7} />
         {/* arms down while she dances… */}
-        <g className={k(a, "kr-down")}>
+        <g className={k(a, "kr-down")} opacity={a ? undefined : 0}>
           <Limb d="M -44 -250 L -54 -206 L -52 -166" color={JACKET} w={15} />
           <Limb d="M 50 -250 L 60 -206 L 56 -168" color={JACKET} w={15} />
           <circle cx={56} cy={-164} r={7} fill={SKIN} stroke={INK} strokeWidth={2.4} />
@@ -332,6 +332,17 @@ function DeskGirl({ id, a }: A) {
 function California({ id, a }: A) {
   return (
     <svg x={0} y={0} width={1000} height={1000} overflow="visible">
+      {/* the ocean, glittering behind the promenade */}
+      <g filter={`url(#${id}-wobble)`}>
+        <Fill id={id} d="M -40 560 C 200 552 420 566 640 556 S 900 552 1040 560 L 1040 700 L -40 700 Z" color="#cadded" wash={0.55} hatch={0.7} />
+        <Pencil d="M -40 560 C 200 552 420 566 640 556 S 900 552 1040 560" w={2.4} />
+        <g className={k(a, "waves")}>
+          <Pencil d="M 60 600 q 16 -10 32 0 t 32 0 M 470 590 q 16 -10 32 0 t 32 0 M 760 612 q 16 -10 32 0 t 32 0 M 240 640 q 16 -10 32 0 t 32 0 M 620 652 q 16 -10 32 0 t 32 0 M 880 668 q 16 -10 32 0" w={2} color="#6f8fb3" />
+        </g>
+        <g className={k(a, "gulls")}>
+          <Pencil d="M 520 430 q 10 -12 20 0 q 10 -12 20 0 M 590 470 q 8 -9 16 0 q 8 -9 16 0" w={2.2} />
+        </g>
+      </g>
       <g filter={`url(#${id}-wobble)`}>
         {/* sun */}
         <g className={k(a, "draw-ca")} strokeDasharray={a ? 1 : undefined}>
@@ -363,7 +374,7 @@ function California({ id, a }: A) {
           <circle cx={384} cy={306} r={7} fill="#a07d5c" stroke={INK} strokeWidth={2} />
         </g>
       </g>
-      <Place id={id} a={a} cls="write-ca" name="california" x={515} y={262} r={-6} size={58} />
+      <Place id={id} a={a} cls="write-ca" name="california" x={500} y={258} r={-6} size={64} />
       <svg x={500} y={850} overflow="visible" className={k(a, "ca-sit")} filter={`url(#${id}-wobble)`}>
         <SittingGirl id={id} a={a} />
       </svg>
@@ -385,9 +396,19 @@ function Korea({ id, a }: A) {
           {/* curtain */}
           <Fill id={id} d="M 40 196 L 960 196 L 960 236 C 900 266 860 236 820 262 C 780 236 740 266 700 240 C 660 266 620 236 580 262 C 540 236 500 266 460 240 C 420 266 380 236 340 262 C 300 236 260 266 220 240 C 180 266 140 236 100 262 C 80 248 60 248 40 240 Z" color={JACKET} wash={0.35} hatch={0.55} />
           <Pencil d="M 40 236 C 80 248 100 262 100 262 C 140 236 180 266 220 240 C 260 266 300 236 340 262 C 380 236 420 266 460 240 C 500 266 540 236 580 262 C 620 236 660 266 700 240 C 740 266 780 236 820 262 C 860 236 900 266 960 236" w={2.6} len />
-          {/* spotlights */}
+          {/* the Seoul skyline and N Seoul Tower behind the outdoor stage */}
+          <Pencil d="M 40 700 L 40 560 L 110 560 L 110 520 L 170 520 L 170 590 L 230 590 L 230 540 L 290 540 L 290 700 M 760 700 L 760 600 L 820 600 L 820 548 L 880 548 L 880 610 L 960 610 L 960 700" w={2.2} o={0.7} len />
+          <Pencil d="M 60 580 l 0 12 M 84 580 l 0 12 M 128 540 l 0 12 M 150 540 l 0 12 M 250 560 l 0 12 M 270 560 l 0 12 M 840 570 l 0 12 M 860 570 l 0 12 M 900 630 l 0 12" w={2} o={0.55} len />
+          <Pencil d="M 690 700 L 698 452 M 712 700 L 704 452 M 686 452 L 716 452 L 722 430 L 680 430 Z M 701 430 L 701 360 M 694 520 L 708 520" w={2.4} len />
+        </g>
+        {/* spotlights, sweeping */}
+        <g className={k(a, "spot-l")}>
           <Fill id={id} d="M 300 196 L 420 700 L 560 700 L 330 196 Z" color={MAIZE} wash={0.12} hatch={0.3} />
+        </g>
+        <g className={k(a, "spot-r")}>
           <Fill id={id} d="M 700 196 L 580 700 L 440 700 L 670 196 Z" color={JACKET} wash={0.12} hatch={0.3} />
+        </g>
+        <g className={k(a, "draw-kr")} strokeDasharray={a ? 1 : undefined}>
           {/* stage front */}
           <Pencil d="M 0 752 C 300 755 700 749 1000 752" w={2.6} len />
           <Pencil d="M 140 702 l -6 50 M 330 702 l -3 50 M 520 702 l 0 50 M 710 702 l 3 50 M 880 702 l 6 50" w={1.8} o={0.6} len />
@@ -395,7 +416,36 @@ function Korea({ id, a }: A) {
           <Pencil d="M 250 330 l 0 24 M 238 342 l 24 0 M 780 300 l 0 20 M 770 310 l 20 0 M 840 420 l 0 16 M 832 428 l 16 0" w={2.2} len />
         </g>
       </g>
-      <Place id={id} a={a} cls="write-kr" name="korea" x={588} y={650} r={-5} size={60} />
+      <Place id={id} a={a} cls="write-kr" name="seoul" x={286} y={652} r={-5} size={64} />
+      {/* music notes and little stars floating up */}
+      <g className={k(a, "notes")} filter={`url(#${id}-wobble)`}>
+        {[
+          [330, 420, "#ddd4ef"],
+          [620, 380, "#f2c4c0"],
+          [410, 330, "#f6e4a8"],
+          [600, 470, "#ddd4ef"],
+        ].map(([x, y, c]) => (
+          <g key={`${x}`} transform={`translate(${x} ${y})`}>
+            <Pencil d="M 8 0 L 8 -30 L 26 -36 L 26 -8" w={2.6} />
+            <ellipse cx={3} cy={1} rx={7} ry={5.5} fill={c as string} stroke={INK} strokeWidth={2.4} />
+            <ellipse cx={21} cy={-7} rx={7} ry={5.5} fill={c as string} stroke={INK} strokeWidth={2.4} />
+          </g>
+        ))}
+        {[
+          [280, 300],
+          [720, 330],
+          [520, 250],
+        ].map(([x, y]) => (
+          <path
+            key={`s${x}`}
+            d={`M ${x} ${y - 16} L ${x + 5} ${y - 5} L ${x + 17} ${y - 4} L ${x + 8} ${y + 4} L ${x + 11} ${y + 16} L ${x} ${y + 9} L ${x - 11} ${y + 16} L ${x - 8} ${y + 4} L ${x - 17} ${y - 4} L ${x - 5} ${y - 5} Z`}
+            fill={MAIZE}
+            stroke={INK}
+            strokeWidth={2.2}
+            strokeLinejoin="round"
+          />
+        ))}
+      </g>
       <g className={k(a, "kr")}>
         <svg x={500} y={700} overflow="visible" filter={`url(#${id}-wobble)`}>
           <StageGirl id={id} a={a} />
@@ -471,6 +521,20 @@ function Michigan({ id, a }: A) {
           {/* chair (Michigan blue) */}
           <Pencil d="M 298 520 L 304 660 M 306 668 L 304 830 M 396 668 L 404 830" w={3} len />
         </g>
+        {/* design sketches pinned to the wall: a wireframe (UX) and a little chart (data) */}
+        <g transform="rotate(-4 480 316)">
+          <Shape id={id} color="#fffdf8" d="M 436 262 L 524 262 L 524 368 L 436 368 Z" w={2.2} wash={1} hatch={0} />
+          <Pencil d="M 446 274 L 514 274 L 514 290 L 446 290 Z M 446 300 L 476 300 L 476 330 L 446 330 Z M 484 302 L 514 302 M 484 312 L 508 312 M 484 322 L 512 322 M 450 344 L 510 344 L 510 356 L 450 356 Z" w={1.6} />
+          <rect x={470} y={255} width={22} height={11} fill="#f2c4c0" opacity={0.85} />
+        </g>
+        <g transform="rotate(5 572 322)">
+          <Shape id={id} color="#fffdf8" d="M 534 276 L 610 276 L 610 368 L 534 368 Z" w={2.2} wash={1} hatch={0} />
+          <Pencil d="M 544 356 L 600 356 M 544 286 L 544 356" w={1.6} />
+          <Shape id={id} color={MAIZE} d="M 552 330 L 562 330 L 562 356 L 552 356 Z" w={1.4} wash={0.8} />
+          <Shape id={id} color={BLUE} d="M 568 312 L 578 312 L 578 356 L 568 356 Z" w={1.4} wash={0.7} />
+          <Shape id={id} color="#e8a0ad" d="M 584 296 L 594 296 L 594 356 L 584 356 Z" w={1.4} wash={0.8} />
+          <circle cx={572} cy={276} r={5} fill="#c9736b" stroke={INK} strokeWidth={1.6} />
+        </g>
         {books.map((c, i) => (
           <Shape key={i} id={id} color={c} d={`M ${636 + i * 13} ${i % 3 === 1 ? 236 : 230} l 10 0 l 0 ${i % 3 === 1 ? 56 : 62} l -10 0 Z`} w={1.8} wash={0.6} />
         ))}
@@ -496,7 +560,7 @@ function Michigan({ id, a }: A) {
         <Shape id={id} color="#cfc6bd" d="M 438 600 L 626 600 L 618 590 L 446 592 Z" w={2.6} wash={0.6} />
         <Screen id={id} a={a} />
       </g>
-      <Place id={id} a={a} cls="write-mi" name="michigan" x={462} y={706} r={-3} size={60} />
+      <Place id={id} a={a} cls="write-mi" name="ann arbor" x={452} y={710} r={-3} size={62} />
       <g className={k(a, "mi")}>
         <svg x={350} y={805} overflow="visible" filter={`url(#${id}-wobble)`}>
           <DeskGirl id={id} a={a} />
@@ -537,7 +601,7 @@ const PAPER =
 /* One pencil line running the whole strip: the curb, then the stage edge, then up into the desk */
 const LINE = "M 110 700 C 400 703 700 698 1000 701 S 1700 698 1990 700 C 2120 702 2240 690 2300 664 C 2340 646 2380 622 2410 620";
 
-function Strip({ id, a, region }: A & { region: "all" | "michigan" }) {
+function Strip({ id, a, region }: A & { region: "all" | "michigan" | "california" | "seoul" }) {
   return (
     <>
       <Defs id={id} />
@@ -546,13 +610,9 @@ function Strip({ id, a, region }: A & { region: "all" | "michigan" }) {
       <g filter={`url(#${id}-wobble)`}>
         <path className={k(a, "line")} d={LINE} fill="none" stroke={INK} strokeWidth={3.2} strokeLinecap="round" pathLength={1} strokeDasharray={a ? 1 : undefined} />
       </g>
-      {region === "all" && (
-        <>
-          <California id={id} a={a} />
-          <Korea id={id} a={a} />
-        </>
-      )}
-      <Michigan id={id} a={a} />
+      {(region === "all" || region === "california") && <California id={id} a={a} />}
+      {(region === "all" || region === "seoul") && <Korea id={id} a={a} />}
+      {(region === "all" || region === "michigan") && <Michigan id={id} a={a} />}
     </>
   );
 }
@@ -571,6 +631,21 @@ export function MichiganSketch({ id = "mi-print" }: { id?: string }) {
   return (
     <svg viewBox="2180 210 640 640" className="block h-full w-full" aria-hidden="true" focusable="false">
       <Strip id={id} a={false} region="michigan" />
+    </svg>
+  );
+}
+
+const SCENE_VIEW = {
+  california: "140 160 780 780",
+  seoul: "1150 170 760 760",
+  michigan: "2180 210 640 640",
+} as const;
+
+/** One finished scene as a still drawing (the Journey storybook pages) */
+export function SceneSketch({ scene, label }: { scene: keyof typeof SCENE_VIEW; label: string }) {
+  return (
+    <svg viewBox={SCENE_VIEW[scene]} className="block h-full w-full" role="img" aria-label={label} focusable="false">
+      <Strip id={`scene-${scene}`} a={false} region={scene} />
     </svg>
   );
 }

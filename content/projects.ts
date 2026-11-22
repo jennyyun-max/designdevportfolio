@@ -69,7 +69,7 @@ export const projects: Project[] = [
         { title: "Uncertainty has to be seen", detail: "Low confidence and conflicts can’t be buried." },
         { title: "Users are busy executives", detail: "A cluttered screen gets abandoned." },
       ],
-      process: [
+      decisions: [
         { title: "Hide the volume", detail: "Extra columns, charts and capacity totals, and long narrative sections can wait — one click away." },
         { title: "Never hide the risk", detail: "Confidence and review status, conflicting values, units and source cells are always visible." },
         { title: "Conflicts are flagged", detail: "Two IRRs found: we show both, never pick one." },
@@ -114,7 +114,7 @@ export const projects: Project[] = [
         ],
       },
       timeline: {
-        duration: "[x weeks] · Fall 2026",
+        duration: "Fall 2026", // add the length (e.g. "3 weeks · Fall 2026") when you have it
         phases: [
           { label: "Research", detail: "Interviews & working hypotheses" },
           { label: "Ideate", detail: "IA, user journey & sketches" },
@@ -192,11 +192,11 @@ export const projects: Project[] = [
         { src: "/images/projects/lumen/09-hifi.png", alt: "Five hi-fi screens: home, festival map, lineup, artist detail, wallet", caption: "Hi-fi screens for the core flows" },
         { src: "/images/projects/lumen/11-final.png", alt: "Final solution: home, map and wallet screens fanned out", caption: "Final solution: the next relevant action first" },
       ],
-      outcomes: [
-        "Home shows the next saved artist, time, stage and walking time",
-        "Live map with filters, crowd status and turn-by-turn directions",
-        "Wallet with a QR fallback if the wristband is lost",
-        "Lineup flags schedule overlaps between stages",
+      decisions: [
+        { title: "The next relevant action first", detail: "Home shows the next saved artist, time, stage and walking time — so the most important thing is obvious at a glance." },
+        { title: "A map that’s alive", detail: "Testing showed the static map wasn’t enough: it became a live map with filters, crowd status, a details sheet and turn-by-turn directions." },
+        { title: "Access that can’t fail", detail: "People worried about losing their wristband, so the Wallet has a QR fallback if the wristband is lost." },
+        { title: "Make collisions visible", detail: "With many stages running at once, the lineup flags schedule overlaps between stages." },
       ],
       reflection:
         "Less managing, more experiencing. Designing for a festival meant designing for the worst moment: no signal, a dying phone, a lost wristband. Next I’d keep researching, refine the flows, and test again with more festival-goers.",
@@ -255,6 +255,12 @@ export const projects: Project[] = [
         { title: "How might we…", detail: "…make grocery shopping feel less overwhelming? …make relevant features more visible and easier to access? …make the Costco trip more time-efficient?" },
         { title: "Structure", detail: "Before polished UI, we explored navigation patterns, information hierarchy, and feature organization through sketches and low-fidelity wireframes, testing structural ideas before committing to visual design." },
         { title: "Redesign", detail: "Landing, Shop, Warehouse, and Product details & cart — each redesigned around simpler navigation, clearer hierarchy, and fewer interruptions." },
+      ],
+      decisions: [
+        { title: "Landing", detail: "Less clutter, important actions up front." },
+        { title: "Shop", detail: "Clearer categories, less navigating." },
+        { title: "Warehouse", detail: "Trip planning with crowd levels & gas prices — because crowds make a trip unpredictable." },
+        { title: "Product details & cart", detail: "Fewer interruptions to checkout." },
       ],
       wireframes: [
         { src: "/images/projects/costco/sketch-landing.webp", alt: "Hand-drawn sketch of the Costco landing page with annotations", caption: "Landing page sketch", fit: "contain", aspect: "aspect-[4/5]" },

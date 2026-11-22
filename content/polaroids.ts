@@ -1,107 +1,130 @@
 import type { DeskPrint } from "@/lib/types";
 
 /* ==================================================================
-   PHOTO PRINTS
+   POLAROIDS
 
    Swap a photo: put the file in /public/images/… and change `src`
-   (and `alt`). `src: ""` leaves the photo well empty.
-   `project: "<slug>"` makes the print open that case study.
-   `size`: "focal" (the hero’s main image) or "large"; default regular.
+   (and `alt`). `project: "<slug>"` opens that case study; `href`
+   opens any page; `story` is shown when a photo print is opened.
+   `size`: "large", "focal" or "hero"; default regular. `tape` adds a
+   strip of washi tape in that color.
+
+   Image rules (from Chloe): no images showing the words “title” or
+   “cignature”, and none of the group photos she asked to remove.
+   That’s why the stage photo is a text-free crop (aurora-portrait.jpg).
    ================================================================== */
 
-/* Drop timing for the homepage prints — tweak these to change how they fall. */
+/* How the homepage Polaroids fall in on page load */
 export const dropSettings = {
-  /** How far the visitor scrolls (in % of screen height) before the Michigan print lets go */
-  firstDropAt: 2,
-  /** Seconds after that before the other prints start raining in from above */
-  rainDelay: 0.25,
-  /** Seconds between one raining print and the next */
-  rainEvery: 0.2,
-  /** Seconds the Michigan print hangs by one corner (tipping) before it falls */
-  tipSeconds: 0.38,
-  /** Seconds for a print to fall the full height of the hero (bigger = slower, heavier) */
-  fallSeconds: 1.1,
+  /** Seconds before the first Polaroid starts falling */
+  startDelay: 0.15,
+  /** Seconds between one Polaroid and the next */
+  every: 0.14,
+  /** Seconds for a fall the full height of the hero (bigger = slower, floatier) */
+  fallSeconds: 1.15,
 };
 
 /* ------------------------------------------------------------------
-   HOMEPAGE HERO — the Michigan drawing from the intro hangs beside
-   “hi, i’m chloe”. On the first scroll it drops, and the others rain
-   in from above the screen.
-   Positions are % of the hero: x = left edge, y = height of the
-   print’s bottom edge above the bottom of the hero (the floor line
-   is at 6 on desktop, 5 on mobile). `hang` = where it waits: a `y`
-   above 100 is off-screen, so that print rains in (no thread).
-   Omit `desktop` or `mobile` to hide a print there.
-
-   The print marked `cover: true` hides the featured project detail
-   (`reveal` below), which shows once it drops.
+   HOMEPAGE — a collage beside “hi, i’m chloe!”. Positions are % of the
+   hero: x = left edge, y = height of the print’s bottom edge above the
+   bottom of the hero. `hang` is where it starts (above the screen, so
+   y > 100); `rest` is where it lands. Omit `desktop` or `mobile` to
+   hide a print there. Prints fall in the order listed.
    ------------------------------------------------------------------ */
-export const reveal = {
-  src: "/images/projects/brookfield/irr-detail.webp",
-  alt: "Detail from the Brookfield Knowledge Hub: IRR — two values found, 16.98% or 16.56%",
-  project: "brookfield",
-};
-
 export const prints: DeskPrint[] = [
   {
     src: "/images/polaroids/chloe-portrait.jpg",
     alt: "Portrait of Chloe Yun",
-    caption: "that’s me",
+    caption: "hi, that’s me!",
     focus: "50% 25%",
     size: "large",
-    desktop: { hang: { x: 63, y: 135, rotate: -16 }, rest: { x: 61, y: 6.5, rotate: 4 } },
-    mobile: { hang: { x: 4, y: 150, rotate: -16 }, rest: { x: 3, y: 5.5, rotate: -6 } },
+    tape: "var(--butter)",
+    story:
+      "Hi! I’m Chloe. I grew up in California, spent five years performing in Korea, and now I study information at the University of Michigan — exploring where creativity, design, and technology meet.",
+    desktop: { hang: { x: 46, y: 150, rotate: -20 }, rest: { x: 46.5, y: 47, rotate: -7 } },
+    mobile: { hang: { x: 2, y: 170, rotate: -20 }, rest: { x: 1, y: 25, rotate: -8 } },
   },
   {
-    // The intro's last frame (drawn in components/intro/Sketch.tsx). Second in the list → pinned by its
-    // right corner, so on phones its thread stays clear of the intro text
+    // The last frame of the hand-drawn welcome (components/intro/Sketch.tsx)
     src: "",
     art: "michigan",
-    alt: "Pencil drawing of Chloe smiling at a University of Michigan library desk, tapping a button she designed on her laptop",
-    caption: "",
+    href: "/journey",
+    alt: "Pencil drawing of Chloe at a University of Michigan library desk, tapping a button she designed on her laptop",
+    caption: "ann arbor ♡",
     size: "hero",
-    cover: true,
-    desktop: { hang: { x: 43, y: 30, rotate: -3 }, rest: { x: 41, y: 6.5, rotate: -5 } },
-    mobile: { hang: { x: 24, y: 14, rotate: -2 }, rest: { x: 22, y: 5.5, rotate: -4 } },
+    desktop: { hang: { x: 58, y: 160, rotate: 14 }, rest: { x: 57.5, y: 31, rotate: 3 } },
+    mobile: { hang: { x: 30, y: 180, rotate: 14 }, rest: { x: 29, y: 13, rotate: 3 } },
   },
   {
     src: "/images/projects/lumen/01-cover.png",
     alt: "LUMEN app screens",
     caption: "LUMEN",
-    focus: "68% 45%",
+    focus: "70% 45%",
     project: "lumen",
-    desktop: { hang: { x: 78, y: 140, rotate: 14 }, rest: { x: 76, y: 6, rotate: -5 } },
-    mobile: { hang: { x: 72, y: 150, rotate: 14 }, rest: { x: 71, y: 5.5, rotate: 6 } },
+    tape: "var(--blush)",
+    desktop: { hang: { x: 74, y: 170, rotate: 18 }, rest: { x: 74.5, y: 58, rotate: 8 } },
+    mobile: { hang: { x: 66, y: 170, rotate: 18 }, rest: { x: 67, y: 27, rotate: 8 } },
   },
   {
-    src: "/images/polaroids/sweetie-but-saltie.jpg",
-    alt: "cignature lying in a circle holding telephones",
-    caption: "sweetie but saltie",
-    desktop: { hang: { x: 87, y: 150, rotate: -12 }, rest: { x: 85, y: 7, rotate: 6 } },
+    src: "/images/projects/brookfield/project-page.webp",
+    alt: "Brookfield Knowledge Hub project page",
+    caption: "atlas digital",
+    focus: "70% 30%",
+    project: "brookfield",
+    size: "large",
+    desktop: { hang: { x: 80, y: 160, rotate: -16 }, rest: { x: 79.5, y: 24, rotate: -5 } },
+    mobile: { hang: { x: 60, y: 160, rotate: -16 }, rest: { x: 62, y: 2, rotate: -5 } },
+  },
+  {
+    src: "/images/polaroids/aurora-portrait.jpg",
+    alt: "Chloe in a pastel stage photoshoot",
+    caption: "the stage years",
+    tape: "var(--lavender)",
+    story:
+      "Five years in K-pop, including with cignature. Music, choreography, styling, production — everything was teamwork toward one shared outcome, and it taught me to notice how people react to what we make.",
+    desktop: { hang: { x: 66, y: 150, rotate: -12 }, rest: { x: 66, y: 4, rotate: -7 } },
+    mobile: { hang: { x: 3, y: 150, rotate: -12 }, rest: { x: 2, y: 1, rotate: 6 } },
+  },
+  {
+    src: "/images/polaroids/cignature-apple.jpg",
+    alt: "Photoshoot with an apple on a picnic blanket",
+    caption: "photoshoot days",
+    focus: "50% 40%",
+    story:
+      "Photoshoots, rehearsals, live stages: performing taught me to pay attention to how people react, what resonates, and how small changes can shape an experience. I still design that way.",
+    desktop: { hang: { x: 47, y: 150, rotate: 16 }, rest: { x: 47.5, y: 5, rotate: 6 } },
+  },
+  {
+    src: "/images/projects/costco/cover.webp",
+    alt: "Costco app redesign screens",
+    caption: "costco redesign",
+    focus: "78% 50%",
+    project: "costco-redesign",
+    desktop: { hang: { x: 86, y: 150, rotate: 14 }, rest: { x: 86, y: 3, rotate: 9 } },
+  },
+  {
+    src: "/images/projects/data-analysis/unesco-map.webp",
+    alt: "World map of UNESCO World Heritage Sites",
+    caption: "1,121 sites",
+    focus: "45% 50%",
+    project: "data-analysis",
+    tape: "var(--sky)",
+    desktop: { hang: { x: 88, y: 170, rotate: -14 }, rest: { x: 87.5, y: 60, rotate: -6 } },
   },
 ];
 
 /* ------------------------------------------------------------------
-   PLAY — the photo archive at /play. Prints are dealt onto a table in
-   this order (left → right, top → bottom) and can be dragged and tossed.
-   No positions needed: add or remove prints and the table re-flows.
+   THE ARCHIVE — photos the playground camera can “develop”. Only
+   images that follow the rules above.
    ------------------------------------------------------------------ */
-export const playPrints: DeskPrint[] = [
-  { src: "/images/polaroids/chloe-portrait.jpg", alt: "Portrait of Chloe Yun", caption: "that’s me", focus: "50% 25%", size: "large" },
-  { src: "/images/polaroids/sweetie-but-saltie.jpg", alt: "cignature lying in a circle holding telephones", caption: "sweetie but saltie" },
-  // Photo removed — original file kept at /images/polaroids/cignature-stadium.jpg
-  { src: "", alt: "Empty photo well", caption: "cignature" },
-  { src: "/images/projects/kpop-to-data/my-little-aurora.webp", alt: "cignature in pink stage outfits, My Little Aurora", caption: "my little aurora", size: "large" },
-  { src: "/images/polaroids/cignature-apple.jpg", alt: "cignature photoshoot holding an apple", caption: "photoshoot days", focus: "50% 40%" },
-  { src: "/images/projects/brookfield/irr-detail.webp", alt: "Brookfield Knowledge Hub: two IRR values flagged", caption: "two IRRs", project: "brookfield" },
-  // Photo removed — original file kept at /images/polaroids/cignature-group.jpg
-  { src: "", alt: "Empty photo well", caption: "the girls" },
-  { src: "/images/projects/kpop-to-data/album.webp", alt: "cignature album packaging", caption: "the album", size: "large" },
-  { src: "/images/polaroids/my-little-aurora.jpg", alt: "My Little Aurora album photo", caption: "aurora", focus: "50% 30%" },
-  { src: "/images/projects/lumen/07-sketches.png", alt: "LUMEN early sketches", caption: "LUMEN sketches", focus: "50% 60%", project: "lumen" },
-  { src: "/images/projects/kpop-to-data/cover.webp", alt: "cignature album cover in stadium seats", caption: "stadium seats", focus: "50% 60%", project: "kpop-to-data" },
-  { src: "/images/projects/costco/sketch-warehouse.webp", alt: "Costco warehouse page sketch", caption: "costco sketch", focus: "50% 30%", project: "costco-redesign" },
-  { src: "/images/projects/lumen/09-hifi.png", alt: "LUMEN hi-fi screens", caption: "LUMEN hi-fi", focus: "40% 65%", project: "lumen", size: "large" },
-  { src: "/images/projects/nuseum/logo.webp", alt: "NUSEUM logo", caption: "NUSEUM", project: "nuseum" },
-  { src: "/images/projects/data-analysis/unesco-map.webp", alt: "World map of UNESCO World Heritage Sites", caption: "1,121 sites", project: "data-analysis" },
+export const archive: { src: string; alt: string; caption: string; focus?: string; story: string; href?: string }[] = [
+  { src: "/images/polaroids/chloe-portrait.jpg", alt: "Portrait of Chloe Yun", caption: "hi, that’s me!", focus: "50% 25%", story: "California → Korea → Michigan, and still the same person." },
+  { src: "/images/polaroids/aurora-portrait.jpg", alt: "Chloe in a pastel stage photoshoot", caption: "the stage years", story: "Five years in K-pop taught me audiences, feedback and teamwork." },
+  { src: "/images/polaroids/cignature-apple.jpg", alt: "Photoshoot with an apple on a picnic blanket", caption: "photoshoot days", focus: "50% 40%", story: "Small changes shape how people feel. True on stage, true in UI." },
+  { src: "/images/projects/lumen/07-sketches.png", alt: "Early hand sketches of the LUMEN app", caption: "LUMEN sketches", focus: "50% 60%", story: "Paper first: testing hierarchy before any visual design.", href: "/work/lumen" },
+  { src: "/images/projects/lumen/09-hifi.png", alt: "LUMEN hi-fi screens", caption: "LUMEN hi-fi", focus: "40% 65%", story: "A festival app for the worst moment: no signal, dying phone.", href: "/work/lumen" },
+  { src: "/images/projects/brookfield/dashboard.webp", alt: "Brookfield Knowledge Hub dashboard", caption: "hide the volume", focus: "30% 30%", story: "Atlas Digital: only the risk is loud.", href: "/work/brookfield" },
+  { src: "/images/projects/costco/sketch-warehouse.webp", alt: "Costco warehouse page sketch", caption: "costco sketch", focus: "50% 30%", story: "Structure before polish: sketches came first.", href: "/work/costco-redesign" },
+  { src: "/images/projects/data-analysis/unesco-map.webp", alt: "World map of UNESCO World Heritage Sites", caption: "1,121 sites", story: "Data is only useful when people can understand it.", href: "/work/data-analysis" },
+  { src: "/images/projects/nuseum/logo.webp", alt: "NUSEUM logo", caption: "NUSEUM", story: "A food-as-medicine startup where accuracy really matters.", href: "/work/nuseum" },
 ];

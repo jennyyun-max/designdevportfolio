@@ -37,6 +37,8 @@ export interface CaseStudy {
   research?: { summary: string; methods?: string[]; stats?: { value: string; label: string }[]; images?: ImageAsset[] };
   insights?: Insight[];
   process?: ProcessStep[];
+  /** Key design decisions: what was decided and why (shown as “design decisions”) */
+  decisions?: ProcessStep[];
   wireframes?: ImageAsset[];
   finalDesigns?: ImageAsset[];
   /** "phones" lays final designs out side by side (for tall phone screens) */
@@ -100,12 +102,18 @@ export interface DeskPrint {
   focus?: string;
   /** Project slug → clicking the print opens that case study instead of the photo */
   project?: string;
+  /** Any page to open when the print is clicked (e.g. "/journey") */
+  href?: string;
   /** "large", "focal" or "hero" (the homepage’s main print, bigger on phones); default is regular */
   size?: "large" | "focal" | "hero";
   /** This print hides the Brookfield detail and is the first to drop */
   cover?: boolean;
   /** Show a drawing instead of a photo: "michigan" = the last frame of the hand-drawn intro */
   art?: "michigan";
+  /** A strip of washi tape across the top, in this color (e.g. "var(--butter)") */
+  tape?: string;
+  /** A short true story shown when the photo is opened */
+  story?: string;
   /** Omit a layout to hide the print there */
   desktop?: PrintLayout;
   mobile?: PrintLayout;

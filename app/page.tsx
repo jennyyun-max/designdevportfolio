@@ -1,16 +1,16 @@
 import IntroStory from "@/components/intro/IntroStory";
-import DeskHero from "@/components/home/DeskHero";
+import Hero from "@/components/home/Hero";
 import SelectedWork from "@/components/home/SelectedWork";
-import AboutSection from "@/components/home/AboutSection";
+import Doors from "@/components/home/Doors";
 import ContactSection from "@/components/home/ContactSection";
 
 export default function HomePage() {
   return (
     <>
       <IntroStory />
-      <DeskHero />
+      <Hero />
       <SelectedWork />
-      <AboutSection />
+      <Doors />
       <ContactSection />
     </>
   );

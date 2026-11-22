@@ -19,10 +19,10 @@ const pct = (n: number) => `${n}%`;
 
 /* Print widths per size (phones / desktop). The hero reuses these for the hidden detail’s slot. */
 export const PRINT_WIDTH = {
-  regular: "w-[min(26vw,16svh)] md:w-[min(14vw,24svh)]",
-  large: "w-[min(30vw,18svh)] md:w-[min(17vw,30svh)]",
-  focal: "w-[min(34vw,20svh)] md:w-[min(22vw,40svh)]",
-  hero: "w-[min(52vw,30svh)] md:w-[min(22vw,40svh)]", // the Michigan drawing: bigger on phones
+  regular: "w-[min(31vw,17svh)] md:w-[min(13vw,25svh)]",
+  large: "w-[min(36vw,20svh)] md:w-[min(15.5vw,29svh)]",
+  focal: "w-[min(40vw,22svh)] md:w-[min(18vw,34svh)]",
+  hero: "w-[min(44vw,24svh)] md:w-[min(19vw,36svh)]", // the Michigan drawing from the welcome
 } as const;
 
 /* One physical photo print, pinned by one top corner.
@@ -152,11 +152,11 @@ export default function Print({
   };
 
   const well = print.art ? (
-    <span className="paper-grain relative block aspect-square overflow-hidden bg-[#ebe1cf]">
+    <span className="paper-grain relative block aspect-square overflow-hidden bg-[#efe6d6]">
       <MichiganSketch />
     </span>
   ) : (
-    <span className="relative block aspect-square overflow-hidden bg-[#efe4dc]">
+    <span className="relative block aspect-square overflow-hidden bg-pink">
       {print.src ? (
         <Image
           src={print.src}
@@ -176,6 +176,8 @@ export default function Print({
       ) : (
         <span className="absolute inset-0 shadow-[inset_0_1px_5px_rgba(58,38,32,0.18)]" aria-hidden="true" />
       )}
+      {/* faint print sheen */}
+      <span className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.22),transparent_45%)]" aria-hidden="true" />
     </span>
   );
 
@@ -185,12 +187,12 @@ export default function Print({
   return (
     <motion.div
       ref={ref}
-      className={`group/print absolute select-none ${PRINT_WIDTH[print.size ?? "regular"]} ${phase === "landed" ? "cursor-grab active:cursor-grabbing" : ""}`}
+      className={`group/print pointer-events-auto absolute select-none ${PRINT_WIDTH[print.size ?? "regular"]} ${phase === "landed" ? "cursor-grab active:cursor-grabbing" : ""}`}
       // pinned by one top corner: rotation (hanging, tipping, settling) pivots there
       style={{ x, y, zIndex, touchAction: "pan-y", originX: side === 1 ? 0 : 1, originY: 0 }}
       // the intro’s last frame slides onto this print
       data-intro-print={print.art ? "" : undefined}
-      data-rotate={print.art ? (hang ?? rest).rotate : undefined}
+      data-rotate={print.art ? (phase === "landed" || !hang ? rest : hang).rotate : undefined}
       initial={
         phase === "hanging" && hang ? at(hang) : deal !== undefined ? { ...at(rest), opacity: 0, scale: 1.12, rotate: rest.rotate + side * 10 } : at(rest)
       }
@@ -227,22 +229,30 @@ export default function Print({
           aria-hidden="true"
         />
       )}
-      <motion.div className="relative bg-paper [container-type:inline-size]" style={{ rotate: tilt, boxShadow: shadow }}>
+      <motion.div className="relative rounded-[3px] bg-paper [container-type:inline-size]" style={{ rotate: tilt, boxShadow: shadow }}>
+        {/* a strip of washi tape on some prints */}
+        {print.tape && (
+          <span
+            className="tape -top-[5%] left-1/2 z-10 !h-[13%] !w-[46%] -translate-x-1/2"
+            style={{ ["--tape" as string]: print.tape, rotate: `${side * -4}deg` }}
+            aria-hidden="true"
+          />
+        )}
         {/* % padding resolves against this print’s width (not the hero’s) inside this wrapper */}
-        <div className="p-[5%] pb-0">
-          {print.project ? (
+        <div className="p-[7%] pb-0">
+          {print.project || print.href ? (
             <Link
-              href={`/work/${print.project}`}
+              href={print.project ? `/work/${print.project}` : print.href!}
               data-well
               data-cursor="view"
-              aria-label={`${label}open the case study`}
+              aria-label={print.project ? `${label}open the case study` : `${label}${print.alt}. Open`}
               className={wellClass}
               draggable={false}
             >
               {well}
             </Link>
           ) : print.src && !print.art ? (
-            <button type="button" data-well aria-label={`${label}${print.alt}. Open the photo`} className={`${wellClass} w-full`} onClick={onOpenPhoto}>
+            <button type="button" data-well data-cursor="open" aria-label={`${label}${print.alt}. Open the story`} className={`${wellClass} w-full`} onClick={onOpenPhoto}>
               {well}
             </button>
           ) : (
@@ -250,14 +260,15 @@ export default function Print({
               {well}
             </span>
           )}
-          <span className="mono flex aspect-[100/21] items-center justify-between gap-2 text-[max(0.56rem,5.4cqw)] uppercase leading-none tracking-[0.04em] text-fg">
+          {/* handwritten caption: always shown on touch screens, revealed on hover/focus elsewhere */}
+          <span className="hand flex aspect-[100/24] items-center justify-center gap-1 px-1 text-center text-[max(0.95rem,10cqw)] leading-none text-espresso transition-[opacity,transform] duration-300 [@media(hover:hover)]:translate-y-1 [@media(hover:hover)]:opacity-0 group-hover/print:translate-y-0 group-hover/print:opacity-100 group-focus-within/print:translate-y-0 group-focus-within/print:opacity-100">
             <span className="truncate">{print.caption}</span>
-            {print.project && <span aria-hidden="true">↗</span>}
+            {(print.project || print.href) && <span aria-hidden="true">↗</span>}
           </span>
         </div>
         {/* selected print: rose hairline */}
         <span
-          className="pointer-events-none absolute inset-0 outline outline-1 outline-transparent transition-[outline-color] group-focus-within/print:outline-accent group-active/print:outline-accent"
+          className="pointer-events-none absolute inset-0 outline outline-1 outline-transparent transition-[outline-color] group-focus-within/print:outline-rose"
           aria-hidden="true"
         />
       </motion.div>

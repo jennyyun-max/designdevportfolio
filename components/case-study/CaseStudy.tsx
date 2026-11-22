@@ -1,315 +1,365 @@
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import type { ReactNode } from "react";
-import type { Project } from "@/lib/types";
-import Container from "../ui/Container";
+import type { ImageAsset, Project } from "@/lib/types";
 import Reveal from "../ui/Reveal";
 import MediaFrame from "../ui/MediaFrame";
-import CaseSection from "./CaseSection";
-import Figure from "./Figure";
 import ReadingProgress from "./ReadingProgress";
+import { toolsOf } from "../work/ProjectCard";
+import { Sparkle } from "../doodles/Doodles";
 
-/* Reusable case-study template. All content comes from content/projects.ts.
-   Sections without content are skipped and the numbering closes up. */
-export default function CaseStudy({ project, index, next }: { project: Project; index: number; next: Project }) {
+const pad = (n: number) => String(n).padStart(2, "0");
+
+type Chapter = { id: string; label: string; heading?: string; body: ReactNode };
+
+function Figure({ image, tone, visual, sizes = "(min-width: 1024px) 900px, 100vw" }: { image: ImageAsset; tone: Project["tone"]; visual: Project["visual"]; sizes?: string }) {
+  return (
+    <figure>
+      <MediaFrame image={image} tone={tone} visual={visual} aspect={image.aspect ?? "aspect-video"} sizes={sizes} className="shadow-[0_18px_36px_-28px_rgba(58,38,32,0.6)]" />
+      {image.caption && <figcaption className="hand mt-2 text-[1.35rem] leading-tight text-espresso-soft">{image.caption}</figcaption>}
+    </figure>
+  );
+}
+
+/* The case-study template — the same six chapters for every project, so recruiters can scan:
+   Problem → Research → Process → Design decisions → Final outcome → Reflection.
+   Everything comes from content/projects.ts; a chapter without content is skipped and the
+   numbering closes up. Nothing is generated or embellished here. */
+export default function CaseStudy({ project, next }: { project: Project; index: number; next: Project }) {
   const { caseStudy: cs, tone, visual } = project;
   const label = cs.labels ?? {};
+  const tools = toolsOf(project);
   const links = (cs.links ?? []).filter((l) => l.href);
 
   const facts = [
-    { term: "role", value: cs.role?.summary },
-    { term: "timeline", value: cs.timeline?.duration },
-    { term: "tools", value: cs.tools?.join(", ") },
+    { term: "my role", value: cs.role?.summary },
     { term: "team", value: cs.team },
+    { term: "timeline", value: cs.timeline?.duration },
   ].filter((f): f is { term: string; value: string } => Boolean(f.value));
 
-  // Overview is section 1; every section that renders takes the next number
-  let n = 1;
-  const section = (id: string, fallback: string, key: keyof typeof label, content: ReactNode, opts: { heading?: string; tone?: string } = {}) => (
-    <CaseSection id={id} number={++n} label={label[key] ?? fallback} heading={opts.heading} tone={opts.tone}>
-      {content}
-    </CaseSection>
-  );
+  const chapters: Chapter[] = [];
 
-  const renderInsights = () =>
-    !!cs.insights?.length &&
-        section(
-          "insights",
-          "user insights",
-          "insights",
-          <ol className={`grid gap-5 ${cs.insights.length % 2 === 0 && cs.insights.length < 6 ? "md:grid-cols-2" : "md:grid-cols-3"}`}>
-            {cs.insights.map((ins, i) => (
-              <Reveal as="li" key={`${ins.title}-${i}`} delay={(i % 3) * 0.08} className="border border-line bg-surface p-7">
-                <span className="accent text-[0.8rem]" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
-                <p className="display mt-4 text-2xl tracking-[-0.02em]">{ins.title}</p>
-                <p className="mt-2 text-muted">{ins.detail}</p>
-              </Reveal>
-            ))}
-          </ol>,
-          { heading: label.insightsHeading ?? "what we learned" }
-        );
+  // 1 — Problem
+  if (cs.problem || cs.overview) {
+    chapters.push({
+      id: "problem",
+      label: label.problem ?? "the problem",
+      heading: cs.problem,
+      body: (
+        <div className="grid gap-10 lg:grid-cols-[1.3fr_1fr]">
+          <p className="text-[1.15rem] leading-relaxed">{cs.overview}</p>
+          {!!cs.role?.responsibilities?.length && (
+            <div className="ruled relative rounded-[6px] px-6 pb-5 pt-7 shadow-[0_18px_30px_-26px_rgba(58,38,32,0.6)]">
+              <span className="tape -top-3 left-6 -rotate-3" aria-hidden="true" />
+              <p className="hand text-[1.6rem] leading-none">what I did</p>
+              <ul className="mt-2 space-y-0 leading-[1.9rem]">
+                {cs.role.responsibilities.map((r) => (
+                  <li key={r} className="flex gap-2">
+                    <span className="text-rose" aria-hidden="true">✦</span>
+                    {r}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      ),
+    });
+  }
 
-  const renderProcess = () =>
-    !!cs.process?.length &&
-        section(
-          "process",
-          "design process",
-          "process",
-          <ol>
-            {cs.process.map((step, i) => (
-              <Reveal as="li" key={`${step.title}-${i}`} className="grid gap-2 border-t border-line py-7 last:border-b sm:grid-cols-[12rem_1fr] sm:gap-10">
-                <p className="display text-3xl">
-                  <span className="accent mr-3 align-middle text-[0.8rem]">{String(i + 1).padStart(2, "0")}</span>
-                  {step.title}
-                </p>
-                <p className="text-lg leading-relaxed text-muted">{step.detail}</p>
-              </Reveal>
-            ))}
-          </ol>
-        );
+  // 2 — Research
+  if (cs.research || cs.insights?.length) {
+    const r = cs.research;
+    chapters.push({
+      id: "research",
+      label: label.research ?? "research",
+      heading: r?.summary ? undefined : label.insightsHeading,
+      body: (
+        <>
+          {r?.summary && <p className="max-w-[46rem] text-[1.15rem] leading-relaxed">{r.summary}</p>}
+          {!!r?.stats?.length && (
+            <dl className="mt-10 grid gap-4 sm:grid-cols-3">
+              {r.stats.map((st, i) => (
+                <Reveal key={st.label} delay={i * 0.06} className="rounded-[18px] bg-butter/70 p-6">
+                  <dt className="sr-only">{st.label}</dt>
+                  <dd>
+                    <span className="display block text-[3.2rem] leading-none">{st.value}</span>
+                    <span className="mt-2 block text-espresso-soft">{st.label}</span>
+                  </dd>
+                </Reveal>
+              ))}
+            </dl>
+          )}
+          {!!r?.methods?.length && (
+            <ul className="mt-8 flex flex-wrap gap-2" aria-label="Research methods">
+              {r.methods.map((m) => (
+                <li key={m} className="rounded-full border border-espresso/15 bg-ivory px-3 py-1 text-[0.92rem]">
+                  {m}
+                </li>
+              ))}
+            </ul>
+          )}
+          {!!r?.images?.length && (
+            <div className={`mt-10 grid gap-8 ${r.images.length > 1 ? "md:grid-cols-2" : ""}`}>
+              {r.images.map((img) => (
+                <Figure key={img.src} image={img} tone={tone} visual={visual} />
+              ))}
+            </div>
+          )}
+          {!!cs.insights?.length && (
+            <>
+              {r?.summary && <h3 className="display mt-16 text-[clamp(1.8rem,3.4vw,2.6rem)]">{label.insightsHeading ?? "what we learned"}</h3>}
+              <ol className={`mt-8 grid gap-5 ${cs.insights.length % 2 === 0 && cs.insights.length < 6 ? "md:grid-cols-2" : "md:grid-cols-3"}`}>
+                {cs.insights.map((ins, i) => (
+                  <Reveal as="li" key={ins.title} delay={(i % 3) * 0.07} className="relative rounded-[18px] border border-espresso/10 bg-ivory p-6">
+                    <span className="hand text-[1.5rem] leading-none text-rose-deep">#{i + 1}</span>
+                    <p className="display mt-2 text-[1.55rem]">{ins.title}</p>
+                    <p className="mt-2 text-espresso-soft">{ins.detail}</p>
+                  </Reveal>
+                ))}
+              </ol>
+            </>
+          )}
+        </>
+      ),
+    });
+  }
+
+  // 3 — Process
+  if (cs.timeline?.phases?.length || cs.process?.length || cs.wireframes?.length) {
+    chapters.push({
+      id: "process",
+      label: label.process && !cs.decisions ? label.process : "process",
+      body: (
+        <>
+          {!!cs.timeline?.phases?.length && (
+            <ol className="relative grid gap-4 sm:grid-cols-4">
+              <span className="absolute left-0 right-0 top-6 hidden border-t-2 border-dashed border-rose/50 sm:block" aria-hidden="true" />
+              {cs.timeline.phases.map((ph, i) => (
+                <li key={ph.label} className="relative">
+                  <span className="relative grid h-12 w-12 place-items-center rounded-full border-2 border-espresso bg-paper font-semibold">{i + 1}</span>
+                  <p className="mt-3 font-semibold">{ph.label}</p>
+                  <p className="text-[0.95rem] text-espresso-soft">{ph.detail}</p>
+                </li>
+              ))}
+            </ol>
+          )}
+          {!!cs.process?.length && (
+            <ol className={cs.timeline?.phases?.length ? "mt-14" : ""}>
+              {cs.process.map((step, i) => (
+                <Reveal as="li" key={step.title} className="grid gap-2 border-t border-line py-7 last:border-b sm:grid-cols-[14rem_1fr] sm:gap-10">
+                  <p className="display text-[1.9rem]">
+                    <span className="hand mr-2 text-[1.4rem] text-rose-deep">{pad(i + 1)}</span>
+                    {step.title}
+                  </p>
+                  <p className="text-[1.08rem] leading-relaxed text-espresso-soft">{step.detail}</p>
+                </Reveal>
+              ))}
+            </ol>
+          )}
+          {!!cs.wireframes?.length && (
+            <div className={`mt-14 grid gap-x-8 gap-y-12 ${cs.wireframes.length >= 3 ? "md:grid-cols-3" : "md:grid-cols-2"}`}>
+              {cs.wireframes.map((img, i) => (
+                <Reveal key={img.src} delay={(i % 3) * 0.06} className={i % 2 ? "md:rotate-[0.8deg]" : "md:-rotate-[0.8deg]"}>
+                  <Figure image={img} tone={tone} visual={visual} sizes="(min-width: 768px) 420px, 100vw" />
+                </Reveal>
+              ))}
+            </div>
+          )}
+        </>
+      ),
+    });
+  }
+
+  // 4 — Design decisions
+  if (cs.decisions?.length) {
+    const notes = ["var(--butter)", "var(--blush)", "var(--lavender)", "var(--sage)"];
+    chapters.push({
+      id: "decisions",
+      label: "design decisions",
+      heading: label.process && cs.decisions ? label.process : undefined,
+      body: (
+        <ol className="grid gap-6 sm:grid-cols-2">
+          {cs.decisions.map((d, i) => (
+            <Reveal
+              as="li"
+              key={d.title}
+              delay={(i % 2) * 0.07}
+              className={`relative rounded-[6px] p-6 pt-8 shadow-[0_16px_28px_-22px_rgba(58,38,32,0.7)] ${i % 2 ? "rotate-[0.8deg]" : "-rotate-[0.8deg]"}`}
+            >
+              <div className="absolute inset-0 -z-10 rounded-[6px]" style={{ backgroundColor: notes[i % notes.length] }} aria-hidden="true" />
+              <span className="tape -top-3 left-1/2 -translate-x-1/2 rotate-2" style={{ ["--tape" as string]: "var(--paper)" }} aria-hidden="true" />
+              <p className="hand text-[1.4rem] leading-none text-rose-deep">decision {i + 1}</p>
+              <p className="display mt-2 text-[1.7rem]">{d.title}</p>
+              <p className="mt-2 leading-relaxed">{d.detail}</p>
+            </Reveal>
+          ))}
+        </ol>
+      ),
+    });
+  }
+
+  // 5 — Final outcome
+  if (cs.finalDesigns?.length || cs.outcomes?.length) {
+    chapters.push({
+      id: "outcome",
+      label: "final outcome",
+      heading: label.final && label.final !== "the screens" ? label.final : undefined,
+      body: (
+        <>
+          {!!cs.finalDesigns?.length && (
+            <div className={cs.finalLayout === "phones" ? "grid grid-cols-2 gap-6 md:grid-cols-4" : "grid gap-12"}>
+              {cs.finalDesigns.map((img, i) => (
+                <Reveal key={img.src} delay={cs.finalLayout === "phones" ? (i % 4) * 0.06 : 0}>
+                  <Figure image={img} tone={tone} visual={visual} sizes={cs.finalLayout === "phones" ? "(min-width: 768px) 260px, 45vw" : undefined} />
+                </Reveal>
+              ))}
+            </div>
+          )}
+          {!!cs.outcomes?.length && (
+            <ul className={`grid gap-3 ${cs.finalDesigns?.length ? "mt-12" : ""} ${cs.outcomes.length > 1 ? "md:grid-cols-3" : ""}`}>
+              {cs.outcomes.map((o) => (
+                <li key={o} className="flex gap-3 rounded-[16px] bg-pink/70 p-5 font-semibold">
+                  <Sparkle className="h-6 w-6 shrink-0" />
+                  {o}
+                </li>
+              ))}
+            </ul>
+          )}
+        </>
+      ),
+    });
+  }
+
+  // 6 — Reflection
+  if (cs.reflection) {
+    chapters.push({
+      id: "reflection",
+      label: "reflection",
+      body: (
+        <div className="relative max-w-[50rem]">
+          <p className="display text-[clamp(1.5rem,2.6vw,2.1rem)] leading-[1.3]">
+            <span className="accent text-rose" aria-hidden="true">“</span>
+            {cs.reflection}
+          </p>
+          {links.length > 0 && (
+            <ul className="mt-8 flex flex-wrap gap-4">
+              {links.map((l) => (
+                <li key={l.href}>
+                  <a href={l.href} target="_blank" rel="noreferrer" className="link font-semibold">
+                    {l.label} ↗
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      ),
+    });
+  }
 
   return (
     <article>
       <ReadingProgress />
 
-      {/* 01 — Overview */}
-      <header>
-        <Container className="pb-12 pt-8 sm:pt-12">
-          <Link href="/#work" className="group inline-flex items-center gap-2 text-sm font-semibold">
-            <ArrowLeft size={16} aria-hidden="true" className="transition-transform group-hover:-translate-x-1" />
-            <span className="link">all work</span>
-          </Link>
-          <Reveal>
-            <p className="eyebrow mt-12">
-              <span className="mr-2 text-silver">{String(index + 1).padStart(2, "0")}</span>
+      {/* Opening */}
+      <header className="mx-auto max-w-[1320px] px-5 pt-6 sm:px-8 sm:pt-10">
+        <Link href="/work" className="group inline-flex items-center gap-2 text-[0.95rem] font-semibold">
+          <span className="transition-transform group-hover:-translate-x-1" aria-hidden="true">←</span>
+          <span className="link">all my work</span>
+        </Link>
+        <div className="mt-8 grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
+          <div>
+            <p className="eyebrow">
               {project.category}
               {project.year && ` · ${project.year}`}
             </p>
-            <h1 className="display mt-4 max-w-[14ch] text-balance text-[clamp(3.2rem,9vw,7.5rem)] leading-[0.92]">{project.title}</h1>
-            <p className="mt-8 max-w-[42rem] text-[clamp(1.15rem,2vw,1.4rem)] leading-relaxed text-muted">{cs.overview}</p>
-          </Reveal>
-          {facts.length > 0 && (
-            <Reveal delay={0.1}>
-              <dl className="mt-12 grid grid-cols-2 gap-x-8 gap-y-6 border-y border-line py-8 lg:grid-cols-4">
-                {facts.map(({ term, value }) => (
-                  <div key={term}>
-                    <dt className="eyebrow">{term}</dt>
-                    <dd className="mt-2 font-medium">{value}</dd>
-                  </div>
-                ))}
-              </dl>
-            </Reveal>
-          )}
-        </Container>
-        <Container>
-          <Reveal>
-            <MediaFrame image={project.cover} tone={tone} visual={visual} aspect="aspect-video" sizes="(min-width: 1216px) 1136px, 100vw" priority />
-          </Reveal>
-        </Container>
+            <h1 className="display mt-4 text-[clamp(3rem,8vw,6.6rem)]">{project.title}</h1>
+            <p className="mt-6 max-w-[38rem] text-[clamp(1.1rem,1.6vw,1.3rem)] leading-relaxed text-espresso-soft">{project.tagline ?? project.description}</p>
+          </div>
+          <dl className="grid grid-cols-2 gap-x-6 gap-y-5 rounded-[20px] bg-ivory p-6 shadow-[0_1px_0_var(--line)]">
+            {facts.map((f) => (
+              <div key={f.term}>
+                <dt className="eyebrow">{f.term}</dt>
+                <dd className="mt-1 font-semibold">{f.value}</dd>
+              </div>
+            ))}
+            {tools.length > 0 && (
+              <div className="col-span-2">
+                <dt className="eyebrow">tools & methods</dt>
+                <dd className="mt-2 flex flex-wrap gap-1.5">
+                  {tools.map((t) => (
+                    <span key={t} className="rounded-full border border-espresso/15 bg-cream px-2.5 py-0.5 text-[0.85rem]">
+                      {t}
+                    </span>
+                  ))}
+                </dd>
+              </div>
+            )}
+          </dl>
+        </div>
+        <div className="relative mt-12 rounded-[28px] p-[3%]" style={{ backgroundColor: `var(--${tone === "ivory" ? "peach" : tone})` }}>
+          <span className="tape -top-3 left-[10%] -rotate-6" aria-hidden="true" />
+          <span className="tape -top-3 right-[10%] rotate-[5deg]" style={{ ["--tape" as string]: "var(--blush)" }} aria-hidden="true" />
+          <div className="relative aspect-[16/9] overflow-hidden rounded-[14px] bg-paper shadow-[0_24px_44px_-30px_rgba(58,38,32,0.7)]">
+            <Image
+              src={project.cover.src}
+              alt={project.cover.alt}
+              fill
+              priority
+              sizes="(min-width: 1320px) 1240px, 100vw"
+              className={project.cover.fit === "contain" ? "object-contain p-4" : "object-cover"}
+              style={{ objectPosition: project.cover.focus ?? "50% 50%" }}
+            />
+          </div>
+        </div>
       </header>
 
-      {/* Problem */}
-      {cs.problem &&
-        section(
-          "problem",
-          "problem statement",
-          "problem",
-          <Reveal>
-            <p className="display max-w-[24ch] text-balance text-[clamp(2rem,4.2vw,3.4rem)] leading-[1.08]">
-              
-              {cs.problem}
-              
-            </p>
-          </Reveal>
-        )}
-
-      {/* Role */}
-      {!!cs.role?.responsibilities?.length &&
-        section(
-          "role",
-          "my role",
-          "role",
-          <Reveal>
-            <ul className="grid gap-3 sm:grid-cols-2">
-              {cs.role.responsibilities.map((r) => (
-                <li key={r} className="flex gap-3 border-t border-line py-4">
-                  <span className="mt-2 h-2 w-2 shrink-0 bg-silver" aria-hidden="true" />
-                  {r}
-                </li>
-              ))}
-            </ul>
-          </Reveal>,
-          { heading: cs.role.summary }
-        )}
-
-      {/* Timeline & tools */}
-      {!!cs.timeline?.phases?.length &&
-        section(
-          "timeline",
-          "timeline & tools",
-          "timeline",
-          <Reveal>
-            <ol className="grid gap-4 border-l border-line pl-6 sm:grid-cols-2 sm:border-l-0 sm:pl-0 lg:grid-cols-4">
-              {cs.timeline.phases.map((phase) => (
-                <li key={phase.label} className="relative sm:border-t sm:border-line sm:pt-5">
-                  <span className="absolute -left-[1.85rem] top-1.5 h-3 w-3 border border-silver bg-bg sm:-top-1.5 sm:left-0" aria-hidden="true" />
-                  <p className="eyebrow">{phase.label}</p>
-                  <p className="mt-1 font-medium">{phase.detail}</p>
-                </li>
-              ))}
-            </ol>
-            {cs.tools && cs.tools.length > 0 && (
-              <ul className="mt-10 flex flex-wrap gap-2.5" aria-label="Tools">
-                {cs.tools.map((t) => (
-                  <li key={t} className="mono border border-line px-3 py-1.5 text-[0.75rem] uppercase tracking-[0.06em] text-silver">{t}</li>
-                ))}
-              </ul>
-            )}
-          </Reveal>,
-          { heading: cs.timeline.duration }
-        )}
-
-      {/* Research */}
-      {cs.research &&
-        section(
-          "research",
-          "research & discovery",
-          "research",
-          <>
-            <Reveal>
-              {cs.research.stats && (
-                <dl className="mb-10 grid grid-cols-3 gap-4">
-                  {cs.research.stats.map((s) => (
-                    <div key={s.label} className="border border-line p-5 sm:p-7">
-                      <dd className="display text-[clamp(2.5rem,6vw,4.5rem)] leading-none">{s.value}</dd>
-                      <dt className="mt-2 text-sm font-medium text-muted sm:text-base">{s.label}</dt>
-                    </div>
-                  ))}
-                </dl>
-              )}
-              <p className="max-w-[40rem] text-lg leading-relaxed">{cs.research.summary}</p>
-              {cs.research.methods && (
-                <ul className="mt-6 flex flex-wrap gap-2.5" aria-label="Methods">
-                  {cs.research.methods.map((m) => (
-                    <li key={m} className="mono border border-line px-3 py-1.5 text-[0.75rem] uppercase tracking-[0.06em] text-silver">{m}</li>
-                  ))}
-                </ul>
-              )}
-            </Reveal>
-            {cs.research.images?.map((img, i) => (
-              <Reveal key={i} className="mt-10">
-                <Figure image={img} tone="ivory" visual="circles" />
-              </Reveal>
+      {/* Chapters, with a sticky index on wide screens */}
+      <div className="mx-auto max-w-[1320px] px-5 sm:px-8 lg:grid lg:grid-cols-[13rem_1fr] lg:gap-14">
+        <nav aria-label="On this page" className="hidden lg:block">
+          <ol className="sticky top-28 mt-24 space-y-2 border-l-2 border-dashed border-rose/40 pl-4 text-[0.95rem]">
+            {chapters.map((c, i) => (
+              <li key={c.id}>
+                <a href={`#${c.id}`} className="nav-link">
+                  <span className="hand mr-1.5 text-[1.15rem] text-rose-deep">{pad(i + 1)}</span>
+                  {c.label}
+                </a>
+              </li>
             ))}
-          </>,
-          { tone: "bg-surface" }
-        )}
-
-      {/* Insights & process (order is configurable) */}
-      {cs.processFirst ? (
-        <>
-          {renderProcess()}
-          {renderInsights()}
-        </>
-      ) : (
-        <>
-          {renderInsights()}
-          {renderProcess()}
-        </>
-      )}
-
-      {/* Wireframes */}
-      {!!cs.wireframes?.length &&
-        section(
-          "wireframes",
-          "wireframes & iterations",
-          "wireframes",
-          <div className={`grid gap-8 sm:grid-cols-2 ${cs.wireframes.length === 3 ? "lg:grid-cols-3" : ""}`}>
-            {cs.wireframes.map((img, i, all) => (
-              <Reveal key={i} delay={(i % 2) * 0.1} className={all.length % 2 === 1 && all.length !== 3 && i === 0 ? "sm:col-span-2" : ""}>
-                <Figure image={img} tone="lavender" visual="frames" sizes="(min-width: 640px) 50vw, 100vw" />
+          </ol>
+        </nav>
+        <div>
+          {chapters.map((c, i) => (
+            <section key={c.id} id={c.id} aria-labelledby={`${c.id}-label`} className="border-b border-line py-16 last:border-b-0 sm:py-24">
+              <Reveal>
+                <p id={`${c.id}-label`} className="flex items-baseline gap-3">
+                  <span className="hand text-[2.2rem] leading-none text-rose-deep">{pad(i + 1)}</span>
+                  <span className="eyebrow">{c.label}</span>
+                </p>
+                {c.heading && <h2 className="display mt-4 max-w-[24ch] text-balance text-[clamp(2rem,4.2vw,3.4rem)]">{c.heading}</h2>}
               </Reveal>
-            ))}
-          </div>,
-          { tone: "bg-surface" }
-        )}
-
-      {/* Final designs */}
-      {!!cs.finalDesigns?.length &&
-        section(
-          "final",
-          "final designs",
-          "final",
-          cs.finalLayout === "phones" ? (
-            <div className="grid grid-cols-2 gap-6 lg:grid-cols-4">
-              {cs.finalDesigns.map((img, i) => (
-                <Reveal key={i} delay={(i % 4) * 0.08}>
-                  <Figure image={img} tone={tone} visual={visual} sizes="(min-width: 1024px) 220px, 50vw" />
-                </Reveal>
-              ))}
-            </div>
-          ) : (
-            <div className="space-y-10">
-              {cs.finalDesigns.map((img, i) => (
-                <Reveal key={i}>
-                  <Figure image={img} tone={tone} visual={visual} sizes="(min-width: 1024px) 860px, 100vw" />
-                </Reveal>
-              ))}
-            </div>
-          )
-        )}
-
-      {/* Outcomes & reflection */}
-      {(cs.outcomes?.length || cs.reflection || links.length > 0) &&
-        section(
-          "outcomes",
-          "outcomes & reflections",
-          "outcomes",
-          <Reveal>
-            {cs.outcomes && cs.outcomes.length > 0 && (
-              <ul className="mb-12 space-y-3">
-                {cs.outcomes.map((o) => (
-                  <li key={o} className="display flex gap-4 text-[clamp(1.4rem,2.4vw,1.9rem)] tracking-[-0.02em]">
-                    <span className="accent mt-2 text-[0.8rem]" aria-hidden="true">→</span>
-                    {o}
-                  </li>
-                ))}
-              </ul>
-            )}
-            {cs.reflection && <blockquote className="max-w-[40rem] border-l-2 border-silver pl-6 text-lg leading-relaxed">{cs.reflection}</blockquote>}
-            {links.length > 0 && (
-              <ul className="mt-10 flex flex-wrap gap-4">
-                {links.map((l) => (
-                  <li key={l.label}>
-                    <a href={l.href} target="_blank" rel="noreferrer" className="link font-semibold">
-                      {l.label} ↗
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </Reveal>,
-          { tone: "bg-surface" }
-        )}
+              <div className="mt-10">{c.body}</div>
+            </section>
+          ))}
+        </div>
+      </div>
 
       {/* Next project */}
-      <nav aria-label="Next project" className="border-t border-line">
-        <Container className="py-20 sm:py-28">
-          <Link href={`/work/${next.slug}`} data-cursor="view" className="group block">
-            <p className="eyebrow">next project</p>
-            <p className="display mt-4 flex items-center gap-5 text-[clamp(2.6rem,7vw,5.5rem)] leading-none">
-              <span className="bg-[linear-gradient(var(--accent),var(--accent))] bg-[length:0%_3px] bg-left-bottom bg-no-repeat pb-2 transition-[background-size] duration-500 group-hover:bg-[length:100%_3px]">
-                {next.title}
-              </span>
-              <ArrowUpRight className="h-[0.6em] w-[0.6em] shrink-0 transition-transform duration-300 group-hover:rotate-45" aria-hidden="true" />
-            </p>
-            <p className="mt-3 text-muted">
-              {next.category}
-              {next.year && ` · ${next.year}`}
-            </p>
-          </Link>
-        </Container>
-      </nav>
+      <aside className="mx-auto max-w-[1320px] px-5 pb-10 pt-6 sm:px-8">
+        <Link href={`/work/${next.slug}`} className="group relative grid items-center gap-6 overflow-hidden rounded-[28px] bg-lavender p-6 sm:grid-cols-[1fr_16rem] sm:p-10">
+          <div>
+            <p className="hand text-[1.7rem] leading-none">next up →</p>
+            <p className="display mt-3 text-[clamp(2.2rem,5vw,4rem)] transition-transform duration-500 group-hover:translate-x-2">{next.title}</p>
+            <p className="mt-2 max-w-[34rem] text-espresso-soft">{next.tagline ?? next.description}</p>
+          </div>
+          <div className="relative aspect-[4/3] rotate-3 overflow-hidden rounded-[8px] bg-paper p-2 shadow-[0_18px_30px_-20px_rgba(58,38,32,0.7)] transition-transform duration-500 group-hover:rotate-0">
+            <div className="relative h-full w-full overflow-hidden rounded-[4px]">
+              <Image src={next.cover.src} alt="" fill sizes="256px" className={next.cover.fit === "contain" ? "object-contain" : "object-cover"} style={{ objectPosition: next.cover.focus ?? "50% 50%" }} />
+            </div>
+          </div>
+        </Link>
+      </aside>
     </article>
   );
 }
