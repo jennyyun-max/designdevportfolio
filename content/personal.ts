@@ -18,6 +18,11 @@ import corner from "@/public/images/personal/corner.jpg";
 import streetMural from "@/public/images/personal/street-mural.jpg";
 import candlelight from "@/public/images/personal/candlelight.jpg";
 import pilates from "@/public/images/personal/pilates.jpg";
+import saltAndLight from "@/public/images/personal/salt-and-light.jpg";
+import sushi from "@/public/images/personal/sushi.jpg";
+import cityWalk from "@/public/images/personal/city-walk.jpg";
+import instantPrints from "@/public/images/personal/instant-prints.jpg";
+import pizza from "@/public/images/personal/pizza.jpg";
 
 /* ==================================================================
    PERSONAL PHOTOS — the only images that go inside Polaroid frames.
@@ -157,6 +162,31 @@ export const photos = {
     alt: "Mirror selfie of Chloe on a reformer in a Pilates studio",
     caption: "Pilates",
   },
+  saltAndLight: {
+    src: saltAndLight,
+    alt: "Typographic print reading “Be salt & light.” beside the text of Matthew 5:13–16",
+    caption: "Salt & light",
+  },
+  sushi: {
+    src: sushi,
+    alt: "A grid of nine pieces of nigiri sushi on a dark counter",
+    caption: "Sushi",
+  },
+  cityWalk: {
+    src: cityWalk,
+    alt: "A city sidewalk with tall buildings and a clock tower in the distance",
+    caption: "City walk",
+  },
+  instantPrints: {
+    src: instantPrints,
+    alt: "A spread of instant-film photos scattered on a metal table",
+    caption: "Instant prints",
+  },
+  pizza: {
+    src: pizza,
+    alt: "A pizza topped with ricotta and basil on a metal tray",
+    caption: "Pizza",
+  },
 } satisfies Record<string, PersonalPhoto>;
 
 export type PhotoId = keyof typeof photos;
@@ -166,4 +196,5 @@ export const collection: PhotoId[] = [
   "campusLawn", "studySession", "stadiumNight", "dinnerWithFriends",
   "stoneWall", "mirrorGameDay", "costumeBloodWall", "costumeNight2", "costumeNight3", "costumeNight1",
   "nightSwim", "sanJuanStreet", "cherries", "photoBooth", "tacos", "corner", "streetMural", "candlelight", "pilates",
+  "saltAndLight", "sushi", "cityWalk", "instantPrints", "pizza",
 ];
