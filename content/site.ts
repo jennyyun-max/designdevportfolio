@@ -157,7 +157,7 @@ export const journey = [
       "I came back to the United States and to school: the University of Michigan School of Information — Information Analysis, with a minor in Data Science.",
       "Data Science gave me a new way to understand the questions entertainment made me curious about — through patterns, evidence, systems, and structured problem solving.",
     ],
-    photos: [] as PhotoId[],
+    photos: ["campusLawn", "studySession"] as PhotoId[],
   },
   {
     key: "now",

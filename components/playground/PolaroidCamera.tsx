@@ -100,7 +100,7 @@ export default function PolaroidCamera() {
                     <span className="text-muted">No. {String(latest.id).padStart(2, "0")}</span>
                     <span>{latest.photo.caption}</span>
                   </span>
-                  <span className="mt-2 block text-[0.9rem] leading-snug text-muted">{latest.photo.story}</span>
+                  {latest.photo.story && <span className="mt-2 block text-[0.9rem] leading-snug text-muted">{latest.photo.story}</span>}
                 </figcaption>
               </motion.figure>
             )}

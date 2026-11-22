@@ -2,6 +2,16 @@ import type { StaticImageData } from "next/image";
 import portrait from "@/public/images/personal/portrait.jpg";
 import stageYears from "@/public/images/personal/stage-years.jpg";
 import photoshoot from "@/public/images/personal/photoshoot.jpg";
+import campusLawn from "@/public/images/personal/campus-lawn.jpg";
+import studySession from "@/public/images/personal/study-session.jpg";
+import stadiumNight from "@/public/images/personal/stadium-night.jpg";
+import stoneWall from "@/public/images/personal/stone-wall.jpg";
+import mirrorGameDay from "@/public/images/personal/mirror-game-day.jpg";
+import dinnerWithFriends from "@/public/images/personal/dinner-with-friends.jpg";
+import costumeBloodWall from "@/public/images/personal/costume-blood-wall.jpg";
+import costumeNight1 from "@/public/images/personal/costume-night-1.jpg";
+import costumeNight2 from "@/public/images/personal/costume-night-2.jpg";
+import costumeNight3 from "@/public/images/personal/costume-night-3.jpg";
 
 /* ==================================================================
    PERSONAL PHOTOS — the only images that go inside Polaroid frames.
@@ -21,7 +31,11 @@ import photoshoot from "@/public/images/personal/photoshoot.jpg";
    fixed-shape frame (e.g. the large About portrait).
 
    Image rules (from Chloe): no images showing the words “title” or
-   “cignature”, and no group photos.
+   “cignature”, and none of the cignature group photos. Photos with
+   friends are fine — Chloe added them herself.
+
+   Every file here is resized to ≤1600px and has its metadata (incl. GPS
+   location) stripped — do the same for new photos from a phone.
    ================================================================== */
 
 export type PersonalPhoto = {
@@ -65,13 +79,83 @@ export const photos = {
     story:
       "Photoshoots, rehearsals, live stages: performing taught me to pay attention to how people react, what resonates, and how small changes can shape an experience. I still design that way.",
   },
+  campusLawn: {
+    src: campusLawn,
+    alt: "Chloe standing on a campus lawn under a large tree, stone buildings behind her",
+    caption: "Campus lawn",
+    size: "l",
+  },
+  studySession: {
+    src: studySession,
+    alt: "Chloe working on a laptop by a sunny window, an iced matcha beside her",
+    caption: "Study session",
+    size: "m",
+  },
+  stadiumNight: {
+    src: stadiumNight,
+    alt: "Chloe looking back over her shoulder in a packed stadium at night",
+    caption: "Game night",
+    place: "Ann Arbor",
+    size: "m",
+  },
+  stoneWall: {
+    src: stoneWall,
+    alt: "Chloe in a Michigan top standing against a sunlit stone wall",
+    caption: "Maize & blue",
+    place: "Ann Arbor",
+    size: "s",
+  },
+  mirrorGameDay: {
+    src: mirrorGameDay,
+    alt: "Mirror selfie of Chloe and three friends in Michigan tops",
+    caption: "Game day",
+    place: "Ann Arbor",
+    size: "m",
+  },
+  dinnerWithFriends: {
+    src: dinnerWithFriends,
+    alt: "A long table of friends sharing dinner in a kitchen",
+    caption: "Dinner with friends",
+    size: "l",
+  },
+  costumeBloodWall: {
+    src: costumeBloodWall,
+    alt: "Chloe in a costume — school uniform and knee-high boots — in front of a fake-blood backdrop",
+    caption: "Costume",
+    size: "s",
+  },
+  costumeNight1: {
+    src: costumeNight1,
+    alt: "Chloe and friends in costumes, stacked in a tower pose, laughing",
+    caption: "Costume night",
+    size: "s",
+  },
+  costumeNight2: {
+    src: costumeNight2,
+    alt: "Chloe and friends in costumes, stacked in a tower pose",
+    caption: "Costume night II",
+    size: "m",
+  },
+  costumeNight3: {
+    src: costumeNight3,
+    alt: "Close-up selfie of Chloe and three friends in costumes at a party",
+    caption: "Costume night III",
+    size: "m",
+  },
 } satisfies Record<string, PersonalPhoto>;
 
 export type PhotoId = keyof typeof photos;
 
 /* The whole collection, in order — used by the playground camera */
-export const collection: PhotoId[] = ["portrait", "stageYears", "photoshoot"];
+export const collection: PhotoId[] = [
+  "portrait", "campusLawn", "stageYears", "studySession", "stadiumNight", "photoshoot", "dinnerWithFriends",
+  "stoneWall", "mirrorGameDay", "costumeBloodWall", "costumeNight2", "costumeNight3", "costumeNight1",
+];
 
 /* The photo wall on /about, in this order (the layout is stable: position follows order).
    Built for 20–30 photos — each id once, no repeats. */
-export const wall: PhotoId[] = ["portrait", "stageYears", "photoshoot"];
+export const wall: PhotoId[] = [
+  "portrait", "campusLawn", "costumeNight2", "stadiumNight", "studySession",
+  "stageYears", "dinnerWithFriends", "stoneWall", "costumeBloodWall", "mirrorGameDay",
+  "photoshoot", "costumeNight3", "costumeNight1",
+];

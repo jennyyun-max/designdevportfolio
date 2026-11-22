@@ -1,5 +1,5 @@
 import type { DeskPrint } from "@/lib/types";
-import { collection, photos } from "./personal";
+import { collection, photos, type PersonalPhoto } from "./personal";
 
 /* ==================================================================
    PRINTS (POLAROIDS)
@@ -50,4 +50,4 @@ export const prints: DeskPrint[] = [
 ];
 
 /* The camera on /playground develops these (personal photos only) */
-export const archive = collection.map((id) => photos[id]);
+export const archive: PersonalPhoto[] = collection.map((id) => photos[id]);
