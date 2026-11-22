@@ -11,8 +11,9 @@ import photoshoot from "@/public/images/personal/photoshoot.jpg";
    1. Put the file in /public/images/personal/ (JPG or WebP, ~1200–1600px
       on the long side is plenty).
    2. Import it below, then add an entry to `photos`.
-   3. Use it: add its id to `collection` (camera + anywhere showing all
-      photos), to a print on the homepage (content/polaroids.ts), or to a
+   3. Use it: add its id to `wall` (the photo wall on /about — built for
+      20–30 photos, laid out automatically), `collection` (the playground
+      camera), a print on the homepage (content/polaroids.ts), or a
       chapter of the journey (content/site.ts).
 
    Each photo keeps its own aspect ratio — the frame fits the photo, so
@@ -32,6 +33,11 @@ export type PersonalPhoto = {
   story?: string;
   /** CSS object-position, only used where a frame crops */
   focus?: string;
+  /** Small editorial metadata on the print, e.g. "Seoul" and "2022" — leave out if unknown */
+  place?: string;
+  year?: string;
+  /** Size on the photo wall: s / m / l (default: a varied rhythm) */
+  size?: "s" | "m" | "l";
 };
 
 export const photos = {
@@ -39,6 +45,7 @@ export const photos = {
     src: portrait,
     alt: "Portrait of Chloe Yun",
     caption: "Portrait",
+    size: "l",
     focus: "50% 25%",
     story:
       "I grew up in California, spent five years performing in Korea, and now study information at the University of Michigan — exploring where design and technology meet.",
@@ -64,3 +71,7 @@ export type PhotoId = keyof typeof photos;
 
 /* The whole collection, in order — used by the playground camera */
 export const collection: PhotoId[] = ["portrait", "stageYears", "photoshoot"];
+
+/* The photo wall on /about, in this order (the layout is stable: position follows order).
+   Built for 20–30 photos — each id once, no repeats. */
+export const wall: PhotoId[] = ["portrait", "stageYears", "photoshoot"];

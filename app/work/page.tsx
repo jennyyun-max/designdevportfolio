@@ -5,7 +5,7 @@ import SplitHeading from "@/components/ui/SplitHeading";
 
 export const metadata: Metadata = {
   title: "Work",
-  description: "Case studies by Chloe Yun: Atlas Digital’s Brookfield Knowledge Hub, LUMEN, a Costco app redesign, NUSEUM, data analysis and more.",
+  description: "Case studies by Chloe Yun: LUMEN, a Costco app redesign, Atlas Digital’s Brookfield Knowledge Hub, data analysis, and from K-pop to data science.",
 };
 
 export default function WorkPage() {

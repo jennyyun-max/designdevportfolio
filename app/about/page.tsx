@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { about, marquee, story } from "@/content/site";
-import { photos } from "@/content/personal";
+import { photos, wall } from "@/content/personal";
+import PhotoWall from "@/components/polaroids/PhotoWall";
 import Reveal from "@/components/ui/Reveal";
 import SplitHeading from "@/components/ui/SplitHeading";
 import FlipPolaroid from "@/components/about/FlipPolaroid";
@@ -104,11 +105,29 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Personal photographs — the photo wall */}
+      <section id="photographs" aria-labelledby="photos-heading" className="mx-auto max-w-[1600px] px-5 py-24 sm:px-8 md:py-32">
+        <div className="grid gap-6 border-t border-ink pt-5 md:grid-cols-12">
+          <p className="meta text-muted md:col-span-3">(02) Personal photographs</p>
+          <div className="md:col-span-9">
+            <h2 id="photos-heading" className="display text-[clamp(2.6rem,5.6vw,5.6rem)]">
+              Kept <em>loosely.</em>
+            </h2>
+            <p className="meta mt-4 text-muted">
+              {String(wall.length).padStart(2, "0")} prints — drag to rearrange, click to open
+            </p>
+          </div>
+        </div>
+        <div className="mt-12">
+          <PhotoWall />
+        </div>
+      </section>
+
       {/* What carried over */}
       <section aria-labelledby="carried-heading" className="bg-stone py-24 md:py-32">
         <div className="mx-auto max-w-[1600px] px-5 sm:px-8">
           <div className="grid gap-6 border-t border-ink pt-5 md:grid-cols-12">
-            <p className="meta text-muted md:col-span-3">(02) What carried over</p>
+            <p className="meta text-muted md:col-span-3">(03) What carried over</p>
             <h2 id="carried-heading" className="display text-[clamp(2.6rem,5.6vw,5.6rem)] md:col-span-9">
               Different field. <em>Same core skills.</em>
             </h2>
@@ -128,7 +147,7 @@ export default function AboutPage() {
       {/* How I work */}
       <section aria-labelledby="how-heading" className="mx-auto max-w-[1600px] px-5 py-24 sm:px-8 md:py-32">
         <div className="grid gap-6 border-t border-ink pt-5 md:grid-cols-12">
-          <p className="meta text-muted md:col-span-3">(03) How I work</p>
+          <p className="meta text-muted md:col-span-3">(04) How I work</p>
           <h2 id="how-heading" className="display text-[clamp(2.6rem,5.6vw,5.6rem)] md:col-span-9">
             {about.heading.split("*")[0]}
             <em>{about.heading.split("*")[1]}</em>

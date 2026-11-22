@@ -27,7 +27,7 @@ Old URLs redirect: `/guestbook` → `/visitors`, `/journey` → `/about#journey`
 | What | File |
 | --- | --- |
 | Name, email, LinkedIn, résumé, hero text, navigation, journey chapters, about text | `content/site.ts` |
-| Projects and case studies (incl. `decisions`) | `content/projects.ts` |
+| Projects and case studies — **array order is the site order** (LUMEN, Costco, Brookfield, Data, K-pop, NUSEUM) | `content/projects.ts` |
 | Personal photos (the Polaroid collection) | `content/personal.ts` + `public/images/personal/` |
 | Homepage print positions, fall timing | `content/polaroids.ts` |
 | Colors, type, grain, link styles | `app/globals.css` |
@@ -38,9 +38,12 @@ Old URLs redirect: `/guestbook` → `/visitors`, `/journey` → `/about#journey`
   what really happened; nothing is generated. LUMEN’s length is still unknown — add it to `timeline.duration`.
 - **Personal photos (Polaroids):** only personal photos go in Polaroid frames — project work lives on `/work`.
   They live in `public/images/personal/` and are listed in `content/personal.ts`. To add one: drop the file
-  in that folder, import it in `content/personal.ts`, add an entry (alt, caption, story), then use its id in
-  `collection` (playground camera), a homepage print (`content/polaroids.ts`) or a journey chapter
-  (`content/site.ts`). Frames take each photo’s own aspect ratio, so nothing is cropped. Image rule: no
+  in that folder, import it in `content/personal.ts`, add an entry (alt, caption, story, optional place /
+  year / size), then add its id to `wall` (the photo wall on `/about#photographs`), `collection`
+  (playground camera), a homepage print (`content/polaroids.ts`) or a journey chapter (`content/site.ts`).
+  The wall lays out 20–30 photos by itself — stable positions from their order, varied sizes, small
+  rotations, natural overlaps — and they fall in as the section scrolls into view (drag with mouse/pen;
+  touch scrolls; click to enlarge; phones show 8 with “show all”). Frames take each photo’s own aspect ratio, so nothing is cropped. Image rule: no
   photos showing “title” or “cignature”, no group photos — the stage photo is a text-free crop.
 - **Homepage prints** (`content/polaroids.ts`): `desktop` / `mobile` positions (`hang` = start above the
   screen, `rest` = where it lands, in % of the hero). Black & white until hovered; click to open the story.

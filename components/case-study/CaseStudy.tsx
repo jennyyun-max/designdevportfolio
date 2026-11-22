@@ -31,7 +31,7 @@ function Figure({ image, n, visual, sizes = "(min-width: 1024px) 1100px, 100vw" 
    Problem → Context → Research → Process → Design decisions → Final design → Outcomes → Reflection.
    Everything comes from content/projects.ts; a chapter without content is skipped and the
    numbering closes up. Nothing is generated or embellished here. */
-export default function CaseStudy({ project, next }: { project: Project; index: number; next: Project }) {
+export default function CaseStudy({ project, index, prev, next }: { project: Project; index: number; prev: Project; next: Project }) {
   const { caseStudy: cs, visual } = project;
   const label = cs.labels ?? {};
   const tools = toolsOf(project);
@@ -335,8 +335,23 @@ export default function CaseStudy({ project, next }: { project: Project; index: 
         </div>
       </div>
 
-      {/* Next project */}
-      <aside className="mx-auto max-w-[1600px] px-5 pt-10 sm:px-8">
+      {/* Previous / next project */}
+      <aside className="mx-auto max-w-[1600px] px-5 pt-10 sm:px-8" aria-label="More projects">
+        <nav aria-label="Previous and next project" className="meta mb-10 flex items-baseline justify-between gap-6 text-muted">
+          <Link href={`/work/${prev.slug}`} className="group flex min-w-0 gap-2">
+            <span aria-hidden="true">←</span>
+            <span className="truncate">
+              Previous — <span className="wipe text-ink">{prev.title}</span>
+            </span>
+          </Link>
+          <span className="hidden shrink-0 sm:inline">Project {String(index + 1).padStart(2, "0")}</span>
+          <Link href={`/work/${next.slug}`} className="group flex min-w-0 gap-2 text-right">
+            <span className="truncate">
+              Next — <span className="wipe text-ink">{next.title}</span>
+            </span>
+            <span aria-hidden="true">→</span>
+          </Link>
+        </nav>
         <Link href={`/work/${next.slug}`} data-cursor="view" className="group grid gap-8 border-t border-ink pt-5 md:grid-cols-12">
           <div className="md:col-span-5">
             <p className="meta text-muted">Next project →</p>

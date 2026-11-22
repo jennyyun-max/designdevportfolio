@@ -26,6 +26,8 @@ export default async function ProjectPage({ params }: Params) {
   const { slug } = await params;
   const index = projects.findIndex((p) => p.slug === slug);
   if (index === -1) notFound();
+  // previous / next follow the order in content/projects.ts, wrapping around
+  const prev = projects[(index - 1 + projects.length) % projects.length];
   const next = projects[(index + 1) % projects.length];
-  return <CaseStudy project={projects[index]} index={index} next={next} />;
+  return <CaseStudy project={projects[index]} index={index} prev={prev} next={next} />;
 }

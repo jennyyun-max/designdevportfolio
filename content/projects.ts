@@ -1,9 +1,14 @@
 import type { Project } from "@/lib/types";
 
 /* ==================================================================
-   PROJECTS — each one gets a card on the homepage and a case-study
-   page at /work/<slug>. Order here = order on the homepage
-   (the first one gets the big featured card).
+   PROJECTS — each one gets a plate on the homepage / work page and a
+   case-study page at /work/<slug>.
+
+   ORDER IS INTENTIONAL (from Chloe) and is used everywhere — homepage,
+   work page, project index, previous/next links, sitemap:
+   1 LUMEN · 2 Costco · 3 Brookfield · 4 Data analysis · 5 K-pop.
+   (NUSEUM sits after them.) The first project is the large featured
+   plate. Never sort this array.
 
    Every case-study section except `overview` is optional: leave one
    out and it disappears. Images live in /public/images/projects/<slug>/.
@@ -11,85 +16,6 @@ import type { Project } from "@/lib/types";
    ================================================================== */
 
 export const projects: Project[] = [
-  {
-    slug: "brookfield",
-    tagline: "Helping analysts spot when one deal model reports two different IRRs — before anyone quotes the wrong one.",
-    title: "Brookfield Knowledge Hub",
-    category: "Data product · Atlas Digital",
-    year: "2026",
-    description:
-      "One searchable source of truth for Brookfield Renewable’s 100+ Excel deal models — every number traced back to the cell it came from.",
-    cover: { src: "/images/projects/brookfield/project-page.webp", alt: "Knowledge Hub project page for Solar Alpha, flagging two different IRRs" },
-    // a long UI screenshot: widescreen crop anchored to the top, where the two-IRR warning is
-    preview: { ratio: "16 / 9", focus: "50% 0%" },
-    visual: "frames",
-    tone: "ivory",
-    spotlight: {
-      image: {
-        src: "/images/projects/brookfield/project-page-top.webp",
-        alt: "Knowledge Hub project page. The IRR card reads: two values found, 16.98% or 16.56%, each linked to its Excel cell — don’t quote until a reviewer confirms which is right.",
-      },
-      detail: { x: 954 / 1440, y: 354 / 560, w: 438 / 1440, h: 181 / 560 },
-      heading: "Two IRRs. Which one do you trust?",
-      text: "When a deal model reports two different IRRs, the hub never picks one. It shows both, links each to the exact Excel cell it came from, and tells the analyst not to quote either until a reviewer confirms. Hide the volume — never hide the risk.",
-    },
-    caseStudy: {
-      overview:
-        "With Atlas Digital, our team is building a Financial Model Knowledge Hub for Brookfield Renewable’s Business Development team: one searchable source of truth for 100+ Excel deal models, with every number traced back to the cell it came from.",
-      problem:
-        "Brookfield’s Excel deal models sit in SharePoint with no way to search across them — every model is built differently, and numbers get quoted without knowing if they’re current.",
-      role: {
-        summary: "Designer",
-        responsibilities: [
-          "Dashboard: risk stands out",
-          "Project page: three numbers, full evidence",
-          "Detail view: every figure read from the workbook",
-        ],
-      },
-      timeline: {
-        duration: "Fall 2026 · in progress",
-        phases: [
-          { label: "01", detail: "Context" },
-          { label: "02", detail: "Design" },
-          { label: "03", detail: "Ingestion" },
-          { label: "04", detail: "Search" },
-        ],
-      },
-      team: "6 — 2 project managers, 3 analysts, 1 designer",
-      research: {
-        stats: [
-          { value: "100+", label: "Excel models in SharePoint" },
-          { value: "57", label: "data fields per model" },
-          { value: "1", label: "source cell behind every number" },
-        ],
-        summary:
-          "Brookfield Renewable develops, acquires, sells and refinances renewable projects. Its Business Development team builds an Excel financial model for every deal — generation, cost, financing, revenue, return — and those models are the analytical record of every deal, approved or not. Portfolio questions mean opening files by hand.",
-      },
-      labels: { insights: "the constraints", insightsHeading: "Too much information, too little attention", process: "the design rule", final: "the screens", wireframes: "iteration", outcomes: "trade-offs" },
-      insights: [
-        { title: "Every number needs its source", detail: "Each figure links back to its Excel cell." },
-        { title: "Uncertainty has to be seen", detail: "Low confidence and conflicts can’t be buried." },
-        { title: "Users are busy executives", detail: "A cluttered screen gets abandoned." },
-      ],
-      decisions: [
-        { title: "Hide the volume", detail: "Extra columns, charts and capacity totals, and long narrative sections can wait — one click away." },
-        { title: "Never hide the risk", detail: "Confidence and review status, conflicting values, units and source cells are always visible." },
-        { title: "Conflicts are flagged", detail: "Two IRRs found: we show both, never pick one." },
-        { title: "Gaps are stated", detail: "“Not stated in model”, so empty never looks like a bug." },
-      ],
-      wireframes: [
-        { src: "/images/projects/brookfield/dashboard-first-pass.webp", alt: "First-pass dashboard with four summary cards and charts behind a Show breakdown toggle", caption: "First pass — 4 of 7 summary cards; charts one click away", fit: "contain", aspect: "aspect-[1440/1141]" },
-        { src: "/images/projects/brookfield/dashboard.webp", alt: "Revised dashboard with all seven summary cards and six small grey charts", caption: "Revised — all 7 cards and 6 charts on screen, kept small and grey", fit: "contain", aspect: "aspect-[1440/1229]" },
-      ],
-      finalDesigns: [
-        { src: "/images/projects/brookfield/project-page-full.webp", alt: "Solar Alpha project page: a warning that the model shows two IRRs, key numbers with source cells, and collapsed detail sections", caption: "Project page — three numbers, full evidence", fit: "contain", aspect: "aspect-[1440/1330]" },
-        { src: "/images/projects/brookfield/more-details.webp", alt: "More details view: quotes from the workbook, a Not stated in model note, and every metric with its source and confidence", caption: "More details — nothing is hidden for good", fit: "contain", aspect: "aspect-[1440/1100]" },
-      ],
-      outcomes: ["Only the risk is loud", "Trust on every row", "Every number links to its Excel cell"],
-      reflection:
-        "What minimalism cost us: our first dashboard showed 4 of 7 summary cards and put the charts behind a toggle the spec wanted visible. The revision brings all 7 cards and 6 charts back on screen, kept small and grey — full spec, still calm. These are trade-offs we still want to confirm with Brookfield.",
-    },
-  },
   {
     slug: "lumen",
     tagline: "Helping 50,000 festival-goers see what’s next, where to go, and how to get in — without digging through screens.",
@@ -288,46 +214,82 @@ export const projects: Project[] = [
     },
   },
   {
-    slug: "nuseum",
-    tagline: "Turning research, market data and internal know-how into systems a fast-moving AI nutrition startup could use.",
-    title: "AI Food & Health Startup",
-    category: "Product · research · operations",
+    slug: "brookfield",
+    tagline: "Helping analysts spot when one deal model reports two different IRRs — before anyone quotes the wrong one.",
+    title: "Brookfield Knowledge Hub",
+    category: "Data product · Atlas Digital",
     year: "2026",
     description:
-      "Working across research, operations, and technology at NUSEUM taught me how products are shaped by both user needs and business constraints.",
-    cover: { src: "/images/projects/nuseum/cover.webp", alt: "Diagram: how NUSEUM AI works — capture, structure, safety check, personalize", fit: "contain" },
-    preview: { ratio: "2000 / 800" },
-    visual: "circles",
+      "One searchable source of truth for Brookfield Renewable’s 100+ Excel deal models — every number traced back to the cell it came from.",
+    cover: { src: "/images/projects/brookfield/project-page.webp", alt: "Knowledge Hub project page for Solar Alpha, flagging two different IRRs" },
+    // a long UI screenshot: widescreen crop anchored to the top, where the two-IRR warning is
+    preview: { ratio: "16 / 9", focus: "50% 0%" },
+    visual: "frames",
     tone: "ivory",
+    spotlight: {
+      image: {
+        src: "/images/projects/brookfield/project-page-top.webp",
+        alt: "Knowledge Hub project page. The IRR card reads: two values found, 16.98% or 16.56%, each linked to its Excel cell — don’t quote until a reviewer confirms which is right.",
+      },
+      detail: { x: 954 / 1440, y: 354 / 560, w: 438 / 1440, h: 181 / 560 },
+      heading: "Two IRRs. Which one do you trust?",
+      text: "When a deal model reports two different IRRs, the hub never picks one. It shows both, links each to the exact Excel cell it came from, and tells the analyst not to quote either until a reviewer confirms. Hide the volume — never hide the risk.",
+    },
     caseStudy: {
       overview:
-        "At NUSEUM, I worked across research, operations, and technology to support the development of a personalized food-as-medicine platform.",
-      problem: "NUSEUM is a precision nutrition AI platform connecting food, health information, and personalized recommendations — a product where accuracy really matters.",
+        "With Atlas Digital, our team is building a Financial Model Knowledge Hub for Brookfield Renewable’s Business Development team: one searchable source of truth for 100+ Excel deal models, with every number traced back to the cell it came from.",
+      problem:
+        "Brookfield’s Excel deal models sit in SharePoint with no way to search across them — every model is built differently, and numbers get quoted without knowing if they’re current.",
       role: {
-        summary: "Research, operations & technology",
+        summary: "Designer",
         responsibilities: [
-          "Organized information and supported internal workflows",
-          "Studied the market",
-          "Helped the team communicate complex ideas",
+          "Dashboard: risk stands out",
+          "Project page: three numbers, full evidence",
+          "Detail view: every figure read from the workbook",
         ],
       },
-      processFirst: true,
-      labels: { process: "the work", insights: "connecting research to product", insightsHeading: "turning complex information into something a team can use", outcomes: "the takeaway" },
-      process: [
-        { title: "Research", detail: "Researched healthcare, digital health, food delivery, and industry trends to support product and business decisions." },
-        { title: "Structure", detail: "Organized research, hiring, and onboarding information into clearer systems and reusable internal resources." },
-        { title: "Support", detail: "Contributed to operations across recruiting, research, partnerships, and team workflows in a fast-moving startup." },
-      ],
+      timeline: {
+        duration: "Fall 2026 · in progress",
+        phases: [
+          { label: "01", detail: "Context" },
+          { label: "02", detail: "Design" },
+          { label: "03", detail: "Ingestion" },
+          { label: "04", detail: "Search" },
+        ],
+      },
+      team: "6 — 2 project managers, 3 analysts, 1 designer",
+      research: {
+        stats: [
+          { value: "100+", label: "Excel models in SharePoint" },
+          { value: "57", label: "data fields per model" },
+          { value: "1", label: "source cell behind every number" },
+        ],
+        summary:
+          "Brookfield Renewable develops, acquires, sells and refinances renewable projects. Its Business Development team builds an Excel financial model for every deal — generation, cost, financing, revenue, return — and those models are the analytical record of every deal, approved or not. Portfolio questions mean opening files by hand.",
+      },
+      labels: { insights: "the constraints", insightsHeading: "Too much information, too little attention", process: "the design rule", final: "the screens", wireframes: "iteration", outcomes: "trade-offs" },
       insights: [
-        { title: "Market research", detail: "Understanding companies, trends, and opportunities." },
-        { title: "Internal systems", detail: "Creating clearer workflows for hiring and onboarding." },
-        { title: "Product context", detail: "Connecting business needs, technical constraints, and user-facing problems." },
+        { title: "Every number needs its source", detail: "Each figure links back to its Excel cell." },
+        { title: "Uncertainty has to be seen", detail: "Low confidence and conflicts can’t be buried." },
+        { title: "Users are busy executives", detail: "A cluttered screen gets abandoned." },
+      ],
+      decisions: [
+        { title: "Hide the volume", detail: "Extra columns, charts and capacity totals, and long narrative sections can wait — one click away." },
+        { title: "Never hide the risk", detail: "Confidence and review status, conflicting values, units and source cells are always visible." },
+        { title: "Conflicts are flagged", detail: "Two IRRs found: we show both, never pick one." },
+        { title: "Gaps are stated", detail: "“Not stated in model”, so empty never looks like a bug." },
+      ],
+      wireframes: [
+        { src: "/images/projects/brookfield/dashboard-first-pass.webp", alt: "First-pass dashboard with four summary cards and charts behind a Show breakdown toggle", caption: "First pass — 4 of 7 summary cards; charts one click away", fit: "contain", aspect: "aspect-[1440/1141]" },
+        { src: "/images/projects/brookfield/dashboard.webp", alt: "Revised dashboard with all seven summary cards and six small grey charts", caption: "Revised — all 7 cards and 6 charts on screen, kept small and grey", fit: "contain", aspect: "aspect-[1440/1229]" },
       ],
       finalDesigns: [
-        { src: "/images/projects/nuseum/what-is-nuseum.webp", alt: "What is NUSEUM: safety first and evidence & validation", fit: "contain" },
+        { src: "/images/projects/brookfield/project-page-full.webp", alt: "Solar Alpha project page: a warning that the model shows two IRRs, key numbers with source cells, and collapsed detail sections", caption: "Project page — three numbers, full evidence", fit: "contain", aspect: "aspect-[1440/1330]" },
+        { src: "/images/projects/brookfield/more-details.webp", alt: "More details view: quotes from the workbook, a Not stated in model note, and every metric with its source and confidence", caption: "More details — nothing is hidden for good", fit: "contain", aspect: "aspect-[1440/1100]" },
       ],
+      outcomes: ["Only the risk is loud", "Trust on every row", "Every number links to its Excel cell"],
       reflection:
-        "Good products are shaped by more than the technology behind them. NUSEUM showed me how product decisions are influenced by research, user needs, business constraints, operations, and technical feasibility at the same time — and made me more interested in the space between data, product, and people.",
+        "What minimalism cost us: our first dashboard showed 4 of 7 summary cards and put the charts behind a toggle the spec wanted visible. The revision brings all 7 cards and 6 charts back on screen, kept small and grey — full spec, still calm. These are trade-offs we still want to confirm with Brookfield.",
     },
   },
   {
@@ -414,6 +376,49 @@ export const projects: Project[] = [
       reflection:
         "Entertainment made me curious about why people respond differently to the same thing, how feedback changes decisions, and how teams turn ideas into something people actually experience — Data Science gave me tools to explore those questions. My path into technology was unconventional, but the skills were never unrelated. Today I bring both perspectives with me: the analytical mindset I’m developing through Data Science, and the communication, adaptability, collaboration, and audience awareness I learned through entertainment. I’m especially interested in work where technology, data, and human behavior meet.",
       links: [{ label: "Watch a cignature performance", href: "https://www.youtube.com/watch?v=C3diP5kT6HI" }],
+    },
+  },
+  {
+    slug: "nuseum",
+    tagline: "Turning research, market data and internal know-how into systems a fast-moving AI nutrition startup could use.",
+    title: "AI Food & Health Startup",
+    category: "Product · research · operations",
+    year: "2026",
+    description:
+      "Working across research, operations, and technology at NUSEUM taught me how products are shaped by both user needs and business constraints.",
+    cover: { src: "/images/projects/nuseum/cover.webp", alt: "Diagram: how NUSEUM AI works — capture, structure, safety check, personalize", fit: "contain" },
+    preview: { ratio: "2000 / 800" },
+    visual: "circles",
+    tone: "ivory",
+    caseStudy: {
+      overview:
+        "At NUSEUM, I worked across research, operations, and technology to support the development of a personalized food-as-medicine platform.",
+      problem: "NUSEUM is a precision nutrition AI platform connecting food, health information, and personalized recommendations — a product where accuracy really matters.",
+      role: {
+        summary: "Research, operations & technology",
+        responsibilities: [
+          "Organized information and supported internal workflows",
+          "Studied the market",
+          "Helped the team communicate complex ideas",
+        ],
+      },
+      processFirst: true,
+      labels: { process: "the work", insights: "connecting research to product", insightsHeading: "turning complex information into something a team can use", outcomes: "the takeaway" },
+      process: [
+        { title: "Research", detail: "Researched healthcare, digital health, food delivery, and industry trends to support product and business decisions." },
+        { title: "Structure", detail: "Organized research, hiring, and onboarding information into clearer systems and reusable internal resources." },
+        { title: "Support", detail: "Contributed to operations across recruiting, research, partnerships, and team workflows in a fast-moving startup." },
+      ],
+      insights: [
+        { title: "Market research", detail: "Understanding companies, trends, and opportunities." },
+        { title: "Internal systems", detail: "Creating clearer workflows for hiring and onboarding." },
+        { title: "Product context", detail: "Connecting business needs, technical constraints, and user-facing problems." },
+      ],
+      finalDesigns: [
+        { src: "/images/projects/nuseum/what-is-nuseum.webp", alt: "What is NUSEUM: safety first and evidence & validation", fit: "contain" },
+      ],
+      reflection:
+        "Good products are shaped by more than the technology behind them. NUSEUM showed me how product decisions are influenced by research, user needs, business constraints, operations, and technical feasibility at the same time — and made me more interested in the space between data, product, and people.",
     },
   },
 ];
