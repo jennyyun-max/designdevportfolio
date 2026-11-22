@@ -10,7 +10,7 @@ export default function ProfileTeaser() {
   return (
     <section aria-labelledby="profile-heading" className="mx-auto max-w-[1600px] px-5 pt-28 sm:px-8 md:pt-40">
       <div className="grid gap-6 border-t border-ink pt-5 md:grid-cols-12">
-        <p className="meta text-muted md:col-span-3">(03) Profile</p>
+        <p className="meta text-muted md:col-span-3">(04) Profile</p>
         <div className="md:col-span-9">
           <SplitHeading
             id="profile-heading"

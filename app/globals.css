@@ -326,3 +326,18 @@
 .lightbox::backdrop {
   background: rgb(28 28 26 / 0.94);
 }
+
+/* ---------- The art portfolio (/art): Chloe's original pink-and-beige palette ----------
+   Same type as the rest of the site; only the colours change, for the whole page (header
+   included) while it's open. Plum brown on cream is 7.4:1; the rose accent is the deeper
+   #8e5469 (5.5:1) wherever it's used for text. */
+html:has(.art-theme) {
+  --paper: #fff8f0; /* warm cream */
+  --stone: #f4e1e3; /* dreamy blush */
+  --print: #fffdf9;
+  --ink: #3a2620; /* espresso */
+  --muted: #694958; /* muted plum brown */
+  --muted-soft: #8a6b78;
+  --line: #ecdcd6;
+  --oxblood: #8e5469; /* dusty rose, deepened for text */
+}

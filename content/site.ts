@@ -39,6 +39,7 @@ export const hero = {
 /* NAVIGATION — Contact jumps to the footer, which is on every page */
 export const nav = [
   { label: "Work", href: "/work" },
+  { label: "Art", href: "/art" },
   { label: "About", href: "/about" },
   { label: "Playground", href: "/playground" },
   { label: "Visitors", href: "/visitors" },

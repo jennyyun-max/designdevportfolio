@@ -1,6 +1,7 @@
 import Welcome from "@/components/intro/Welcome";
 import Hero from "@/components/home/Hero";
 import SelectedWork from "@/components/home/SelectedWork";
+import ArtPreview from "@/components/home/ArtPreview";
 import ProfileTeaser from "@/components/home/ProfileTeaser";
 
 export default function HomePage() {
@@ -9,6 +10,7 @@ export default function HomePage() {
       <Welcome />
       <Hero />
       <SelectedWork />
+      <ArtPreview />
       <ProfileTeaser />
     </>
   );

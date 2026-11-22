@@ -71,7 +71,7 @@ export default function SiteHeader() {
         </p>
 
         <nav aria-label="Main" className="hidden justify-self-end md:block">
-          <ul className="flex items-center gap-7">
+          <ul className="flex items-center gap-5 lg:gap-7">
             {nav.map((item, i) => {
               const here = isActive(pathname, item.href);
               return (
