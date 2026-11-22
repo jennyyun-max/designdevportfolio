@@ -16,8 +16,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
    4. the real, draggable prints take over in the same frame, and
       the name, introduction and navigation rise in.
 
-   Shown on entering the homepage until the visitor has explored once
-   (decided before first paint by the script in app/layout.tsx).
+   Shown every time someone enters the site on the homepage (decided
+   before first paint by the script in app/layout.tsx).
    ================================================================== */
 
 type Star = { x: number; y: number; size: number; o: number; dur: number; delay: number; layer: 0 | 1 | 2; kind: "dot" | "cross"; color: string; phone: boolean };
@@ -117,9 +117,6 @@ export default function Welcome() {
   }, [reduced, leaving, mx, my]);
 
   const finish = () => {
-    try {
-      localStorage.setItem("intro-seen", "1");
-    } catch {}
     const html = document.documentElement;
     if (html.dataset.intro === "play") html.dataset.intro = "done";
   };

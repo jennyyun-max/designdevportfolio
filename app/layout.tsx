@@ -28,10 +28,11 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = { themeColor: "#f3f0e9" };
 
-/* Decides before first paint whether the welcome shows: on entering the homepage, until the
-   visitor has explored once in this browser (the Welcome component saves that). Never for
-   direct links like /#work or a case study. “Replay the intro” in the footer clears the flag. */
-const introScript = `(function(){var d=document.documentElement;try{if(location.pathname==="/"&&!location.hash&&!localStorage.getItem("intro-seen")){d.dataset.intro="play"}else d.dataset.intro="skip"}catch(e){d.dataset.intro="skip"}})()`;
+/* Decides before first paint whether the welcome shows: every time someone enters the site on the
+   homepage (a fresh page load of "/"). Not when moving around inside the site (going back to Home
+   is a client-side navigation, so this doesn't run again), and not for direct links like /#work or
+   a case study, so a link to a project opens the project. */
+const introScript = `(function(){var d=document.documentElement;d.dataset.intro=location.pathname==="/"&&!location.hash?"play":"skip"})()`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

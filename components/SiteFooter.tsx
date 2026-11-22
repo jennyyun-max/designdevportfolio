@@ -5,10 +5,7 @@ import { nav, site } from "@/content/site";
 
 /* Lets returning visitors watch the welcome again */
 function replayIntro() {
-  try {
-    localStorage.removeItem("intro-seen");
-  } catch {}
-  window.location.href = "/";
+  window.location.href = "/"; // a full load of the homepage always plays the welcome
 }
 
 /* The footer is the Contact section (#contact), on every page: a dark band with one large

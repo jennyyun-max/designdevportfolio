@@ -44,9 +44,9 @@ Old URLs redirect: `/guestbook` → `/visitors`, `/journey` → `/about#journey`
   (`content/site.ts`). Prints have no titles, and each keeps its photo’s own shape, so nothing is cropped.
 - **Homepage prints** (`content/polaroids.ts`): `desktop` / `mobile` positions (`hang` = start above the
   screen, `rest` = where it lands, in % of the hero). Black & white until hovered; click to open the story.
-- **The welcome** shows on entering the homepage until the visitor clicks Explore (or skip) once —
-  remembered in `localStorage`; never for direct links like `/#work`. “Replay the intro” in the footer
-  brings it back. Explore: the stars drift into clusters, each becomes one of the homepage prints (a copy of
+- **The welcome** shows every time someone enters the site on the homepage (a fresh load of `/`) — not
+  when navigating back to Home inside the site, and never for direct links like `/#work` or a case study.
+  “Replay the intro” in the footer plays it again. Explore: the stars drift into clusters, each becomes one of the homepage prints (a copy of
   the real print) and springs onto its exact spot as the night fades to paper; then the real, draggable
   prints take over and the name + navigation rise in (~3s). Reduced motion: a simple fade. Phones: half
   the stars, no trails.
