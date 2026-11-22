@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { about } from "@/content/site";
+import { photos } from "@/content/personal";
 import RevealImage from "../ui/RevealImage";
 import Reveal from "../ui/Reveal";
 import SplitHeading from "../ui/SplitHeading";
@@ -21,7 +22,7 @@ export default function ProfileTeaser() {
       </div>
       <div className="mt-14 grid gap-10 md:grid-cols-12">
         <Link href="/about" className="group md:col-span-4 md:col-start-4" data-cursor="view" aria-label="About Chloe — read the profile">
-          <RevealImage image={{ src: about.photo.src, alt: about.photo.alt }} aspect="aspect-[4/5]" sizes="(min-width: 768px) 30vw, 100vw" mono />
+          <RevealImage image={{ src: photos.portrait.src.src, alt: photos.portrait.alt, focus: photos.portrait.focus }} aspect="aspect-[4/5]" sizes="(min-width: 768px) 30vw, 100vw" mono />
           <p className="meta mt-3 flex justify-between text-muted">
             <span>Chloe Yun</span>
             <span>Fig. 01</span>

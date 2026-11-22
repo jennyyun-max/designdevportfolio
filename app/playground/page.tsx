@@ -6,7 +6,7 @@ import SplitHeading from "@/components/ui/SplitHeading";
 
 export const metadata: Metadata = {
   title: "Playground",
-  description: "Three small experiments by Chloe Yun: an instant camera full of archive photos, a type tester and a drawing board.",
+  description: "Three small experiments by Chloe Yun: an instant camera full of personal photos, a type tester and a drawing board.",
 };
 
 function Exhibit({ n, title, note, children }: { n: string; title: React.ReactNode; note: string; children: React.ReactNode }) {
@@ -33,7 +33,7 @@ export default function PlaygroundPage() {
         </div>
       </header>
 
-      <Exhibit n="01" title={<>The instant <em>camera</em></>} note="Every print is a real photo from my archive, and each comes with a short true story.">
+      <Exhibit n="01" title={<>The instant <em>camera</em></>} note="Every print is a personal photo, and each comes with a short true story.">
         <PolaroidCamera />
       </Exhibit>
 

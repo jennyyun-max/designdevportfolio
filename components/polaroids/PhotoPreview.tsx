@@ -30,7 +30,7 @@ export default function PhotoPreview({ photo, onClose }: { photo: (DeskPrint & {
     >
       {photo && (
         <motion.figure
-          key={photo.src}
+          key={photo.alt}
           className="relative max-w-[min(88vw,40rem)] bg-print p-4 pb-3 shadow-[0_40px_80px_-30px_rgba(0,0,0,0.6)] sm:p-5 sm:pb-4"
           initial={{ opacity: 0, scale: 0.9, rotate: photo.rotate * 0.6 }}
           animate={{ opacity: 1, scale: 1, rotate: photo.rotate * 0.15 }}
@@ -38,7 +38,7 @@ export default function PhotoPreview({ photo, onClose }: { photo: (DeskPrint & {
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={photo.src}
+            src={typeof photo.src === "object" ? photo.src.src : photo.src}
             alt={photo.alt}
             className="mx-auto block max-h-[58vh] w-auto max-w-full bg-stone object-contain"
           />

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { about, marquee, story } from "@/content/site";
+import { photos } from "@/content/personal";
 import Reveal from "@/components/ui/Reveal";
 import SplitHeading from "@/components/ui/SplitHeading";
 import FlipPolaroid from "@/components/about/FlipPolaroid";
@@ -40,8 +41,8 @@ export default function AboutPage() {
       <section aria-label="Portrait" className="mx-auto mt-20 grid max-w-[1600px] gap-12 px-5 sm:px-8 md:mt-28 md:grid-cols-12 md:gap-8">
         <div className="md:col-span-6 lg:col-span-5 lg:col-start-2">
           <FlipPolaroid
-            src={about.photo.src}
-            alt={about.photo.alt}
+            src={photos.portrait.src}
+            alt={photos.portrait.alt}
             caption="Fig. 01 — Portrait"
             priority
             rotate={-1.5}

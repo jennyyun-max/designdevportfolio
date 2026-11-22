@@ -5,12 +5,12 @@ import Link from "next/link";
 import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "motion/react";
 import { useRef } from "react";
 import { journey } from "@/content/site";
+import { photos, type PersonalPhoto } from "@/content/personal";
 
 const ease = [0.16, 1, 0.3, 1] as const;
-type Photo = (typeof journey)[number]["photos"][number];
 
 /* A print that drops into place as it scrolls in and drifts at its own speed */
-function JourneyPrint({ photo, i, n }: { photo: Photo; i: number; n: string }) {
+function JourneyPrint({ photo, i, n }: { photo: PersonalPhoto; i: number; n: string }) {
   const ref = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
@@ -27,9 +27,8 @@ function JourneyPrint({ photo, i, n }: { photo: Photo; i: number; n: string }) {
       viewport={{ once: true, margin: "0px 0px -15% 0px" }}
       transition={{ duration: 1.1, ease }}
     >
-      <span className="relative block aspect-[4/5] overflow-hidden bg-stone">
-        <Image src={photo.src} alt={photo.alt} fill sizes="(min-width: 768px) 280px, 62vw" className="mono-photo object-cover" style={{ objectPosition: photo.focus ?? "50% 50%" }} />
-      </span>
+      {/* the photo at its own aspect ratio */}
+      <Image src={photo.src} alt={photo.alt} sizes="(min-width: 768px) 280px, 62vw" className="mono-photo block h-auto w-full bg-stone" />
       <figcaption className="meta flex h-10 items-center justify-between gap-2">
         <span className="text-muted">
           {n}.{i + 1}
@@ -80,9 +79,9 @@ export default function JourneyTimeline() {
           </div>
           <div className="md:col-span-3">
             {ch.photos.length ? (
-              ch.photos.map((p, i) => <JourneyPrint key={p.src} photo={p} i={i} n={ch.n} />)
+              ch.photos.map((id, i) => <JourneyPrint key={id} photo={photos[id]} i={i} n={ch.n} />)
             ) : (
-              // no archive photo for this chapter: a typographic plate instead
+              // no personal photo for this chapter yet: a typographic plate instead
               <div className="grid aspect-[4/5] w-[min(62vw,17rem)] place-items-center bg-stone" aria-hidden="true">
                 <span className="display text-[6rem] italic text-muted-soft">{ch.place.slice(0, 2)}</span>
               </div>

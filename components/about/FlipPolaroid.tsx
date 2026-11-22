@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image, { type StaticImageData } from "next/image";
 import { useState, type ReactNode } from "react";
 
 /* A large print with an index card on the back. Hover (or click / Enter) turns it over. */
@@ -13,7 +13,7 @@ export default function FlipPolaroid({
   priority = false,
   className = "",
 }: {
-  src: string;
+  src: StaticImageData;
   alt: string;
   caption: string;
   back: ReactNode;
@@ -39,9 +39,8 @@ export default function FlipPolaroid({
       >
         {/* front */}
         <span className="block bg-print p-[4%] pb-0 shadow-[0_30px_60px_-30px_rgba(37,37,34,0.55)] [backface-visibility:hidden]">
-          <span className="relative block aspect-[4/5] overflow-hidden bg-stone">
-            <Image src={src} alt={alt} fill priority={priority} sizes="(min-width: 1024px) 40vw, 90vw" className="mono-photo object-cover" />
-          </span>
+          {/* the photo at its own aspect ratio */}
+          <Image src={src} alt={alt} priority={priority} sizes="(min-width: 1024px) 40vw, 90vw" className="mono-photo block h-auto w-full bg-stone" />
           <span className="meta flex h-12 items-center justify-between text-muted">
             <span>{caption}</span>
             <span className="text-ink">Turn over ↻</span>

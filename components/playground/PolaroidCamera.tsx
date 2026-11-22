@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useRef, useState } from "react";
 import { archive } from "@/content/polaroids";
@@ -87,14 +86,13 @@ export default function PolaroidCamera() {
                 exit={{ opacity: 0, x: 120, rotate: 12, transition: { duration: 0.3 } }}
                 transition={{ duration: reduced ? 0.2 : 0.9, ease: [0.22, 1, 0.36, 1] }}
               >
-                <span className="relative block aspect-square overflow-hidden bg-night">
+                {/* the photo at its own aspect ratio */}
+                <span className="block overflow-hidden bg-night">
                   <Image
                     src={latest.photo.src}
                     alt={latest.photo.alt}
-                    fill
                     sizes="320px"
-                    className="object-cover grayscale [animation:develop_2.6s_ease-out_0.5s_both] motion-reduce:animate-none"
-                    style={{ objectPosition: latest.photo.focus ?? "50% 50%" }}
+                    className="block h-auto w-full grayscale [animation:develop_2.6s_ease-out_0.5s_both] motion-reduce:animate-none"
                   />
                 </span>
                 <figcaption className="pb-4 pt-3" aria-live="polite">
@@ -103,11 +101,6 @@ export default function PolaroidCamera() {
                     <span>{latest.photo.caption}</span>
                   </span>
                   <span className="mt-2 block text-[0.9rem] leading-snug text-muted">{latest.photo.story}</span>
-                  {latest.photo.href && (
-                    <Link href={latest.photo.href} className="wipe mt-2 inline-block text-[0.88rem]">
-                      See the project →
-                    </Link>
-                  )}
                 </figcaption>
               </motion.figure>
             )}
@@ -120,7 +113,7 @@ export default function PolaroidCamera() {
       <div>
         <p className="meta text-muted">Your prints {shots.length > 1 && `— ${shots.length - 1}`}</p>
         {pile.length === 0 ? (
-          <p className="mt-3 max-w-[22rem] text-muted">Every photo comes from my archive, with a short true story. Older prints land here.</p>
+          <p className="mt-3 max-w-[22rem] text-muted">Every photo is a personal one, with a short true story. Older prints land here.</p>
         ) : (
           <ul className="mt-5 grid grid-cols-3 gap-4 sm:grid-cols-4 lg:grid-cols-3">
             <AnimatePresence initial={false}>
@@ -134,9 +127,7 @@ export default function PolaroidCamera() {
                   transition={{ type: "spring", stiffness: 260, damping: 22 }}
                   className="bg-print p-[5%] pb-0 shadow-[0_12px_22px_-14px_rgba(37,37,34,0.6)]"
                 >
-                  <span className="relative block aspect-square overflow-hidden bg-stone">
-                    <Image src={s.photo.src} alt={s.photo.alt} fill sizes="140px" className="object-cover grayscale" style={{ objectPosition: s.photo.focus ?? "50% 50%" }} />
-                  </span>
+                  <Image src={s.photo.src} alt={s.photo.alt} sizes="140px" className="block h-auto w-full bg-stone grayscale" />
                   <span className="meta block truncate py-2">{s.photo.caption}</span>
                 </motion.li>
               ))}

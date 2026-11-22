@@ -1,3 +1,5 @@
+import type { StaticImageData } from "next/image";
+
 export type Tone = "blush" | "pink" | "lavender" | "butter" | "sage" | "ivory";
 
 export type Visual = "bars" | "circles" | "frames";
@@ -93,8 +95,8 @@ export interface PrintLayout {
 }
 
 export interface DeskPrint {
-  /** Image in /public — "" leaves the photo well empty */
-  src: string;
+  /** A statically imported image (keeps its own aspect ratio), or a path in /public */
+  src: StaticImageData | string;
   alt: string;
   /** Short mono caption on the print’s bottom border */
   caption: string;

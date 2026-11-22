@@ -150,8 +150,10 @@ export default function Print({
     y.set(y.get() + Math.max(bounds.top - me.top, Math.min(delta[1], bounds.bottom - me.bottom)));
   };
 
+  // the frame takes the photo's own shape, so nothing is cropped
+  const ratio = typeof print.src === "object" ? print.src.width / print.src.height : 4 / 5;
   const well = (
-    <span className="relative block aspect-[4/5] overflow-hidden bg-stone">
+    <span className="relative block overflow-hidden bg-stone" style={{ aspectRatio: ratio }}>
       {print.src && (
         <Image
           src={print.src}

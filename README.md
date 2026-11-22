@@ -28,17 +28,22 @@ Old URLs redirect: `/guestbook` → `/visitors`, `/journey` → `/about#journey`
 | --- | --- |
 | Name, email, LinkedIn, résumé, hero text, navigation, journey chapters, about text | `content/site.ts` |
 | Projects and case studies (incl. `decisions`) | `content/projects.ts` |
-| Homepage prints, fall timing, camera photo archive | `content/polaroids.ts` |
+| Personal photos (the Polaroid collection) | `content/personal.ts` + `public/images/personal/` |
+| Homepage print positions, fall timing | `content/polaroids.ts` |
 | Colors, type, grain, link styles | `app/globals.css` |
 | The welcome + star → Polaroid transition | `components/intro/Welcome.tsx` |
 | The visitor cards (colours, patterns, type) | `components/visitors/VisitorCards.tsx` |
 
 - **Case studies:** every chapter is optional — leave a field out and the chapter disappears. Only put in
   what really happened; nothing is generated. LUMEN’s length is still unknown — add it to `timeline.duration`.
-- **Prints:** `src`, `alt`, `caption`, `story` (shown when the photo is opened) or `project` / `href`
-  (opens that page), and `desktop` / `mobile` positions (`hang` = start above the screen, `rest` = where it
-  lands, in % of the hero). They show in black & white until hovered. Image rule: no photos showing
-  “title” or “cignature”, no group photos — the stage photo is a text-free crop (`aurora-portrait.jpg`).
+- **Personal photos (Polaroids):** only personal photos go in Polaroid frames — project work lives on `/work`.
+  They live in `public/images/personal/` and are listed in `content/personal.ts`. To add one: drop the file
+  in that folder, import it in `content/personal.ts`, add an entry (alt, caption, story), then use its id in
+  `collection` (playground camera), a homepage print (`content/polaroids.ts`) or a journey chapter
+  (`content/site.ts`). Frames take each photo’s own aspect ratio, so nothing is cropped. Image rule: no
+  photos showing “title” or “cignature”, no group photos — the stage photo is a text-free crop.
+- **Homepage prints** (`content/polaroids.ts`): `desktop` / `mobile` positions (`hang` = start above the
+  screen, `rest` = where it lands, in % of the hero). Black & white until hovered; click to open the story.
 - **The welcome** shows on entering the homepage until the visitor clicks Explore (or skip) once —
   remembered in `localStorage`; never for direct links like `/#work`. “Replay the intro” in the footer
   brings it back. Explore: the stars drift into clusters, each becomes one of the homepage prints (a copy of
