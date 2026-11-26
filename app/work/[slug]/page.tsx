@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { projects, getProject } from "@/content/projects";
 import CaseStudy from "@/components/case-study/CaseStudy";
 import LumenCaseStudy from "@/components/case-study/lumen/LumenCaseStudy";
+import CostcoCaseStudy from "@/components/case-study/costco/CostcoCaseStudy";
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -32,5 +33,6 @@ export default async function ProjectPage({ params }: Params) {
   const next = projects[(index + 1) % projects.length];
   // LUMEN has its own, native case study (built from the Figma screens); the rest share the template
   if (slug === "lumen") return <LumenCaseStudy project={projects[index]} index={index} prev={prev} next={next} />;
+  if (slug === "costco-redesign") return <CostcoCaseStudy project={projects[index]} index={index} prev={prev} next={next} />;
   return <CaseStudy project={projects[index]} index={index} prev={prev} next={next} />;
 }

@@ -28,6 +28,7 @@ Old URLs redirect: `/guestbook` → `/visitors`, `/journey` → `/about#journey`
 | --- | --- |
 | Name, email, LinkedIn, résumé, hero text, navigation, journey chapters, about text | `content/site.ts` |
 | LUMEN’s own case study (copy, screens, decisions) | `content/lumen.ts` + `components/case-study/lumen/` |
+| Costco’s own case study (research data, features, recordings) | `content/costco.ts` + `components/case-study/costco/` |
 | Projects and case studies — **array order is the site order** (LUMEN, Costco, Brookfield, Data, K-pop, NUSEUM) | `content/projects.ts` |
 | Personal photos (the Polaroid collection) | `content/personal.ts` + `public/images/personal/` |
 | Homepage print positions, fall timing | `content/polaroids.ts` |

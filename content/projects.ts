@@ -126,6 +126,8 @@ export const projects: Project[] = [
     preview: { ratio: "2000 / 1036" },
     visual: "frames",
     tone: "lavender",
+    // The /work/costco-redesign page is its own case study: components/case-study/costco + content/costco.ts.
+    // The fields below feed the work grid, the project index and link previews.
     caseStudy: {
       overview:
         "A collaborative UX/UI project focused on making Costco’s mobile experience clearer, more intuitive, and easier to navigate through research, usability testing, and interface redesign.",
@@ -151,10 +153,6 @@ export const projects: Project[] = [
         summary:
           "We combined usability testing, interviews, and survey research to understand how shoppers plan trips, use grocery apps, and experience Costco both digitally and in-store. Then we compared Costco with competing grocery and retail apps — the biggest opportunities were in planning, navigation, content hierarchy, and everyday convenience.",
         methods: ["Usability testing", "User interviews", "Survey", "Competitive analysis"],
-        images: [
-          { src: "/images/projects/costco/survey.webp", alt: "Survey bar chart: which features of grocery store apps do you use, 28 responses", caption: "Survey: the grocery-app features shoppers actually use", fit: "contain" },
-          { src: "/images/projects/costco/competitive.webp", alt: "Competitive analysis table comparing Costco with Sam’s Club, Walmart, BJ’s, Target, Kroger and Aldi across eight features", caption: "Competitive analysis across seven grocery and retail apps", fit: "contain" },
-        ],
       },
       labels: { insightsHeading: "what the research revealed" },
       insights: [
@@ -174,18 +172,6 @@ export const projects: Project[] = [
         { title: "Shop", detail: "Clearer categories, less navigating." },
         { title: "Warehouse", detail: "Trip planning with crowd levels & gas prices — because crowds make a trip unpredictable." },
         { title: "Product details & cart", detail: "Fewer interruptions to checkout." },
-      ],
-      wireframes: [
-        { src: "/images/projects/costco/sketch-landing.webp", alt: "Hand-drawn sketch of the Costco landing page with annotations", caption: "Landing page sketch", fit: "contain", aspect: "aspect-[4/5]" },
-        { src: "/images/projects/costco/sketch-shop.webp", alt: "Hand-drawn sketch of the shop page with departments and trending items", caption: "Shop sketch", fit: "contain", aspect: "aspect-[4/5]" },
-        { src: "/images/projects/costco/sketch-warehouse.webp", alt: "Hand-drawn sketch of the warehouse page with annotations", caption: "Warehouse sketch", fit: "contain", aspect: "aspect-[4/5]" },
-      ],
-      finalLayout: "phones",
-      finalDesigns: [
-        { src: "/images/projects/costco/landing.webp", alt: "Screen recording of the redesigned landing page", caption: "Landing — less clutter, important actions up front", aspect: "aspect-[300/618]" },
-        { src: "/images/projects/costco/shop.webp", alt: "Screen recording of the redesigned shop page", caption: "Shop — clearer categories, less navigating", aspect: "aspect-[300/618]" },
-        { src: "/images/projects/costco/warehouse.webp", alt: "Screen recording of the warehouse page showing crowd levels and gas prices", caption: "Warehouse — trip planning with crowd levels & gas prices", aspect: "aspect-[300/618]" },
-        { src: "/images/projects/costco/cart.webp", alt: "Screen recording of product details and the cart", caption: "Product details & cart — fewer interruptions to checkout", aspect: "aspect-[300/618]" },
       ],
       outcomes: [
         "The biggest usability problems were structural, not just visual",

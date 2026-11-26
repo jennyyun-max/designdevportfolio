@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import type { ImageAsset } from "@/lib/types";
 
-type Fig = ImageAsset & { n?: string };
+type Fig = ImageAsset & { n?: string; /** natural size — when given, the viewer never enlarges past it */ w?: number; h?: number };
 const Ctx = createContext<(i: number) => void>(() => {});
 
 /* Every figure in a case study can be opened large. The provider knows all figures on the page
@@ -79,7 +79,8 @@ export function Lightbox({ figures, children }: { figures: Fig[]; children: Reac
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={fig.src}
-                  className="relative h-full w-full"
+                  className="relative mx-auto h-full w-full"
+                  style={fig.w && fig.h ? { maxWidth: fig.w, maxHeight: fig.h, aspectRatio: `${fig.w} / ${fig.h}`, height: "auto", width: "100%", top: "50%", translate: "0 -50%" } : undefined}
                   data-backdrop
                   initial={{ opacity: 0, x: dir * 40, scale: dir ? 1 : 0.97 }}
                   animate={{ opacity: 1, x: 0, scale: 1 }}

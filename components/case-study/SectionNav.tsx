@@ -37,7 +37,7 @@ export default function SectionNav({ items }: { items: { id: string; label: stri
   return (
     <nav
       aria-label="On this page"
-      className={`fixed left-8 top-1/2 z-30 hidden -translate-y-1/2 transition-opacity duration-500 xl:block ${show ? "opacity-100" : "pointer-events-none opacity-0"}`}
+      className={`fixed left-5 top-1/2 z-30 hidden -translate-y-1/2 bg-paper/85 px-3 py-3 backdrop-blur-sm transition-opacity duration-500 xl:block ${show ? "opacity-100" : "pointer-events-none opacity-0"}`}
     >
       <ol className="meta space-y-2">
         {items.map((it, i) => (

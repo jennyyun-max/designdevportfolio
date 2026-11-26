@@ -10,7 +10,7 @@ import ReadingProgress from "../ReadingProgress";
 import { Lightbox, ZoomButton } from "../Lightbox";
 import Phone from "./Phone";
 import FlowExplorer from "./FlowExplorer";
-import SectionNav from "./SectionNav";
+import SectionNav from "../SectionNav";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
