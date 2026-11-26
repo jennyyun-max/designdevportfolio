@@ -29,6 +29,8 @@ export const projects: Project[] = [
     preview: { ratio: "1920 / 1080" },
     visual: "frames",
     tone: "blush",
+    // The /work/lumen page is its own native case study: components/case-study/lumen + content/lumen.ts.
+    // The fields below feed the work grid, the project index and link previews.
     caseStudy: {
       overview:
         "LUMEN is a festival companion app I designed for the Atlas Digital design challenge. It brings the lineup, a live map, nearby services, and ticket and wristband access into one app for a 50,000-person outdoor festival.",
@@ -58,11 +60,6 @@ export const projects: Project[] = [
         summary:
           "I ran short interviews to understand how people navigate, plan their day, get into the event, and discover things at large festivals. Questions were grouped into four areas: navigation, scheduling, access & wallet, and discovery.",
         methods: ["Short interviews", "Working hypotheses", "User journey map", "Information architecture"],
-        images: [{
-          src: "/images/projects/lumen/03-research-plan.png",
-          alt: "Research plan: four interview areas — navigation, scheduling, access and wallet, discovery — with notes from interviews",
-          caption: "Research plan: four interview areas and what people told me",
-        }],
       },
       insights: [
         {
@@ -105,22 +102,6 @@ export const projects: Project[] = [
           detail:
             "Tested the prototype with three tasks: enter with the digital wristband, navigate to Aurora Stage, and find nearby food or merch before the next set.",
         },
-      ],
-      wireframes: [
-        { src: "/images/projects/lumen/05-ia.png", alt: "Information architecture with four sections: Home, Map, Schedule, Wallet", caption: "Information architecture" },
-        { src: "/images/projects/lumen/06-journey.png", alt: "User journey: before, arrive, explore, attend, have fun", caption: "User journey" },
-        { src: "/images/projects/lumen/07-sketches.png", alt: "Early hand sketches of the core flows", caption: "Early sketches" },
-        { src: "/images/projects/lumen/08-lofi.png", alt: "Lo-fi wireframes of home, map, lineup and wallet screens", caption: "Lo-fi wireframes" },
-        { src: "/images/projects/lumen/08b-colors.png", alt: "Visual exploration of icons, buttons and color palettes", caption: "Visual exploration" },
-        {
-          src: "/images/projects/lumen/10-testing.png",
-          alt: "Usability tasks next to the festival map before and after iteration",
-          caption: "Testing: the map went from static boxes to filters, live status and a details sheet",
-        },
-      ],
-      finalDesigns: [
-        { src: "/images/projects/lumen/09-hifi.png", alt: "Five hi-fi screens: home, festival map, lineup, artist detail, wallet", caption: "Hi-fi screens for the core flows" },
-        { src: "/images/projects/lumen/11-final.png", alt: "Final solution: home, map and wallet screens fanned out", caption: "Final solution: the next relevant action first" },
       ],
       decisions: [
         { title: "The next relevant action first", detail: "Home shows the next saved artist, time, stage and walking time — so the most important thing is obvious at a glance." },

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { projects, getProject } from "@/content/projects";
 import CaseStudy from "@/components/case-study/CaseStudy";
+import LumenCaseStudy from "@/components/case-study/lumen/LumenCaseStudy";
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -29,5 +30,7 @@ export default async function ProjectPage({ params }: Params) {
   // previous / next follow the order in content/projects.ts, wrapping around
   const prev = projects[(index - 1 + projects.length) % projects.length];
   const next = projects[(index + 1) % projects.length];
+  // LUMEN has its own, native case study (built from the Figma screens); the rest share the template
+  if (slug === "lumen") return <LumenCaseStudy project={projects[index]} index={index} prev={prev} next={next} />;
   return <CaseStudy project={projects[index]} index={index} prev={prev} next={next} />;
 }
